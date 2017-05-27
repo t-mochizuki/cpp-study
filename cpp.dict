@@ -1,0 +1,122 @@
+#include <iostream>
+cin.get(ch)
+>>
+cout.put(ch)
+width()
+fill()
+precision
+setf
+unsetf
+<<
+endl
+scanf
+printf
+#include <typeinfo>
+typeid()
+#include <iomanip>
+#include <fstream>
+ofstream fout("filename")
+ifstream fin("filename")
+if (!fin) return 1;
+fin.close();
+#include <vector>
+push_back()
+push_front()
+pop_back()
+pop_front()
+begin()
+end()
+empty()
+clear()
+size()
+at()
+#include <list>
+#include <deque>
+#include <stack>
+#include <queue>
+#include <set>
+#include <map>
+#include <algorithm>
+count()
+find()
+reverse()
+replace()
+remove()
+merge()
+sort(vt.begin(), vt.end())
+search()
+using namespace std;
+int main()
+return 0
+//
+/* */
+const
+new
+delete
+sizeof
++
+-
+*
+/
+%
+~
+&
+|
+^
+++
+--
+>
+>=
+<
+<=
+==
+!=
+!
+&&
+||
+,
+()
+[]
+::
+.
+->
+?:
+bool 1
+char 1
+unsigned
+short int 2
+int 4
+int xs[]
+long int 4
+float 4
+double 8
+long double 8
+if ()
+else
+switch (expr)
+case val:
+break
+default:
+for (int i = 0; i < n; i++)
+while (true)
+do
+continue
+inline
+template <class T>
+T maxt(T x, Ty)
+static
+typedef
+enum
+struct
+union
+class
+public
+private
+protected
+virtual
+operator+
+try
+throw
+catch
+true 1
+false 0
