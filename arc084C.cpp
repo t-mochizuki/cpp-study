@@ -28,45 +28,23 @@ int main() {
     }
     sort(C, C + N);
 
-    int OB[N];
-    int a = N - 1;
-    RREP(N, i) {
-        OB[i] = 0;
-        while (B[i] <= A[a] && a > -1) {
-            a--;
-        }
-        OB[i] = a + 1;
-    }
-
-    int OC[N];
-    int b = N - 1;
-    RREP(N, i) {
-        OC[i] = 0;
-        while (C[i] <= B[b] && b > -1) {
-            b--;
-        }
-        OC[i] = b + 1;
-    }
-
-    long acc[N];
-    int ob = 0;
-    REP(i, N) {
-        acc[i] = 0;
-
-        if (OC[i] == 0) continue;
-
-        if (i != 0) acc[i] = acc[i - 1];
-
-        while (ob < OC[i]) {
-            acc[i] += OB[ob];
-            ob++;
-        }
-    }
-
     long ans = 0;
-    REP(i, N) {
-        ans += acc[i];
+
+    long a = 0;
+    long c = 0;
+    REP(b, N) {
+        while (A[a] < B[b] && a < N) {
+            a++;
+        }
+
+        while (B[b] >= C[c] && c < N) {
+            c++;
+        }
+
+        // printf("%d * (%d - %d) = %d\n", a, N, c, a * (N - c));
+        ans += a * (N - c);
     }
+
 
     printf("%ld\n", ans);
 
