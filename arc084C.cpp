@@ -4,6 +4,7 @@
 using namespace std;
 
 #define REP(i, n) for (int i = 0; i < n; ++i)
+#define RREP(n, i) for (int i = n - 1; i > -1; --i)
 
 int main() {
     int N;
@@ -27,32 +28,47 @@ int main() {
     }
     sort(C, C + N);
 
-    int ans = 0;
-    int i = N - 1;
-    int j = N - 1;
-    for (int k = N - 1; k > -1; --k) {
-        while (C[k] <= B[j]) {
-            --j;
+    int OB[N];
+    int a = N - 1;
+    RREP(N, i) {
+        OB[i] = 0;
+        while (B[i] <= A[a] && a > -1) {
+            a--;
         }
-        if (j == -1) break;
+        OB[i] = a + 1;
+    }
 
-        while (B[j] <= A[i]) {
-            --i;
+    int OC[N];
+    int b = N - 1;
+    RREP(N, i) {
+        OC[i] = 0;
+        while (C[i] <= B[b] && b > -1) {
+            b--;
         }
-        if (i == -1) break;
+        OC[i] = b + 1;
+    }
 
-        int a = i;
-        int b = j;
-        while (b > -1) {
-            while (B[b] <= A[a]) {
-                --a;
-            }
-            ans += a + 1;
-            --b;
+    long acc[N];
+    int ob = 0;
+    REP(i, N) {
+        acc[i] = 0;
+
+        if (OC[i] == 0) continue;
+
+        if (i != 0) acc[i] = acc[i - 1];
+
+        while (ob < OC[i]) {
+            acc[i] += OB[ob];
+            ob++;
         }
     }
 
-    printf("%d\n", ans);
+    long ans = 0;
+    REP(i, N) {
+        ans += acc[i];
+    }
+
+    printf("%ld\n", ans);
 
     return 0;
 }
