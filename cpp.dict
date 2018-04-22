@@ -37,6 +37,7 @@ at()
 #include <set>
 #include <map>
 #include <algorithm>
+#include <functional>
 count()
 find()
 reverse()
