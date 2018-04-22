@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <algorithm>
+#include <vector>
+#include <map>
 
 using namespace std;
 
@@ -19,24 +21,14 @@ int main() {
     int m = a[n - 1];
     int r = m / 2;
 
+    vector<pair<int, int> > v;
     REP(i, n) {
-        if (r < a[i]) {
-            a[i] = m - a[i];
-        }
+        v.push_back(make_pair((r < a[i]) ? m - a[i] : a[i], a[i]));
     }
 
-    sort(a, a + n);
+    sort(v.begin(), v.end(), greater<pair<int, int> >());
 
-    int rr = 0;
-    REP(i, n) {
-        if (a[i] < r + 1) {
-            rr = (r <= a[i]) ? m - a[i] : a[i];
-        } else {
-            break;
-        }
-    }
-
-    printf("%d %d\n", m, rr);
+    printf("%d %d\n", m, (m == v[0].second) ? v[1].second : v[0].second);
 
     return 0;
 }
