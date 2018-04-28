@@ -7,48 +7,34 @@ using namespace std;
 #define RREP(n, i) for (int i = n - 1; i > -1; --i)
 
 int main() {
-    int N;
-    long C;
+    int N; // カウンター上には N 貫の寿司 10^5
+    long C; // カウンターの外周の長さ 10^14
     scanf("%d %ld", &N, &C);
 
-    long v = 0;
-    long x = 0;
-    long temp = 0;
-    long xs[N];
-    long vs[N];
-    long c[N];
-    long d[N];
+    long x[N];
+    long v[N];
     REP(i, N) {
-        scanf("%ld %ld", &x, &v);
-        xs[i] = x;
-        vs[i] = v;
-        c[i] = v - (x - temp);
-        d[i] = (i == 0) ? c[0] : d[i - 1] + c[i];
-        temp = x;
+        scanf("%ld %ld", &x[i], &v[i]);
     }
 
-    // REP(i, N) {
-    //     printf("%ld %ld\n", c[i], d[i]);
-    // }
 
-    long* p = max_element(d, d + N);
-    long ans = *p;
-    int index = distance(d, p);
-    if (ans > 0) {
-        RREP(N, i) {
-            if (index == i) break;
-
-            if (vs[i] - 2 * (C - xs[i]) > 0) {
-                ans += vs[i] - 2 * (C - xs[i]);
-            } else {
-                break;
-            }
-        }
-        printf("%ld\n", ans);
-    } else {
-        printf("0\n");
+    long vs1[N];
+    REP(i, N) {
+        vs1[i] = (i == 0) ? v[0] : vs1[i - 1] + v[i];
     }
 
+    REP(i, N) {
+        printf("%ld\n", vs1[i]);
+    }
+
+    long vsN[N];
+    RREP(N, i) {
+        vsN[i] = (i == N - 1) ? v[N - 1] : vsN[i + 1] + v[i];
+    }
+
+    RREP(N, i) {
+        printf("%ld\n", vsN[i]);
+    }
 
     return 0;
 }
