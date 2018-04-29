@@ -17,16 +17,16 @@ int main() {
 
     sort(h, h + N, greater<int>());
 
-    int low = 0;
-    int high = 1000000000; // 10 ^ 9
+    long low = 0;
+    long high = 1e9;
     long T = 0;
     long temp = 0;
-    while (low <= high) {
+    while (abs(high - low) > 1) {
         T = (low + high) / 2;
 
         temp = 0;
         REP(i, N) {
-            int hi = h[i] - (B * T);
+            long hi = h[i] - (B * T);
             if (hi > 0) {
                 temp += hi / (A - B);
                 temp += ((hi % (A - B)) == 0) ? 0 : 1;
@@ -34,16 +34,14 @@ int main() {
         }
 
         // printf("temp = %ld, T = %ld, high = %d, low = %d\n", temp, T, high, low);
-        if (temp > T) {
-            low = T + 1;
-        } else if (temp < T) {
-            high = T - 1;
+        if (temp <= T) {
+            high = T;
         } else {
-            break;
+            low = T;
         }
     }
 
-    printf("%ld\n", (temp > T) ? temp : T);
+    printf("%ld\n", high);
 
     return 0;
 }
