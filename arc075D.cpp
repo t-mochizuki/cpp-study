@@ -15,6 +15,13 @@ int main() {
         scanf("%d", &h[i]);
     }
 
+    if (N == 1) {
+        int cnt = h[0] / A;
+        cnt++;
+        printf("%d\n", cnt);
+        return 0;
+    }
+
     bool done = false;
     int cnt = 0;
     while (true) {
