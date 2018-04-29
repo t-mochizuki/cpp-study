@@ -15,36 +15,35 @@ int main() {
         scanf("%d", &h[i]);
     }
 
-    if (N == 1) {
-        int cnt = h[0] / A;
-        cnt++;
-        printf("%d\n", cnt);
-        return 0;
-    }
+    sort(h, h + N, greater<int>());
 
-    bool done = false;
-    int cnt = 0;
-    while (true) {
-        sort(h, h + N, greater<int>());
-        REP(i, N) {
-            if (i == 0) h[0] -= A;
-            else h[i] -= B;
-        }
+    int low = 0;
+    int high = 1000000000; // 10 ^ 9
+    long T = 0;
+    long temp = 0;
+    while (low <= high) {
+        T = (low + high) / 2;
 
-        done = true;
+        temp = 0;
         REP(i, N) {
-            if (h[i] > 0) {
-                done = false;
-                break;
+            int hi = h[i] - (B * T);
+            if (hi > 0) {
+                temp += hi / (A - B);
+                temp += ((hi % (A - B)) == 0) ? 0 : 1;
             }
         }
 
-        cnt++;
-
-        if (done) break;
+        // printf("temp = %ld, T = %ld, high = %d, low = %d\n", temp, T, high, low);
+        if (temp > T) {
+            low = T + 1;
+        } else if (temp < T) {
+            high = T - 1;
+        } else {
+            break;
+        }
     }
 
-    printf("%d\n", cnt);
+    printf("%ld\n", (temp > T) ? temp : T);
 
     return 0;
 }
