@@ -17,31 +17,28 @@ int main() {
 
     sort(h, h + N, greater<int>());
 
-    long low = 0;
-    long high = 1e9;
-    long T = 0;
-    long temp = 0;
-    while (abs(high - low) > 1) {
-        T = (low + high) / 2;
+    long ng = 0;
+    long ok = 1e9;
+    while (abs(ok - ng) > 1) {
+        long mid = (ng + ok) / 2;
 
-        temp = 0;
+        long count = 0;
         REP(i, N) {
-            long hi = h[i] - (B * T);
+            long hi = h[i] - (B * mid);
             if (hi > 0) {
-                temp += hi / (A - B);
-                temp += ((hi % (A - B)) == 0) ? 0 : 1;
+                count += (hi + (A - B) - 1) / (A - B);
             }
         }
 
-        // printf("temp = %ld, T = %ld, high = %d, low = %d\n", temp, T, high, low);
-        if (temp <= T) {
-            high = T;
+        // printf("count = %ld, mid = %ld, ok = %d, ng = %d\n", count, mid, ok, ng);
+        if (count <= mid) {
+            ok = mid;
         } else {
-            low = T;
+            ng = mid;
         }
     }
 
-    printf("%ld\n", high);
+    printf("%ld\n", ok);
 
     return 0;
 }
