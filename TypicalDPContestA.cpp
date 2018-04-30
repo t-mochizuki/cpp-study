@@ -10,12 +10,16 @@ using namespace std;
 const int MAX_N = 100;
 int p[MAX_N];
 vector<int> v;
+int dp[MAX_N][MAX_N * MAX_N];
 
 void take(int i, int sum, int end) {
     if (i == end) {
         v.push_back(sum);
         return;
     }
+
+    if (dp[i][sum] == true) return;
+    else dp[i][sum] = true;
 
     take(i + 1, sum + p[i], end);
 
