@@ -19,9 +19,10 @@ int main() {
         ri--;
         r.push_back(ri);
     }
+    sort(r.begin(), r.end());
 
-    int d[M][M];
-    REP(i, M) REP(j, M) {
+    int d[N][N];
+    REP(i, N) REP(j, N) {
         d[i][j] = 1e9;
     }
 
