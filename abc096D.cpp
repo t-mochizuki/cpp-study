@@ -26,7 +26,7 @@ int main() {
     int cnt = 0;
     int idx = 0;
     while (idx != N) {
-        int temp = ((cnt + 1) * 4) + 1;
+        int temp = ((cnt + 1) * 5) + 1;
         if (isPrime(temp)) {
             a[idx] = temp;
             idx++;
