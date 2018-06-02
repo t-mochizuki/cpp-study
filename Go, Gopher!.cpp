@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define REP(i, n) for (int i = 0; i < n; ++i)
+
 int main() {
     int T; scanf("%d", &T);
 
@@ -8,8 +10,11 @@ int main() {
         int A; scanf("%d", &A);
         int column = 2;
         int row = 2;
-        bool f1, f2, f3 = false;
         int I, J;
+        bool matrix[1000][1000];
+        REP(i, 1000) REP(j, 1000) {
+            matrix[i][j] = false;
+        }
         while (true) {
             printf("%d %d\n", row, column);
             fflush(stdout);
@@ -24,19 +29,19 @@ int main() {
                 break;
             }
 
-            if (column - J == -1) {
-                if (row == I) {
-                    f2 = true;
-                } else if (row - I == -1) {
-                    f3 = true;
-                } else if (row - I == 1) {
-                    f1 = true;
-                }
-            }
+            matrix[I][J] = true;
 
-            if (f1 && f2 && f3) {
-                f1 = f2 = f3 = false;
-                column++;
+            if (matrix[row - 1][column - 1]
+                    && matrix[row - 1][column]
+                    && matrix[row - 1][column + 1]
+                    && matrix[row][column - 1]
+                    && matrix[row][column]
+                    && matrix[row][column + 1]
+                    && matrix[row + 1][column - 1]
+                    && matrix[row + 1][column]
+                    && matrix[row + 1][column + 1]
+                    ) {
+                column += 3;
             }
         }
 
