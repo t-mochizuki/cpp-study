@@ -6,46 +6,58 @@ using namespace std;
 
 #define REP(i, n) for (int i = 0; i < n; ++i)
 
+struct data_t {
+    int blue_card_cnt;
+    int red_card_cnt;
+};
+
 int main() {
-    int N; // 青いカード, 100
+    // 青いカード
+    int N;
     scanf("%d", &N);
 
-    map<string, int> s;
+    map<string, data_t> m;
     REP(i, N) {
         char str[11];
         scanf("%s", str);
 
-        map<string, int>::iterator it = s.find(str);
-        if (it != s.end()) {
-            s[str]++;
+        map<string, data_t>::iterator it = m.find(str);
+        if (it != m.end()) {
+            m[str].blue_card_cnt++;
         } else {
-            s.insert(make_pair(str, 1));
+            m.insert(make_pair(str, (data_t){1, 0}));
         }
     }
 
-    int M; // 赤いカード, 100
+    // 赤いカード
+    int M;
     scanf("%d", &M);
-    map<string, int> t;
+
     REP(i, M) {
         char str[11];
         scanf("%s", str);
 
-        map<string, int>::iterator it = t.find(str);
-        if (it != t.end()) {
-            t[str]++;
+        map<string, data_t>::iterator it = m.find(str);
+        if (it != m.end()) {
+            m[str].red_card_cnt++;
         } else {
-            t.insert(make_pair(str, 1));
+            m.insert(make_pair(str, (data_t){0, 1}));
         }
     }
 
+
     int ans = 0;
-    for (map<string, int>::iterator it = s.begin(); it != s.end(); ++it) {
-        map<string, int>::iterator it2 = t.find(it->first);
-        if (it2 != t.end()) {
-            ans = max(ans, it->second - it2->second);
-        } else {
-            ans = max(ans, it->second);
-        }
+    for (map<string, data_t>::iterator it = m.begin(); it != m.end(); ++it) {
+        ans = max(ans, (it->second).blue_card_cnt - (it->second).red_card_cnt);
+        /*
+        printf(
+            "%s: %d - %d = %d\n",
+            (it->first).c_str(),
+            (it->second).blue_card_cnt,
+            (it->second).red_card_cnt,
+            (it->second).blue_card_cnt - (it->second).red_card_cnt
+        );
+        */
     }
 
     printf("%d\n", ans);
