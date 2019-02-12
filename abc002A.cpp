@@ -8,14 +8,11 @@ int max(int X, int Y) {
     return X > Y ? X : Y;
 }
 
-int min(int X, int Y) {
-    return X < Y ? X : Y;
-}
-
-int abs(int a, int b) {
-    return max(b - a, a - b);
-}
-
 int main() {
+    int X, Y;
+    scanf("%d %d", &X, &Y);
+
+    printf("%d\n", max(X, Y));
+
     return 0;
 }
