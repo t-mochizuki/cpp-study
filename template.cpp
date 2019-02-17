@@ -18,6 +18,12 @@ int abs(int X, int Y) {
     return X > Y ? X - Y : Y - X;
 }
 
+void swap(int &A, int &B) {
+    int T = A;
+    A = B;
+    B = T;
+}
+
 int main() {
     return 0;
 }
