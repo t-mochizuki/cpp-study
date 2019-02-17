@@ -1,15 +1,4 @@
 #include <stdio.h>
-#include <iostream>
-#include <cstring>
-#include <vector>
-#include <algorithm>
-#include <functional>
-#include <set>
-#include <map>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <cmath>
 
 using namespace std;
 
