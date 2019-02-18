@@ -1,28 +1,13 @@
 #include <stdio.h>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 #define REP(a, i, n) for (int i = a; i < n; ++i)
 
-#define RREP(a, i, n) for (int i = n - 1; i >= 0; --i)
-
-int max(int X, int Y) {
-    return X > Y ? X : Y;
-}
-
-int min(int X, int Y) {
-    return X < Y ? X : Y;
-}
-
 int abs(int X, int Y) {
     return X > Y ? X - Y : Y - X;
-}
-
-void swap(int &A, int &B) {
-    int T = A;
-    A = B;
-    B = T;
 }
 
 int median(int* A, int n) {
@@ -34,5 +19,28 @@ int median(int* A, int n) {
 }
 
 int main() {
+    int N;
+    cin >> N;
+
+    int A[N];
+    REP(0, i, N) {
+        cin >> A[i];
+    }
+
+    int B[N];
+    REP(0, i, N) {
+        B[i] = A[i] - i;
+    }
+
+    sort(B, B + N);
+    int b = median(B, N);
+
+    long ans = 0;
+    REP(0, i, N) {
+        ans += abs(B[i] - b);
+    }
+
+    printf("%ld\n", ans);
+
     return 0;
 }
