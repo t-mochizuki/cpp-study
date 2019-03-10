@@ -1,15 +1,7 @@
 #include <stdio.h>
 #include <iostream>
-#include <vector>
 
 using namespace std;
-
-struct data_t {
-    int takahashi;
-    int aoki;
-    int takahashi_sum;
-    int aoki_sum;
-};
 
 #define REP(a, i, n) for (int i = a; i < n; ++i)
 
@@ -38,29 +30,29 @@ int main() {
         cin >> a[i];
     }
 
-    vector<data_t> v;
-    REP(0, takahashi, N) {
-        REP(takahashi, aoki, N) {
-            if (takahashi == aoki) {
+    int max_takahashi = -51;
+    REP(0, i, N) {
+        int takahashi = -51;
+        int aoki = -51;
+        REP(0, j, N) {
+            if (i == j) {
                 continue;
             }
-            v.push_back((data_t){takahashi, aoki, takahashi_calc(a, takahashi, aoki), aoki_calc(a, takahashi, aoki)});
-        }
-    }
 
-    int ans = 0;
-    int max_aoki = -51;
-    for (vector<data_t>::iterator it = v.begin(); it != v.end(); ++it) {
-        if (it->takahashi_sum > it->aoki_sum) {
-            if (it->aoki_sum > max_aoki) {
-                max_aoki = it->aoki_sum;
-                ans = it->takahashi_sum;
+            int tmp_takahashi = i > j ? takahashi_calc(a, j, i) : takahashi_calc(a, i, j);
+            int tmp_aoki = i > j ? aoki_calc(a, j, i) : aoki_calc(a, i, j);
+            if (tmp_aoki > aoki) {
+                aoki = tmp_aoki;
+                takahashi = tmp_takahashi;
             }
-            // printf("%d %d %d %d\n", it->takahashi, it->aoki, it->takahashi_sum, it->aoki_sum);
+        }
+
+        if (takahashi > max_takahashi) {
+            max_takahashi = takahashi;
         }
     }
 
-    printf("%d\n", ans);
+    printf("%d\n", max_takahashi);
 
     return 0;
 }
