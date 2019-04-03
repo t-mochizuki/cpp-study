@@ -19,13 +19,16 @@ int main() {
         cin >> l >> r;
         l--; // zero origin
 
-        REP(l, j, r) {
-            if (L[j] == 0) {
-                L[j] = 1;
-            } else {
-                L[j] = 0;
-            }
-        }
+        L[l]++;
+        L[r]--;
+    }
+
+    REP(1, i, N) {
+        L[i] += L[i - 1];
+    }
+
+    REP(0, i, N) {
+        L[i] %= 2;
     }
 
     REP(0, i, N) {
