@@ -32,3 +32,13 @@ int median(int* A, int n) {
         return (A[n / 2 - 1] + A[n / 2]) / 2;
     }
 }
+
+int gcd(int m, int n) {
+  while (n > 0) {
+    int r = m % n;
+    m = n;
+    n = r;
+  }
+
+  return m;
+}
