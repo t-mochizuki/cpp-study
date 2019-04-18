@@ -42,3 +42,11 @@ int gcd(int m, int n) {
 
   return m;
 }
+
+int factorial(int X) {
+    int Y = 1;
+    REP(1, i, X + 1) {
+        Y *= i;
+    }
+    return Y;
+}
