@@ -1,54 +1,16 @@
 #include <stdio.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 #define REP(a, i, n) for (int i = a; i < n; ++i)
-
 #define RREP(a, i, n) for (int i = n - 1; i >= a; --i)
-
-int max(int X, int Y) {
-    return X > Y ? X : Y;
-}
-
-int min(int X, int Y) {
-    return X < Y ? X : Y;
-}
-
-int abs(int X, int Y) {
-    return X > Y ? X - Y : Y - X;
-}
 
 void swap(int &A, int &B) {
     int T = A;
     A = B;
     B = T;
-}
-
-int median(int* A, int n) {
-    if (n % 2 == 1) {
-        return A[(n + 1) / 2 - 1];
-    } else {
-        return (A[n / 2 - 1] + A[n / 2]) / 2;
-    }
-}
-
-int gcd(int m, int n) {
-  while (n > 0) {
-    int r = m % n;
-    m = n;
-    n = r;
-  }
-
-  return m;
-}
-
-int factorial(int X) {
-    int Y = 1;
-    REP(1, i, X + 1) {
-        Y *= i;
-    }
-    return Y;
 }
 
 struct UnionFind {
@@ -100,3 +62,34 @@ struct UnionFind {
         return sz[rootOf(x)];
     }
 };
+
+int main() {
+    long N, M;
+    cin >> N >> M;
+
+    int A[M], B[M];
+    REP(0, i, M) {
+        cin >> A[i] >> B[i];
+        --A[i]; --B[i];
+    }
+
+    UnionFind uf = UnionFind(N);
+    long ans = N * (N - 1) / 2;
+    vector<long> v;
+    v.push_back(ans);
+    RREP(0, i, M) {
+        if (uf.isSame(A[i], B[i])) {
+            v.push_back(ans);
+        } else {
+            ans -= uf.size(A[i]) * uf.size(B[i]);
+            v.push_back(ans);
+            uf.merge(A[i], B[i]);
+        }
+    }
+
+    RREP(0, i, M) {
+        printf("%ld\n", v[i]);
+    }
+
+    return 0;
+}
