@@ -15,12 +15,12 @@ int min(int X, int Y) {
     return X < Y ? X : Y;
 }
 
-int abs(int X, int Y) {
-    return X > Y ? X - Y : Y - X;
+int abs(int X) {
+    return X > 0 ? X : -X;
 }
 
-float abs(float X, float Y) {
-    return X > Y ? X - Y : Y - X;
+float abs(float X) {
+    return X > 0 ? X : -X;
 }
 
 void swap(int &A, int &B) {
