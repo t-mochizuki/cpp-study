@@ -60,13 +60,6 @@ inoremap <C-B> <Left>
 inoremap <Esc>b <S-Left>
 inoremap <Esc>f <S-Right>
 
-set cedit=\<Esc>
-cnoremap <C-A> <Home>
-cnoremap <C-F> <Right>
-cnoremap <C-B> <Left>
-cnoremap <Esc>b <S-Left>
-cnoremap <Esc>f <S-Right>
-
 nnoremap - :edit %:h<CR>
 
 call plug#begin('~/.vim/plugged')
