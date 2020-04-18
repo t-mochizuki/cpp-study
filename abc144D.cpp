@@ -14,6 +14,7 @@ double f(double a, double b, double c) {
     if (a * tan(c) <= b) {
         return a * a * b - a * a * a * tan(c) / 2.0;
     } else {
+        // tan(M_PI / 2.0 - c) == 1 / tan(c)
         return b * b / tan(c) * a / 2.0;
     }
 }
