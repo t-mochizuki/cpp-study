@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
 
 using namespace std;
 
@@ -18,46 +17,34 @@ int main() {
             p.push_back(s);
         }
 
-        string q;
+        string L;
         REP(0, i, n) {
             if (i == 0) {
-                q = p[i];
+                L = p[i];
             } else {
-                if (p[i].length() > q.length()) {
-                    q = p[i];
+                if (p[i].size() > L.size()) {
+                    L = p[i];
                 }
             }
         }
 
-        REP(0, i, n) {
-            if (q.length() > p[i].length()) {
-                int pos = p[i].find('*');
-                p[i] = p[i].substr(0, pos) + string(q.length() - p[i].length() + 1, '*') + p[i].substr(pos + 1, p[i].length());
-            }
-        }
-
-        bool flag = false;
-        REP(0, i, n) {
-            REP(0, j, q.length()) {
-                if (p[i][j] != '*' && q[j] != '*' && q[j] != p[i][j]) {
-                    flag = true;
+        bool ok = true;
+        REP(0, j, p.size()) {
+            REP(0, i, L.size()) {
+                if (p[j].size() - 1 - i >= 1) {
+                    if (L[L.size() - 1 - i] != p[j][p[j].size() - 1 - i]) {
+                        ok = false;
+                    }
+                } else {
                     break;
                 }
             }
         }
 
-        if (flag) {
-            cout << "Case #" << x << ": *" << endl;
+        if (ok) {
+            cout << "Case #" << x << ": " << L.substr(1) << endl;
         } else {
-            int pos = q.find('*');
-            char c = 'Z';
-            REP(0, i, n) {
-                if (p[i][pos] != '*') {
-                    c = p[i][pos];
-                }
-            }
-            q = q.substr(0, pos) + string(1, c) + q.substr(pos + 1, q.length() - (pos + 1));
-            cout << "Case #" << x << ": " << q << endl;
+            cout << "Case #" << x << ": *" << endl;
         }
     }
     return 0;
