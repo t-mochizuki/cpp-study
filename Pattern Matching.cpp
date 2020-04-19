@@ -7,36 +7,64 @@ using namespace std;
 
 #define REP(a, i, n) for (int i = a; i < n; ++i)
 
+string stringL(vector<string> v) {
+    string L;
+    REP(0, i, v.size()) {
+        if (i == 0) {
+            L = v[i];
+        } else {
+            if (v[i].size() > L.size()) {
+                L = v[i];
+            }
+        }
+    }
+    return L;
+}
+
 int main() {
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
         int n; cin >> n;
-        vector<string> p;
+        vector<string> startWith;
+        vector<string> endWith;
+        vector<string> inTheMiddle;
         REP(0, i, n) {
             string s; cin >> s;
-            p.push_back(s);
-        }
-
-        string L;
-        REP(0, i, n) {
-            if (i == 0) {
-                L = p[i];
+            if (s[0] == '*') {
+                startWith.push_back(s);
+            } else if (s[s.size() - 1] == '*') {
+                endWith.push_back(s);
             } else {
-                if (p[i].size() > L.size()) {
-                    L = p[i];
-                }
+                inTheMiddle.push_back(s);
             }
         }
 
         bool ok = true;
-        REP(0, j, p.size()) {
-            REP(0, i, L.size()) {
-                if (p[j].size() - 1 - i >= 1) {
-                    if (L[L.size() - 1 - i] != p[j][p[j].size() - 1 - i]) {
+
+        string sL = stringL(startWith);
+        REP(0, j, startWith.size()) {
+            REP(0, i, sL.size()) {
+                if (startWith[j].size() - 1 - i >= 1) {
+                    if (sL[sL.size() - 1 - i] != startWith[j][startWith[j].size() - 1 - i]) {
                         ok = false;
                     }
                 } else {
                     break;
+                }
+            }
+        }
+
+        string eL = stringL(endWith);
+        if (ok) {
+            REP(0, j, endWith.size()) {
+                REP(0, i, eL.size()) {
+                    if (i <= endWith[j].size() - 1) {
+                        if (eL[i] != endWith[j][i]) {
+                            ok = false;
+                        }
+                    } else {
+                        break;
+                    }
                 }
             }
         }

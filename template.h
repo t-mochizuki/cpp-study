@@ -104,3 +104,7 @@ struct UnionFind {
         return sz[rootOf(x)];
     }
 };
+
+int atoi(char c) {
+    return c - 48;
+}
