@@ -8,7 +8,7 @@ using namespace std;
 #define REP(a, i, n) for (int i = a; i < n; ++i)
 
 string stringL(vector<string> v) {
-    string L;
+    string L = "";
     REP(0, i, v.size()) {
         if (i == 0) {
             L = v[i];
@@ -27,7 +27,6 @@ int main() {
         int n; cin >> n;
         vector<string> startWith;
         vector<string> endWith;
-        vector<string> inTheMiddle;
         REP(0, i, n) {
             string s; cin >> s;
             if (s[0] == '*') {
@@ -35,7 +34,9 @@ int main() {
             } else if (s[s.size() - 1] == '*') {
                 endWith.push_back(s);
             } else {
-                inTheMiddle.push_back(s);
+                string::size_type pos = s.find('*');
+                endWith.push_back(s.substr(0, pos + 1));
+                startWith.push_back(s.substr(pos));
             }
         }
 
@@ -58,7 +59,7 @@ int main() {
         if (ok) {
             REP(0, j, endWith.size()) {
                 REP(0, i, eL.size()) {
-                    if (i <= endWith[j].size() - 1) {
+                    if (i <= endWith[j].size() - 2) {
                         if (eL[i] != endWith[j][i]) {
                             ok = false;
                         }
@@ -70,7 +71,7 @@ int main() {
         }
 
         if (ok) {
-            cout << "Case #" << x << ": " << L.substr(1) << endl;
+            cout << "Case #" << x << ": " << eL.substr(0, eL.size() - 1) << sL.substr(1) << endl;
         } else {
             cout << "Case #" << x << ": *" << endl;
         }
