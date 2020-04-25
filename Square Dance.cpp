@@ -16,7 +16,7 @@ long northCompassNeighbor(int *s, int i, int j, int c) {
 }
 
 long eastCompassNeighbor(int *s, int i, int j, int c) {
-    for (int k = j + 1; k <= c; ++k) {
+    for (int k = j + 1; k < c; ++k) {
         if (s[i * c + k] != 0) {
             return s[i * c + k];
         }
@@ -25,7 +25,7 @@ long eastCompassNeighbor(int *s, int i, int j, int c) {
 }
 
 long southCompassNeighbor(int *s, int i, int j, int r, int c) {
-    for (int k = i + 1; k <= r; ++k) {
+    for (int k = i + 1; k < r; ++k) {
         if (s[k * c + j] != 0) {
             return s[k * c + j];
         }
