@@ -108,3 +108,14 @@ struct UnionFind {
 int atoi(char c) {
     return c - 48;
 }
+
+int pow(int base, int exponent) {
+    if (exponent == 0) return 1;
+
+    if (exponent % 2 == 1) {
+        return base * pow(base, exponent - 1);
+    } else {
+        int tmp = pow(base, exponent / 2);
+        return tmp * tmp;
+    }
+}
