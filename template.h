@@ -37,14 +37,21 @@ int median(int* A, int n) {
     }
 }
 
-int gcd(int m, int n) {
-  while (n > 0) {
-    int r = m % n;
-    m = n;
-    n = r;
+// greatest common divisor
+template<class T> inline T gcd(T a, T b) {
+  while (b > 0) {
+    T r = a % b;
+    a = b;
+    b = r;
   }
 
-  return m;
+  return a;
+}
+
+// least common multiple
+// gcd(a, b) * lcm(a, b) == a * b
+template<class T> inline T lcm(T a, T b) {
+    return a * b / gcd(a, b);
 }
 
 int factorial(int X) {
