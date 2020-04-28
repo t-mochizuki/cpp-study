@@ -14,21 +14,33 @@ int main() {
     for (int i = 0; i < T.size(); ++i) {
         if (T[i] == 'r') {
             if (i >= K && Q[i - K] == 'p') {
-                Q.append(1, 'r');
+                if (T[i + K] == 's') {
+                    Q.append(1, 's');
+                } else {
+                    Q.append(1, 'r');
+                }
             } else {
                 Q.append(1, 'p');
                 ans += P;
             }
         } else if (T[i] == 's') {
             if (i >= K && Q[i - K] == 'r') {
-                Q.append(1, 's');
+                if (T[i + K] == 'p') {
+                    Q.append(1, 'p');
+                } else {
+                    Q.append(1, 's');
+                }
             } else {
                 Q.append(1, 'r');
                 ans += R;
             }
         } else if (T[i] == 'p') {
             if (i >= K && Q[i - K] == 's') {
-                Q.append(1, 'p');
+                if (T[i + K] == 'r') {
+                    Q.append(1, 'r');
+                } else {
+                    Q.append(1, 'p');
+                }
             } else {
                 Q.append(1, 's');
                 ans += S;
