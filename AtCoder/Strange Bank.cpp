@@ -24,19 +24,12 @@ int dp(int N, int m[]) {
     if (6 > N) {
         m[N] = N;
     } else {
+        m[N] = N;
         for (int i = 6; i <= N; i *= 6) {
-            if (m[N] != INDEFINITE) {
-                m[N] = min(m[N], dp(N - i, m) + 1);
-            } else {
-                m[N] = min(N, dp(N - i, m) + 1);
-            }
+            m[N] = min(m[N], dp(N - i, m) + 1);
         }
         for (int i = 9; i <= N; i *= 9) {
-            if (m[N] != INDEFINITE) {
-                m[N] = min(m[N], dp(N - i, m) + 1);
-            } else {
-                m[N] = min(N, dp(N - i, m) + 1);
-            }
+            m[N] = min(m[N], dp(N - i, m) + 1);
         }
     }
 
