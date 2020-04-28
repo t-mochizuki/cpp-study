@@ -7,24 +7,24 @@ using namespace std;
 
 #define RREP(a, i, n) for (int i = n - 1; i >= a; --i)
 
-int max(int X, int Y) {
+template<class T> inline T max(T X, T Y) {
     return X > Y ? X : Y;
 }
 
-int min(int X, int Y) {
+template<class T> inline T min(T X, T Y) {
     return X < Y ? X : Y;
 }
 
-int abs(int X) {
+template<class T> inline T abs(T X) {
     return X > 0 ? X : -X;
 }
 
-float abs(float X) {
+template<class T> inline T abs(T X) {
     return X > 0 ? X : -X;
 }
 
-void swap(int &A, int &B) {
-    int T = A;
+template<class T> inline void swap(T &A, T &B) {
+    T T = A;
     A = B;
     B = T;
 }
@@ -116,13 +116,13 @@ int atoi(char c) {
     return c - 48;
 }
 
-int pow(int base, int exponent) {
+template<class T> inline T pow(T base, T exponent) {
     if (exponent == 0) return 1;
 
     if (exponent % 2 == 1) {
         return base * pow(base, exponent - 1);
     } else {
-        int tmp = pow(base, exponent / 2);
+        T tmp = pow(base, exponent / 2);
         return tmp * tmp;
     }
 }
