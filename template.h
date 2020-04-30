@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <iostream>
 
-using namespace std;
-
-#define REP(a, i, n) for (int i = a; i < n; ++i)
-
-#define RREP(a, i, n) for (int i = n - 1; i >= a; --i)
+using std::cin;
+using std::cout;
+using std::endl;
+using std::terminate;
 
 template<class T> inline T max(T X, T Y) {
     return X > Y ? X : Y;
@@ -19,22 +18,10 @@ template<class T> inline T abs(T X) {
     return X > 0 ? X : -X;
 }
 
-template<class T> inline T abs(T X) {
-    return X > 0 ? X : -X;
-}
-
 template<class T> inline void swap(T &A, T &B) {
-    T T = A;
+    T tmp = A;
     A = B;
-    B = T;
-}
-
-int median(int* A, int n) {
-    if (n % 2 == 1) {
-        return A[(n + 1) / 2 - 1];
-    } else {
-        return (A[n / 2 - 1] + A[n / 2]) / 2;
-    }
+    B = tmp;
 }
 
 // greatest common divisor
@@ -52,6 +39,29 @@ template<class T> inline T gcd(T a, T b) {
 // gcd(a, b) * lcm(a, b) == a * b
 template<class T> inline T lcm(T a, T b) {
     return a * b / gcd(a, b);
+}
+
+template<class T> inline T pow(T base, T exponent) {
+    if (exponent == 0) return 1;
+
+    if (exponent % 2 == 1) {
+        return base * pow(base, exponent - 1);
+    } else {
+        T tmp = pow(base, exponent / 2);
+        return tmp * tmp;
+    }
+}
+
+int atoi(char c) {
+    return c - 48;
+}
+
+int median(int* A, int n) {
+    if (n % 2 == 1) {
+        return A[(n + 1) / 2 - 1];
+    } else {
+        return (A[n / 2 - 1] + A[n / 2]) / 2;
+    }
 }
 
 int factorial(int X) {
@@ -111,18 +121,3 @@ struct UnionFind {
         return sz[rootOf(x)];
     }
 };
-
-int atoi(char c) {
-    return c - 48;
-}
-
-template<class T> inline T pow(T base, T exponent) {
-    if (exponent == 0) return 1;
-
-    if (exponent % 2 == 1) {
-        return base * pow(base, exponent - 1);
-    } else {
-        T tmp = pow(base, exponent / 2);
-        return tmp * tmp;
-    }
-}
