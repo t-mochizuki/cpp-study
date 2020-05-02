@@ -7,39 +7,34 @@
 using std::cin;
 using std::cout;
 using std::endl;
-using std::terminate;
 using std::vector;
 using std::less;
-
-template<class T> inline T max(T X, T Y) {
-    return X > Y ? X : Y;
-}
+using std::upper_bound;
 
 int dfs(int pos, int fin, int c[], vector<int> v) {
     if (pos == fin) {
-
-        if (is_sorted(v.begin(), v.end(), less<int>())) {
-
-            // for (vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
-            //     if (it == v.begin()) {
-            //         cout << (*it);
-            //     } else {
-            //         cout << ", " << (*it);
-            //     }
-            // }
-            // cout << endl;
-
-            return v.size();
-        } else {
-            return -1;
-        }
+        return v.size();
     }
 
-    int lhs = dfs(pos + 1, fin, c, v);
     v.push_back(c[pos]);
-    int rhs = dfs(pos + 1, fin, c, v);
+    if (is_sorted(v.begin(), v.end(), less<int>())) {
+        return dfs(pos + 1, fin, c, v);
+    } else {
+        v.pop_back();
+        vector<int>::iterator it2 = upper_bound(v.begin(), v.end(), c[pos]);
+        (*it2) = c[pos];
 
-    return max(lhs, rhs);
+        // for (vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
+        //     if (it == v.begin()) {
+        //         cout << (*it);
+        //     } else {
+        //         cout << ", " << (*it);
+        //     }
+        // }
+        // cout << endl;
+
+        return dfs(pos + 1, fin, c, v);
+    }
 }
 
 int main() {
@@ -47,10 +42,6 @@ int main() {
     int c[n + 1];
     for (int i = 1; i <= n; ++i) {
         cin >> c[i];
-    }
-
-    if (n > 16) {
-        terminate();
     }
 
     vector<int> v;
