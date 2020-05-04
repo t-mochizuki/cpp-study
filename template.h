@@ -18,6 +18,10 @@ template<class T> inline T abs(T X) {
     return X > 0 ? X : -X;
 }
 
+template<class T> inline T manhattan(T X, T Y) {
+    return abs(X) + abs(Y);
+}
+
 template<class T> inline void swap(T &A, T &B) {
     T tmp = A;
     A = B;
