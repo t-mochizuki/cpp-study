@@ -3,56 +3,49 @@
 #include <algorithm>
 // #include <fstream>
 
-using namespace std;
-
-#define REP(a, i, n) for (int i = a; i < n; ++i)
-
-// 階乗
-int factorial(int X) {
-    int Y = 1;
-    REP(1, i, X + 1) {
-        Y *= i;
-    }
-    return Y;
-}
+using std::cin;
+using std::cout;
+using std::endl;
+using std::terminate;
 
 void solve() {
     int N;
     cin >> N;
 
     int C[N];
-    REP(0, i, N) {
+    for (int i = 0; i < N; ++i) {
         cin >> C[i];
     }
 
-    int numerator = 0;
-    int denominator = factorial(N);
-    REP(0, k, denominator) {
-        int D[N]; REP(0, i, N) D[i] = 0;
-        REP(0, i, N) {
-            REP(i + 1, j, N) {
-                if (C[j] % C[i] == 0) {
-                    D[j]++;
-                }
+    int S[N];
+    for (int i = 0; i < N; ++i) {
+        int tmp = 0;
+        for (int j = 0; j < N; ++j) {
+            if (i == j) continue;
+
+            if (C[i] % C[j] == 0) {
+                tmp++;
             }
         }
-
-        REP(0, i, N) {
-            if (D[i] % 2 == 0) {
-                numerator++;
-            }
-        }
-
-        next_permutation(C, C + N);
+        S[i] = tmp;
+        // printf("S[%d]=%d\n", i, S[i]);
     }
 
-    printf("%.6lf\n", 1.0 * numerator / denominator);
+    double ans = 0;
+    for (int i = 0; i < N; ++i) {
+        if (S[i] % 2 == 0) {
+            ans += 1.0 * (S[i] + 2) / (S[i] * 2 + 2);
+        } else {
+            ans += 0.5;
+        }
+    }
+
+    printf("%.6lf\n", ans);
 }
 
 int main() {
     // std::ifstream in("AtCoder/ABC008/コイン.input");
     // cin.rdbuf(in.rdbuf());
-    //
     // int t; cin >> t;
     // for (int x = 1; x <= t; ++x) {
     //     solve();
