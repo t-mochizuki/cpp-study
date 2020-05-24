@@ -39,39 +39,62 @@ using std::terminate;
 //     }
 // }
 
-long dfs(int index, int N, int D, int X, int Y, int posX, int posY) {
-    if (index == N) {
+const int LIMIT = 100;
+long memo[LIMIT + 1][2 * LIMIT + 1][2 * LIMIT + 1];
+
+long dfs(int N, int X, int Y, int count, int posX, int posY) {
+    if (memo[count][posX][posY] != -1) {
+        return memo[count][posX][posY];
+    }
+
+    if (count == N) {
         if (X == posX && Y == posY) {
-            return 1;
+            return memo[count][posX][posY] = 1;
         } else {
-            return 0;
+            return memo[count][posX][posY] = 0;
         }
     }
 
-    long count = 0;
+    long ret = 0;
     for (int i = 0; i < 4; ++i) {
         if (i == 0) {
-            count += dfs(index + 1, N, D, X, Y, posX, posY + D);
+            ret += dfs(N, X, Y, count + 1, posX, posY + 1);
         } else if (i == 1) {
-            count += dfs(index + 1, N, D, X, Y, posX + D, posY);
+            ret += dfs(N, X, Y, count + 1, posX + 1, posY);
         } else if (i == 2) {
-            count += dfs(index + 1, N, D, X, Y, posX, posY - D);
+            ret += dfs(N, X, Y, count + 1, posX, posY - 1);
         } else {
-            count += dfs(index + 1, N, D, X, Y, posX - D, posY);
+            ret += dfs(N, X, Y, count + 1, posX - 1, posY);
         }
     }
-    return count;
+    return memo[count][posX][posY] = ret;
 }
 
 void solve() {
     int N, D; cin >> N >> D;
     int X, Y; cin >> X >> Y;
 
-    if (N > 8) {
+    if (N > LIMIT) {
         terminate();
     }
 
-    cout << dfs(0, N, D, X, Y, 0, 0) * 1.0 * pow(0.25, N) << endl;
+    for (int count = 0; count < LIMIT + 1; ++count) {
+        for (int posX = 0; posX < 2 * LIMIT + 1; ++posX) {
+            for (int posY = 0; posY < 2 * LIMIT + 1; ++posY) {
+                memo[count][posX][posY] = -1;
+            }
+        }
+    }
+
+    if (X % D == 0 && Y % D == 0) {
+        X = X / D;
+        Y = Y / D;
+        double ans = dfs(N, X + N, Y + N, 0, N, N) * 1.0 * pow(0.25, N);
+        printf("%.10f\n", ans);
+    } else {
+        cout << 0.0 << endl;
+    }
+
 }
 
 int main() {
