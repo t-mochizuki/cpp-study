@@ -13,21 +13,26 @@ using std::vector;
 
 #define LL unsigned long long
 
-void multiplyBy(LL *M1, LL *M2) {
-    LL T[4] = {0};
-    T[0]=M1[0]*M2[0]+M1[1]*M2[2];
-    T[1]=M1[0]*M2[1]+M1[1]*M2[3];
-    T[2]=M1[2]*M2[0]+M1[3]*M2[2];
-    T[3]=M1[2]*M2[1]+M1[3]*M2[3];
+void multiplyBy(int N, LL *M1, LL *M2) {
+    LL T[N * 2];
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            LL tmp = 0;
+            for (int k = 0; k < N; ++k) {
+                tmp += M1[i + N * k]*M2[k + N * j];
+            }
+            T[i + N * j] = tmp;
+        }
+    }
 
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < N * 2; ++i) {
         M1[i] = T[i];
     }
 }
 
 void calc(int N, LL *M) {
     if (N != 1) {
-        multiplyBy(M, M);
+        multiplyBy(2, M, M);
         calc(N / 2, M);
     }
 }
@@ -43,7 +48,7 @@ void unitMatrix(int N, LL *M) {
 void solve() {
     int N; cin >> N;
 
-    LL R[4] = {0};
+    LL R[2 * 2];
     unitMatrix(2, R);
 
     // 2進数で表す
@@ -58,10 +63,10 @@ void solve() {
         // cout << (*it) << endl;
         LL M[4] = {1,1,1,0};
         if (*it == 1) {
-            multiplyBy(R, M);
+            multiplyBy(2, R, M);
         } else {
             calc(*it, M);
-            multiplyBy(R, M);
+            multiplyBy(2, R, M);
         }
     }
 
