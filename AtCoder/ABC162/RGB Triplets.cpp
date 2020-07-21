@@ -13,9 +13,9 @@ void solve() {
     int n; cin >> n;
     char s[n + 1]; cin >> s;
 
-    int nR = 0;
-    int nG = 0;
-    int nB = 0;
+    long nR = 0;
+    long nG = 0;
+    long nB = 0;
     for (int i = 0; i < n; ++i) {
         if (s[i] == 'R') {
             nR++;
@@ -33,7 +33,7 @@ void solve() {
     for (int i = 0; i < n; ++i) {
         for (int j = i; j < n; ++j) {
             int k = 2 * j - i;
-            if (k < n) {
+            if (k < n && j < k) {
                 if (s[i] != s[j] && s[j] != s[k] && s[k] != s[i]) {
                     z++;
                 }
