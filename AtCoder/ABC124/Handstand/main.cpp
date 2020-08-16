@@ -22,6 +22,10 @@ void solve() {
     int ans = 0;
 
     for (int l = 0; l < N; ++l) {
+        if (l != 0 && S[l - 1] == S[l]) {
+            continue;
+        }
+
         int count = 0;
         int tmp = 0;
         for (int r = l; r < N; ++r) {
