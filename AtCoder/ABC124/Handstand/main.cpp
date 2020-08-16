@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #define DEV 1
 
@@ -10,6 +11,7 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::string;
+using std::vector;
 
 template<class T> inline T max(T X, T Y) {
     return X > Y ? X : Y;
@@ -18,34 +20,38 @@ template<class T> inline T max(T X, T Y) {
 void solve() {
     int N, K; cin >> N >> K;
     string S; cin >> S;
+    vector<int> I;
+
+    for (int i = 0; i < N; ++i) {
+        if (i == 0) {
+            I.push_back(0);
+        } else {
+            if (S[i - 1] != S[i]) {
+                I.push_back(i);
+            }
+        }
+    }
+    I.push_back(N);
 
     int ans = 0;
-
-    for (int l = 0; l < N; ++l) {
-        if (l != 0 && S[l - 1] == S[l]) {
-            continue;
-        }
-
-        int count = 0;
+    for (int k = 0; k < I.size() - 1; ++k) {
         int tmp = 0;
-        for (int r = l; r < N; ++r) {
-            if (l == r) {
-            } else if (S[r - 1] != S[r]) {
-                count++;
-            }
 
-            if (S[l] == '0') {
-                if (count <= 2 * K - 1) {
-                    tmp = r - l + 1;
-                }
+        if (S[I[k]] == '0') {
+            if (k + 2 * K > I.size() - 1) {
+                tmp = I[I.size() - 1] - I[k];
             } else {
-                if (count <= 2 * K) {
-                    tmp = r - l + 1;
-                }
+                tmp = I[k + 2 * K] - I[k];
+            }
+        } else {
+            if (k + 2 * K  + 1 > I.size() - 1) {
+                tmp = I[I.size() - 1] - I[k];
+            } else {
+                tmp = I[k + 2 * K + 1] - I[k];
             }
         }
 
-        ans = max(ans, tmp);
+        ans = max(tmp, ans);
     }
 
     cout << ans << endl;
