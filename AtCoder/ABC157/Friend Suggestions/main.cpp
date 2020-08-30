@@ -19,7 +19,7 @@ using std::make_pair;
 typedef vector<vector<int> > Graph;
 typedef int GraphId;
 
-void dfs(Graph G, int N, GraphId &id, vector<GraphId> &visited, map<GraphId, int> &m, int v) {
+void dfs(Graph &G, GraphId &id, vector<GraphId> &visited, map<GraphId, int> &m, int v) {
     if (visited[v] != -1) {
         return ;
     }
@@ -34,8 +34,7 @@ void dfs(Graph G, int N, GraphId &id, vector<GraphId> &visited, map<GraphId, int
 
     while (sta.empty() == false) {
         int u = sta.top(); sta.pop();
-        for (int i = 0; i < G[u].size(); ++i) {
-            int x = G[u][i];
+        for (int x : G[u]) {
             if (visited[x] == -1) {
                 visited[x] = id;
                 sta.push(x);
@@ -71,25 +70,24 @@ void solve() {
     GraphId id = 0;
     map<GraphId, int> m;
     for (int v = 0; v < N; ++v) {
-        dfs(Friend, N, id, visited, m, v);
+        dfs(Friend, id, visited, m, v);
 
         GraphId gid = visited[v];
         int cnt = m[gid] - num[v] - 1;
 
         vector<int> blocks = Block[v];
-        for (decltype(blocks)::iterator it = blocks.begin(); it != blocks.end(); ++it) {
-            if (gid == visited[*it]) {
+        for (int x : blocks) {
+            if (gid == visited[x]) {
                 cnt--;
             }
         }
 
-        if (v == 0) {
-            cout << cnt;
+        if (v != N - 1) {
+            cout << cnt << " ";
         } else {
-            cout << " " << cnt;
+            cout << cnt << endl;
         }
     }
-    cout << endl;
 }
 
 int main() {
