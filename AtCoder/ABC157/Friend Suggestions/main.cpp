@@ -76,8 +76,8 @@ void solve() {
         int cnt = m[gid] - num[v] - 1;
 
         vector<int> blocks = Block[v];
-        for (int x : blocks) {
-            if (gid == visited[x]) {
+        for (int u : blocks) {
+            if (gid == visited[u]) {
                 cnt--;
             }
         }
