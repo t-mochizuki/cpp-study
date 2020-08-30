@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <stack>
+#include <map>
 
 #define DEV 1
 
@@ -12,75 +13,73 @@ using std::endl;
 using std::terminate;
 using std::vector;
 using std::stack;
+using std::map;
+using std::make_pair;
 
 typedef vector<vector<int> > Graph;
-typedef vector<int> Edges;
+typedef int GraphId;
 
-enum Relation { Friend, Block };
+void dfs(Graph G, int N, GraphId &id, vector<GraphId> &visited, map<GraphId, int> &m, int v) {
+    if (visited[v] != -1) {
+        return ;
+    }
 
-struct Edge {
-    int to;
-    Relation rel;
-};
-
-vector<bool> dfs(Graph G, int N, int v) {
-    vector<bool> visited; visited.assign(N, false);
+    id++;
 
     stack<int> sta;
 
-    visited[v] = true;
+    visited[v] = id;
     sta.push(v);
+    m.insert(make_pair(id, 1));
 
     while (sta.empty() == false) {
         int u = sta.top(); sta.pop();
         for (int i = 0; i < G[u].size(); ++i) {
             int x = G[u][i];
-            if (visited[x] == false) {
-                visited[x] = true;
+            if (visited[x] == -1) {
+                visited[x] = id;
                 sta.push(x);
+                m[id]++;
             }
         }
     }
 
-    return visited;
+    return ;
 }
 
 void solve() {
     int N, M, K; cin >> N >> M >> K;
 
     Graph Friend(N);
+    vector<int> num(N, 0);
     for (int i = 0; i < M; ++i) {
         int a, b; cin >> a >> b; --a; --b;
-        Friend[a].push_back(b);
-        Friend[b].push_back(a);
+        Friend[a].emplace_back(b);
+        Friend[b].emplace_back(a);
+        num[a]++;
+        num[b]++;
     }
 
     Graph Block(N);
     for (int i = 0; i < K; ++i) {
         int c, d; cin >> c >> d; --c; --d;
-        Block[c].push_back(d);
-        Block[d].push_back(c);
+        Block[c].emplace_back(d);
+        Block[d].emplace_back(c);
     }
 
+    vector<GraphId> visited; visited.assign(N, -1);
+    GraphId id = 0;
+    map<GraphId, int> m;
     for (int v = 0; v < N; ++v) {
-        vector<bool> visited = dfs(Friend, N, v);
+        dfs(Friend, N, id, visited, m, v);
 
-        visited[v] = false;
-
-        vector<int> friends = Friend[v];
-        for (decltype(friends)::iterator it = friends.begin(); it != friends.end(); ++it) {
-            visited[*it] = false;
-        }
+        GraphId gid = visited[v];
+        int cnt = m[gid] - num[v] - 1;
 
         vector<int> blocks = Block[v];
         for (decltype(blocks)::iterator it = blocks.begin(); it != blocks.end(); ++it) {
-            visited[*it] = false;
-        }
-
-        int cnt = 0;
-        for (int i = 0; i < N; ++i) {
-            if (visited[i]) {
-                cnt++;
+            if (gid == visited[*it]) {
+                cnt--;
             }
         }
 
