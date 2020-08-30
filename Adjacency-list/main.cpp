@@ -26,7 +26,8 @@ int dfs(Graph G, int N, int v) {
 
     while (sta.empty() == false) {
         int u = sta.top(); sta.pop();
-        for (int x : G[u]) {
+        for (int i = 0; i < G[u].size(); ++i) {
+            int x = G[u][i];
             if (visited[x] == false) {
                 visited[x] = true;
                 sta.push(x);
