@@ -1,45 +1,51 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <map>
+#include <queue>
+#include <set>
 
 #define DEV 1
+#define TEST 1
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
-using std::map;
-using std::make_pair;
+using std::queue;
+using std::set;
 
 template<class T> inline T max(T X, T Y) {
     return X > Y ? X : Y;
 }
 
 void solve() {
+#ifdef TEST
+    int N; N = 100000;
+    int A[N];
+    for (int i = 1; i <= N; ++i) {
+        A[i] = i;
+    }
+#else
     int N; cin >> N;
     int A[N];
     for (int i = 0; i < N; ++i) {
         cin >> A[i];
     }
+#endif
 
-    map<int, int> m; long l = 0; m.insert(make_pair(l, A[l]));
+    queue<int> que; que.push(A[0]);
+    set<int> s; s.insert(A[0]);
     unsigned long ans = 1;
     for (int r = 1; r < N;) {
-        bool found = false;
-        for (auto p : m) {
-            if (p.second == A[r]) {
-                found = true;
-                continue;
-            }
-        }
+        decltype(s)::iterator it = s.find(A[r]);
 
-        if (found) {
-            m.erase(l);
-            l++;
+        if (it != s.end()) {
+            int v = que.front(); que.pop();
+            s.erase(v);
         } else {
-            m.insert(make_pair(r, A[r]));
-            ans = max(ans, m.size());
+            que.push(A[r]);
+            s.insert(A[r]);
+            ans = max(ans, s.size());
             r++;
         }
     }
