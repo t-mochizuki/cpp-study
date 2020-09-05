@@ -12,14 +12,14 @@ using std::terminate;
 using std::chrono::system_clock;
 
 void solve() {
-    int N; cin >> N;
+    int N, M; cin >> N >> M;
     auto start_time = system_clock::now().time_since_epoch().count();
-    for (int i = 0; i < N; ++i) {
-        if (i == N - 1) {
-            auto end_time = system_clock::now().time_since_epoch().count();
-            cout << end_time - start_time << " milliseconds" << endl;
+    for (int a = 0; a < N; ++a) {
+        for (int b = 0; b < M; ++b) {
         }
     }
+    auto end_time = system_clock::now().time_since_epoch().count();
+    cout << end_time - start_time << " milliseconds" << endl;
 }
 
 int main() {
