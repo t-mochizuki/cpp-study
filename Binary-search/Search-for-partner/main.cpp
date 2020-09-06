@@ -31,8 +31,8 @@ void solve() {
         long T = 0;
         for (int i = 0; i < N; ++i) {
             auto it = upper_bound(v.begin(), v.end(), x / v[i]);
-            auto pos = distance(v.begin(), it);
-            S += pos;
+            auto cnt = distance(v.begin(), it);
+            S += cnt;
 
             if (v[i] * v[i] <= x) {
                 T++;
