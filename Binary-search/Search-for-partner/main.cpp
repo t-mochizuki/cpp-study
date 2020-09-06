@@ -11,8 +11,6 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
-using std::upper_bound;
-using std::distance;
 
 const long INF = 1e10 + 1;
 
@@ -32,9 +30,17 @@ void solve() {
         long S = 0;
         long T = 0;
         for (int i = 0; i < N; ++i) {
-            auto it = upper_bound(v.begin(), v.end(), x / v[i]);
-            auto cnt = distance(v.begin(), it);
-            S += cnt;
+            int left_i = -1;
+            int right_i = N;
+            while (right_i - left_i > 1) {
+                int pivot = (right_i + left_i) / 2;
+                if (v[i] * v[pivot] <= x) {
+                    left_i = pivot;
+                } else {
+                    right_i = pivot;
+                }
+            }
+            S += right_i;
 
             if (v[i] * v[i] <= x) {
                 T++;
