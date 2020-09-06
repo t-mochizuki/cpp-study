@@ -11,8 +11,10 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
-using std::lower_bound;
+using std::upper_bound;
 using std::distance;
+
+const long INF = 1e10 + 1;
 
 void solve() {
     int N, K; cin >> N >> K;
@@ -23,8 +25,8 @@ void solve() {
     sort(v.begin(), v.end());
 
 
-    long min_v = v[0] * v[1] - 1;
-    long max_v = v[N - 2] * v[N - 1] + 1;
+    long min_v = -INF;
+    long max_v = INF;
     while (max_v - min_v > 1) {
         long x = (max_v + min_v) / 2;
         long S = 0;
