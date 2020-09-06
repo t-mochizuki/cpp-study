@@ -11,6 +11,8 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
+using std::lower_bound;
+using std::distance;
 
 void solve() {
     int N, K; cin >> N >> K;
@@ -28,17 +30,9 @@ void solve() {
         long S = 0;
         long T = 0;
         for (int i = 0; i < N; ++i) {
-            int left_i = -1;
-            int right_i = N;
-            while (right_i - left_i > 1) {
-                int pivot = (right_i + left_i) / 2;
-                if (v[i] * v[pivot] <= x) {
-                    left_i = pivot;
-                } else {
-                    right_i = pivot;
-                }
-            }
-            S += right_i;
+            auto it = upper_bound(v.begin(), v.end(), x / v[i]);
+            auto pos = distance(v.begin(), it);
+            S += pos;
 
             if (v[i] * v[i] <= x) {
                 T++;
