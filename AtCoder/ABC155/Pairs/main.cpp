@@ -33,29 +33,29 @@ void solve() {
         long T = 0;
         for (int i = 0; i < N; ++i) {
             if (v[i] > 0) {
-                int left_i = -1;
-                int right_i = N;
-                while (right_i - left_i > 1) {
-                    int pivot = (right_i + left_i) / 2;
+                int left = -1;
+                int right = N;
+                while (right - left > 1) {
+                    int pivot = (right + left) / 2;
                     if (v[i] * v[pivot] <= x) {
-                        left_i = pivot;
+                        left = pivot;
                     } else {
-                        right_i = pivot;
+                        right = pivot;
                     }
                 }
-                S += right_i;
+                S += right;
             } else if (v[i] < 0) {
-                int left_i = -1;
-                int right_i = N;
-                while (right_i - left_i > 1) {
-                    int pivot = (right_i + left_i) / 2;
+                int left = -1;
+                int right = N;
+                while (right - left > 1) {
+                    int pivot = (right + left) / 2;
                     if (v[i] * v[pivot] <= x) {
-                        right_i = pivot;
+                        right = pivot;
                     } else {
-                        left_i = pivot;
+                        left = pivot;
                     }
                 }
-                S += N - right_i;
+                S += N - right;
             } else if (x >= 0) {
                 S += N;
             }

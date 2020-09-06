@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 #define DEV 1
 
@@ -10,14 +11,26 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
+using std::sort;
 
 const long INF = 1L << 61;
 
 void solve() {
     int N, K; cin >> N >> K;
-    vector<long> v(2 * N);
-    for (int i = 0; i < 2 * N; ++i) {
-        v[i] = i - N;
+    vector<long> v(3 * N);
+    for (int i = 0; i < N; ++i) {
+        v[i] = i;
+    }
+    for (int i = 0; i < N; ++i) {
+        v[i + N] = i;
+    }
+    for (int i = 0; i < N; ++i) {
+        v[i + 2 * N] = i;
+    }
+    sort(v.begin(), v.end());
+
+    for (auto x : v) {
+        cout << x << endl;
     }
 
     int left = -1;
