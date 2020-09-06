@@ -22,8 +22,9 @@ void solve() {
     sort(v.begin(), v.end());
 
     auto it = upper_bound(v.begin(), v.end(), K);
+    auto pos = distance(v.begin(), it);
 
-    cout << it - v.begin() << endl;
+    cout << "pos=" << pos << endl;
 }
 
 int main() {
