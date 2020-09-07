@@ -11,56 +11,54 @@ using std::endl;
 using std::terminate;
 using std::string;
 
-string memo[3005][3005];
-
-char last(string s) {
-    return s[s.size() - 1];
+template<class T> inline T max(T X, T Y) {
+    return X > Y ? X : Y;
 }
 
-string lcs(string s, string t) {
-    if (memo[s.size()][t.size()] != "") {
-        return memo[s.size()][t.size()];
-    }
-
-    if (s.size() == 0 || t.size() == 0) {
-        return "";
-    }
-
-    if (last(s) == last(t)) {
-        char tmp = last(s);
-        s.pop_back();
-        t.pop_back();
-        memo[s.size()][t.size()] = lcs(s, t);
-        return memo[s.size()][t.size()].append(1, tmp);
-    }
-
-    string tmp = s;
-    s.pop_back();
-    string result1 = lcs(s, t);
-    memo[s.size()][t.size()] = result1;
-
-    s = tmp;
-    t.pop_back();
-    string result2 = lcs(s, t);
-    memo[s.size()][t.size()] = result2;
-
-    if (result1.size() > result2.size()) {
-        return result1;
-    } else {
-        return result2;
-    }
-}
-
+// trace back approach
 void solve() {
     string s, t; cin >> s >> t;
 
-    for (int i = 0; i < 3005; ++i) {
-        for (int j = 0; j < 3005; ++j) {
-            memo[i][j] = "";
+    int dp[s.size() + 1][t.size() + 1];
+    for (int i = 0; i < s.size() + 1; ++i) {
+        for (int j = 0; j < t.size() + 1; ++j) {
+            dp[i][j] = 0;
         }
     }
 
-    cout << lcs(s, t) << endl;
+    for (int i = 0; i < s.size(); ++i) {
+        for (int j = 0; j < t.size(); ++j) {
+            if (s[i] == t[j]) {
+                dp[i+1][j+1] = dp[i][j] + 1;
+            }
+            dp[i+1][j+1] = max(dp[i+1][j+1], dp[i+1][j]);
+            dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j+1]);
+        }
+    }
+
+    // for (int i = 0; i < s.size(); ++i) {
+    //     for (int j = 0; j < t.size(); ++j) {
+    //         if (j != t.size() - 1) cout << dp[i+1][j+1] << " ";
+    //         else cout << dp[i+1][j+1] << endl;
+    //     }
+    // }
+
+    string ans = "";
+    int i, j; i = s.size() - 1; j = t.size() - 1;
+    while (i >= 0 && j >= 0 && dp[i+1][j+1] != 0) {
+        if (dp[i+1][j+1] == dp[i+1][j]) {
+            --j;
+        } else if (dp[i+1][j+1] == dp[i][j+1]) {
+            --i;
+        } else if (dp[i+1][j+1] != dp[i+1][j] && dp[i+1][j+1] != dp[i][j+1]) {
+            ans.insert(ans.begin(), s[i]);
+            --i; --j;
+        } else {
+            // It's not reachable
+        }
+    }
+
+    cout << ans << endl;
 }
 
 int main() {
