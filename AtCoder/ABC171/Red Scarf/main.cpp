@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
-#include <map>
 
 #define DEV 1
 
@@ -11,12 +8,23 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
-using std::string;
-using std::vector;
-using std::map;
-using std::make_pair;
 
 void solve() {
+    int n; cin >> n;
+    int a[n];
+    int ans = 0;
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+        ans = ans ^ a[i];
+    }
+
+    for (int i = 0; i < n; ++i) {
+        if (i == n - 1) {
+            cout << (ans ^ a[i]) << endl;
+        } else {
+            cout << (ans ^ a[i]) << " ";
+        }
+    }
 }
 
 int main() {

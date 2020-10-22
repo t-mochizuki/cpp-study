@@ -2,8 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
-#include <map>
 
 #define DEV 1
 
@@ -12,11 +10,25 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::string;
-using std::vector;
-using std::map;
-using std::make_pair;
+
+string toString(long n) {
+    if (n > 26) {
+        char c[2];
+        c[0] = (char)(96 + (n % 26));
+        c[1] = '\0';
+        return toString(n / 26) + c;
+    } else {
+        char c[2];
+        c[0] = (char)(96 + n);
+        c[1] = '\0';
+        return c;
+    }
+}
 
 void solve() {
+    long n; cin >> n;
+
+    cout << toString(n) << endl;
 }
 
 int main() {
