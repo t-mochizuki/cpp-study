@@ -68,6 +68,24 @@ int median(int* A, int n) {
     }
 }
 
+// 素因数分解
+map<int, long> factorization(int n) {
+    map<int, long> m;
+    for (int i = 2; i * i <= n; ++i) {
+        long tmp = 0;
+        while (n % i == 0) {
+            tmp++;
+            n /= i;
+        }
+        m[i] = tmp;
+    }
+
+    if (n != 1) m[n] = 1;
+
+    return m;
+}
+
+// 階乗
 int factorial(int X) {
     int Y = 1;
     REP(1, i, X + 1) {
