@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 #define DEV 1
 
@@ -14,6 +15,8 @@ using std::terminate;
 using std::string;
 using std::vector;
 using std::sort;
+using std::map;
+using std::make_pair;
 
 void solve() {
     string T; cin >> T;
@@ -73,6 +76,38 @@ void solve() {
     }
 
     cout << "TF:" << TF << endl;
+
+    // TBとTFからTを求めよ
+    char TBC[ascii];
+    char TFC[ascii];
+    for (int i = 0; i < ascii; ++i) {
+        TBC[i] = '1';
+        TFC[i] = '1';
+    }
+    map<string, string> m;
+    for (int i = 0; i < n; ++i) {
+        char tbi = TBC[TB[i]]; TBC[TB[i]]++;
+        char tbs[3] = {TB[i], tbi, '\0'};
+
+        char tfi = TFC[TF[i]]; TFC[TF[i]]++;
+        char tfs[3] = {TF[i], tfi, '\0'};
+
+        m.insert(make_pair(tbs, tfs));
+    }
+
+    // for (auto& p : m) {
+    //     cout << p.first << ":" << p.second << endl;
+    // }
+
+    string tmp = "$1";
+    string S;
+    while (m[tmp] != "$1") {
+        S.push_back(m[tmp][0]);
+        tmp = m[tmp];
+    }
+    S.push_back('$');
+
+    cout << "T':" << S << endl;
 }
 
 int main() {
