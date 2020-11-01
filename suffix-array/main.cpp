@@ -46,9 +46,30 @@ void solve() {
 
     cout << "TB:" << TB << endl;
 
+    // ある文字より小さい文字のT中の出現回数を求めよ
+    const int  ascii = 128;
+    int C[ascii] = {0};
+    for (auto& c : TB) {
+        C[c]++;
+    }
+    int sum = 0;
+    for (int i = 0; i < ascii; ++i) {
+        int cur = C[i];
+        C[i] = sum;
+        sum += cur;
+    }
+
+    // TBからTFを求めよ
     string TF;
-    for (int i = 0; i < n; ++i) {
-        TF.push_back(T[sa[i]]);
+    // for (int i = 0; i < n; ++i) {
+    //     TF.push_back(T[sa[i]]);
+    // }
+    for (int i = 1; i < ascii; ++i) {
+        if (C[i-1] != C[i]) {
+            for (int j = C[i-1]; j < C[i]; ++j) {
+                TF.push_back((char)(i-1));
+            }
+        }
     }
 
     cout << "TF:" << TF << endl;
