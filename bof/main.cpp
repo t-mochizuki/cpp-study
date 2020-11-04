@@ -1,3 +1,4 @@
+/* g++ -fno-pie -fno-stack-protector -fzero-initialized-in-bss main.cpp */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +49,7 @@ void stack_dump(void* ptr, int counts)
     printf("  address | +0 +1 +2 +3 +4 +5 +6 +7 | 01234567 |         long var \n");
     printf("------------------------------------------------------------------\n");
     for(i=0; i<counts; i++) {
-        printf(" %08x |", &ulong_ptr[i]);
+        printf(" %p |", &ulong_ptr[i]);
         memcpy(uchar_buf, &ulong_ptr[i], sizeof(uchar_buf));
         printf(" %02x %02x %02x %02x %02x %02x %02x %02x |",
         uchar_buf[0], uchar_buf[1], uchar_buf[2], uchar_buf[3],
