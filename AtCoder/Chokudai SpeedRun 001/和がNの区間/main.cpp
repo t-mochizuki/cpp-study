@@ -18,10 +18,35 @@ using std::map;
 using std::make_pair;
 using std::sort;
 using std::to_string;
-using std::lower_bound;
-using std::distance;
 
 void solve() {
+    int n; cin >> n;
+    long a[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    long acc[n];
+    for (int i = 0; i < n; ++i) {
+        if (i==0) {
+            acc[i]=a[i];
+        } else {
+            acc[i]=acc[i-1]+a[i];
+        }
+    }
+    long ans = 0;
+    int j = -1;
+    for (int i = 0; i < n;) {
+        long v = (j==-1) ? acc[i] : acc[i]-acc[j];
+        if (v==n) {
+            ans++;
+            i++;
+        } else if (v>n) {
+            j++;
+        } else {
+            i++;
+        }
+    }
+    cout << ans << endl;
 }
 
 int main() {

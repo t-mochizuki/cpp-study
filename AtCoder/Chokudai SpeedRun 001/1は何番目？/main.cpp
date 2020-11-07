@@ -17,11 +17,25 @@ using std::vector;
 using std::map;
 using std::make_pair;
 using std::sort;
-using std::to_string;
-using std::lower_bound;
-using std::distance;
 
 void solve() {
+    int n; cin >> n;
+    int a[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    int ans = 0;
+    for (int i = 0; i < n; ++i) {
+        bool ok = true;
+        for (int j = 0; j < i; ++j) {
+            if (a[j] >= a[i]) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok) ans++;
+    }
+    cout << ans << endl;
 }
 
 int main() {
