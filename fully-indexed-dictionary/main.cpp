@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 #define DEV 1
 
@@ -14,6 +15,8 @@ using std::vector;
 using std::lower_bound;
 using std::upper_bound;
 using std::distance;
+using std::map;
+using std::make_pair;
 
 bool access(vector<bool> B, int i) {
     return B[i];
@@ -25,6 +28,10 @@ int select1(int* acc, int i) {
 }
 
 // B[0, n)中のi+1番目の0の位置を返す
+int select0(map<int, int> m, int i) {
+    return m[i];
+}
+
 int select0(vector<bool> B, int i) {
     int cnt = 0;
     vector<bool>::iterator it;
@@ -77,10 +84,18 @@ void solve() {
         if (i == n-1) cout << B[i] << endl;
         else cout << B[i];
     }
+    map<int, int> d;
+    int cnt = 0;
+    for (int i = 0; i < n; ++i) {
+        if (B[i] == false) {
+            d.insert(make_pair(cnt, i));
+            cnt++;
+        }
+    }
 
     int x; cin >> x;
     // cout << rank1(acc, acc+m, x) << endl;
-    cout << select0(B, x) << endl;
+    cout << select0(d, x) << endl;
 }
 
 int main() {
