@@ -30,7 +30,7 @@ void solve() {
 
     int l = 0;
     int r = 0;
-    int ans = 0;
+    long ans = 0;
     while (l<n) {
         while (r<n) {
             if (l==r||a[r]>a[r-1]) {
