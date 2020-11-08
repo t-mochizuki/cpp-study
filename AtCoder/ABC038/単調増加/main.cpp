@@ -28,15 +28,19 @@ void solve() {
         cin >> a[i];
     }
 
+    int l = 0;
+    int r = 0;
     int ans = 0;
-    for (int i = 0; i < n; ++i) {
-        for (int j = i; j < n; ++j) {
-            if (j==i) ans++;
-            else {
-                if (a[j]>a[j-1]) ans++;
-                else break;
+    while (l<n) {
+        while (r<n) {
+            if (l==r||a[r]>a[r-1]) {
+                r++;
+            } else {
+                break;
             }
         }
+        ans+=r-l;
+        l++;
     }
     cout << ans << endl;
 }
