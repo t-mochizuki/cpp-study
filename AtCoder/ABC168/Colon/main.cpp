@@ -10,11 +10,6 @@ using std::cout;
 using std::endl;
 using std::terminate;
 
-// TODO: WA
-
-const double pi = 2.0 * asin(1.0);
-const double radian = pi / 180.0;
-
 void solve() {
     int b, c;
     int h; // 0 <= h <= 11
@@ -25,16 +20,11 @@ void solve() {
     // cosα=(b^2 + c^2 - a^2) / 2bc
     // a^2=b^2 + c^2 - 2bc cosα
 
-    double hh = h * (360.0 / 12);
-    double mm = m * (360.0 / 60);
-    double r;
-    if (hh>mm) r=hh-mm;
-    else r=mm-hh;
-    if (r > 180) r-=180;
-    r*=radian;
+    long double hh = h * (2*M_PI / 12) + m * (2*M_PI / 12 / 60);
+    long double mm = m * (2*M_PI / 60);
+    long double r = hh-mm;
 
-    double ans = sqrt(b*b+c*c-2*b*c*cos(r));
-    printf("%.15g\n", ans);
+    printf("%20.20Lf\n", sqrtl(b*b+c*c-2*b*c*cosl(r)));
 }
 
 int main() {
