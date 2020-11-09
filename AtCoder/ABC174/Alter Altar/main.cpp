@@ -21,8 +21,6 @@ using std::to_string;
 using std::lower_bound;
 using std::distance;
 
-// TODO: WA
-
 template<class T> inline void swap(T &A, T &B) {
     T tmp = A;
     A = B;
@@ -58,6 +56,8 @@ void solve() {
         while (r>=0&&c[r]=='W') r--;
 
         if (r==0||c[r]=='W') break;
+
+        if (l>=r) break;
 
         swap(c[l], c[r]);
         ans++;
