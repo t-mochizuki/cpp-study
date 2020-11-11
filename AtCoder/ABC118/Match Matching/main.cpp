@@ -1,4 +1,3 @@
-// TODO: WA
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -56,7 +55,7 @@ void solve() {
     sort(a,a+m,greater<int>());
     int i=0;
     while (n!=0&&i<m) {
-        if (dp[n-num[a[i]]]==dp[n]-1) {
+        if (n>=num[a[i]]&&dp[n-num[a[i]]]==dp[n]-1) {
             cout << a[i];
             n-=num[a[i]];
         } else {
