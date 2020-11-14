@@ -20,55 +20,70 @@ using std::sort;
 using std::to_string;
 using std::lower_bound;
 using std::distance;
-
-// TODO: WA
+using std::max_element;
 
 const int INF = 1 << 30;
 
+template<class T> inline T max(T X, T Y) {
+    return X > Y ? X : Y;
+}
+
 class Box {
 public:
-    int m_w{INF};
-    int m_h{INF};
+    int _w{INF};
+    int _h{INF};
 
     Box() {}
     Box(int w, int h)
-        : m_w(w), m_h(h) {}
+        : _w(w), _h(h) {}
     bool operator<(const Box& rhs) const {
-        return m_w < rhs.m_w && m_h < rhs.m_h;
+        if (_w < rhs._w) {
+            return true;
+        } else if (_w == rhs._w) {
+            if (_h < rhs._h) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 };
 
 void solve() {
-    int n; cin >> n;
+    int n;cin>>n;
     Box boxes[n];
-    int w, h;
-    for (int i = 0; i < n; ++i) {
-        cin >> w >> h;
-        Box b(w, h);
+    int w,h;
+    for (int i=0;i<n;++i) {
+        cin>>w>>h;
+        Box b(w,h);
         boxes[i]=b;
     }
 
-    // for (int i = 0; i < n; ++i) {
-    //     cout << boxes[i].w << " " << boxes[i].h << endl;
-    // }
+    if (n>1000) {
+        terminate();
+    }
 
     sort(boxes,boxes+n);
 
-    Box dp[n+1];
-    for (int i = 0; i < n+1; ++i) {
-        Box b; dp[i]=b;
+    // for (int i = 0; i < n; ++i) {
+    //     cout<<boxes[i]._w<<" "<<boxes[i]._h<<endl;
+    // }
+
+    int dp[n];dp[0]=0;
+    for (int i=1;i<n;++i) {
+        dp[i]=0;
+        for (int j=0;j<i;++j) {
+            if (boxes[i]._w>boxes[j]._w&&boxes[i]._h>boxes[j]._h) {
+                dp[i]=max(dp[i],dp[j]+1);
+            }
+        }
     }
 
-    for (int i = 0; i < n; ++i) {
-        auto it = lower_bound(dp, dp+n+1, boxes[i]);
-        int j = distance(dp,it);
-        dp[j]=boxes[i];
-    }
-
-    Box b;
-    auto it = lower_bound(dp, dp+n+1, b);
-    int ans = distance(dp,it);
-    cout << ans << endl;
+    int ans=0;
+    ans=*(max_element(dp,dp+n));
+    cout<<ans+1<<endl;
 }
 
 int main() {
