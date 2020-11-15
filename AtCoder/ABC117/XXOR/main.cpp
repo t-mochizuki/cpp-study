@@ -21,27 +21,29 @@ using std::to_string;
 using std::lower_bound;
 using std::distance;
 
+long f(long x, long n, long* a) {
+    long ret=0;
+    for(long i=0;i<n;++i){ret+=x^a[i];}
+    return ret;
+}
+
 void solve() {
     long n,k;
     cin>>n>>k;
     long a[n];
     for(long i=0;i<n;++i){cin>>a[i];};
 
-    int b[40]={0};
-    for(long i=0;i<40;++i)
-    for(long x=0;x<n;++x){b[i]+=a[x]>>i&1L;}
-
-    // for(long i=0;i<40;++i){i==39?(cout<<b[i]<<endl):(cout<<b[i]);}
-
     long x=0;
-    for (long i=0;i<40;++i) {
-        if (b[i]<(n+1)/2&&k>1L<<i) x+=1L<<i;
+    for (long i=40;i>=0;--i) {
+        long tmp=x+(1L<<i);
+        if (tmp<=k) {
+            long f1=f(x,n,a);
+            long f2=f(tmp,n,a);
+            if (f2>f1) x=tmp;
+        }
     }
-    // cout<<"x="<<x<<endl;
 
-    long ans=0;
-    for(long i=0;i<n;++i){ans+=x^a[i];}
-    cout<<ans<<endl;
+    cout<<f(x,n,a)<<endl;
 }
 
 int main() {
