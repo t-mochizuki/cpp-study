@@ -48,41 +48,36 @@ public:
         if (value < _value) {
             if (_left != NULL) {
                 printf("Find %d on the left node(%d)\n", value, _left->_value);
-                return _left->find(value);
+                _left->find(value);
             } else {
                 cout << "Could not be found." << endl;
-                return ;
             }
         } else if (value > _value) {
             if (_right != NULL) {
                 printf("Find %d on the right node(%d)\n", value, _right->_value);
-                return _right->find(value);
+                _right->find(value);
             } else {
                 cout << "Could not be found." << endl;
-                return ;
             }
         } else {
             cout << "Could be found." << endl;
-            return ;
         }
     }
 
     void insert(int value) {
         if (value < _value) {
             if (_left != NULL) {
-                return _left->insert(value);
+                _left->insert(value);
             } else {
                 printf("Insert Node(%d) on the left.\n", value);
                 _left = new Node(value);
-                return ;
             }
         } else {
             if (_right != NULL) {
-                return _right->insert(value);
+                _right->insert(value);
             } else {
                 printf("Insert Node(%d) on the right.\n", value);
                 _right = new Node(value);
-                return ;
             }
         }
     }
@@ -95,7 +90,6 @@ public:
             } else {
                 cout << "Could not be found." << endl;
             }
-            return this;
         } else if (value > _value) {
             if (_right != NULL) {
                 printf("Erase %d on the right node(%d)\n", value, _right->_value);
@@ -103,7 +97,6 @@ public:
             } else {
                 cout << "Could not be found." << endl;
             }
-            return this;
         } else {
             cout << "Could be found." << endl;
 
@@ -114,13 +107,10 @@ public:
             } else if (_left == NULL || _right == NULL) {
                 printf("Delete a node(%d)\n", _value);
                 Node* tmp = _left != NULL ? _left : _right;
-                if (_left != NULL) {
-                    _left = NULL;
-                } else {
-                    _right = NULL;
-                }
-                delete this;
-                return tmp;
+                _value = tmp->_value;
+                delete tmp;
+                if (_left != NULL) _left = NULL;
+                else _right = NULL;
             } else {
                 Node* tmp = _right;
                 while (tmp->_left != NULL) {
@@ -128,9 +118,10 @@ public:
                 }
                 _value = tmp->_value;
                 _right = _right->erase(_value);
-                return this;
             }
         }
+
+        return this;
     }
 
     void print() {
