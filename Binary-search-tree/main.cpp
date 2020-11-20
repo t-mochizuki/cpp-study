@@ -53,12 +53,7 @@ public:
                 cout << "Could not be found." << endl;
                 return ;
             }
-        } else {
-            if (value == _value) {
-                cout << "Could be found." << endl;
-                return ;
-            }
-
+        } else if (value > _value) {
             if (_right != NULL) {
                 printf("Find %d on the right node(%d)\n", value, _right->_value);
                 return _right->find(value);
@@ -66,6 +61,9 @@ public:
                 cout << "Could not be found." << endl;
                 return ;
             }
+        } else {
+            cout << "Could be found." << endl;
+            return ;
         }
     }
 
@@ -85,6 +83,52 @@ public:
                 printf("Insert Node(%d) on the right.\n", value);
                 _right = new Node(value);
                 return ;
+            }
+        }
+    }
+
+    Node* erase(int value) {
+        if (value < _value) {
+            if (_left != NULL) {
+                printf("Erase %d on the left node(%d)\n", value, _left->_value);
+                _left = _left->erase(value);
+            } else {
+                cout << "Could not be found." << endl;
+            }
+            return this;
+        } else if (value > _value) {
+            if (_right != NULL) {
+                printf("Erase %d on the right node(%d)\n", value, _right->_value);
+                _right = _right->erase(value);
+            } else {
+                cout << "Could not be found." << endl;
+            }
+            return this;
+        } else {
+            cout << "Could be found." << endl;
+
+            if (_left == NULL && _right == NULL) {
+                printf("Delete a node(%d)\n", _value);
+                delete this;
+                return NULL;
+            } else if (_left == NULL || _right == NULL) {
+                printf("Delete a node(%d)\n", _value);
+                Node* tmp = _left != NULL ? _left : _right;
+                if (_left != NULL) {
+                    _left = NULL;
+                } else {
+                    _right = NULL;
+                }
+                delete this;
+                return tmp;
+            } else {
+                Node* tmp = _right;
+                while (tmp->_left != NULL) {
+                    tmp = tmp->_left;
+                }
+                _value = tmp->_value;
+                _right = _right->erase(_value);
+                return this;
             }
         }
     }
@@ -109,11 +153,15 @@ public:
     BinarySearchTree(Node& node): _node(node) {}
 
     void find(int value) {
-        return _node.find(value);
+        _node.find(value);
     }
 
     void insert(int value) {
-        return _node.insert(value);
+        _node.insert(value);
+    }
+
+    void erase(int value) {
+        _node.erase(value);
     }
 
     void print() {
@@ -126,17 +174,20 @@ void solve() {
     int a[n];
     for (int i = 0; i < n; ++i) { cin >> a[i]; }
 
-    Node root = Node(3);
+    Node root = Node(a[0]);
     BinarySearchTree tree = BinarySearchTree(root);
-    cout<<tree._node._value<<endl;
 
-    for (int i = 0; i < n; ++i) {
-        root.insert(a[i]);
+    for (int i = 1; i < n; ++i) {
+        tree.insert(a[i]);
     }
 
-    root.find(5);
+    tree.find(5);
 
-    root.print();
+    tree.print();
+
+    tree.erase(10);
+    tree.erase(6);
+    tree.erase(2);
 }
 
 int main() {
