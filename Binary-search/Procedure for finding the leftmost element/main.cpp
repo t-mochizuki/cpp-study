@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <print>
 
 #define DEV 1
 
@@ -20,6 +21,7 @@ using std::sort;
 using std::to_string;
 using std::lower_bound;
 using std::distance;
+using nutshell::print;
 
 const int KEY_NOT_FOUND = -1;
 
@@ -34,24 +36,6 @@ int binary_search_leftmost(vector<long> arr, int value, int left, int right) {
         }
     } else {
         return left;
-    }
-}
-
-void print(vector<long> arr, int pos) {
-    for (int i = 0; i < arr.size(); ++i) {
-        if (i == arr.size() - 1) {
-            if (i == pos) {
-                cout << "(" << arr[i] << ")" << endl;
-            } else {
-                cout << arr[i] << endl;
-            }
-        } else {
-            if (i == pos) {
-                cout << "(" << arr[i] << ")" << " ";
-            } else {
-                cout << arr[i] << " ";
-            }
-        }
     }
 }
 

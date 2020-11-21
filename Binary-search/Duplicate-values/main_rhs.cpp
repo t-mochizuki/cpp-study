@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <print>
 
 #define DEV 1
 
@@ -12,26 +13,9 @@ using std::endl;
 using std::terminate;
 using std::vector;
 using std::sort;
+using nutshell::print;
 
 const long INF = 1L << 61;
-
-void print(vector<long> arr, int pos) {
-    for (int i = 0; i < arr.size(); ++i) {
-        if (i == arr.size() - 1) {
-            if (i == pos) {
-                cout << "(" << arr[i] << ")" << endl;
-            } else {
-                cout << arr[i] << endl;
-            }
-        } else {
-            if (i == pos) {
-                cout << "(" << arr[i] << ")" << " ";
-            } else {
-                cout << arr[i] << " ";
-            }
-        }
-    }
-}
 
 void solve() {
     int N, K; cin >> N >> K;
