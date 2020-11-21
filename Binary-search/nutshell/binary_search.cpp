@@ -35,6 +35,7 @@ int binary_search_rightmost(vector<long> arr, int value, int left, int right) {
         // the ceiling of (L + R) / 2
         int pivot = left + (right - left + 1) / 2;
         if (value < arr[pivot]) {
+            // The value is on the left side of the pivot.
             return binary_search_rightmost(arr, value, left, pivot - 1);
         } else {
             return binary_search_rightmost(arr, value, pivot, right);
@@ -53,6 +54,7 @@ int binary_search_leftmost(vector<long> arr, int value, int left, int right) {
         // the floor of (L + R) / 2
         int pivot = left + (right - left) / 2;
         if (arr[pivot] < value) {
+            // The value is on the right side of the pivot.
             return binary_search_leftmost(arr, value, pivot + 1, right);
         } else {
             return binary_search_leftmost(arr, value, left, pivot);
