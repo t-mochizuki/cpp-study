@@ -55,8 +55,12 @@ void solve() {
         }
     }
 
-    printf("It was found %d in the array\n", left);
-    print(v, left);
+    if (v[left] == K) {
+        printf("It was found the element array[%d] in the array\n", left);
+        print(v, left);
+    } else {
+        cout << "Could not be found" << endl;
+    }
 }
 
 int main() {

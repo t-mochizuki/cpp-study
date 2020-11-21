@@ -68,8 +68,12 @@ void solve() {
 
     int pos = binary_search_leftmost(v, K, 0, v.size());
 
-    printf("It was found %d in the array\n", pos);
-    print(v, pos);
+    if (v[pos] == K) {
+        printf("It was found the element array[%d] in the array\n", pos);
+        print(v, pos);
+    } else {
+        cout << "Could not be found" << endl;
+    }
 }
 
 int main() {
