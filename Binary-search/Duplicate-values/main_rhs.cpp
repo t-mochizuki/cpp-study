@@ -55,6 +55,7 @@ void solve() {
         }
     }
 
+    printf("It was found %d in the array\n", left);
     print(v, left);
 }
 

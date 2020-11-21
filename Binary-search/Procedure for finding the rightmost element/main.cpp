@@ -68,6 +68,7 @@ void solve() {
 
     int pos = binary_search_rightmost(v, K, 0, v.size());
 
+    printf("It was found %d in the array\n", pos);
     print(v, pos);
 }
 
