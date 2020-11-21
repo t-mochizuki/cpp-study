@@ -19,12 +19,27 @@ void solve() {
     for (int i = 0; i < N; ++i) {
         cin >> v[i];
     }
-    sort(v.begin(), v.end());
+
+    printf("Find the value grater than or equal to %d in an array\n", K);
 
     auto it = lower_bound(v.begin(), v.end(), K);
     auto pos = distance(v.begin(), it);
 
-    cout << "pos=" << pos << endl;
+    for (int i = 0; i < N; ++i) {
+        if (i == N - 1) {
+            if (i == pos) {
+                cout << "(" << v[i] << ")" << endl;
+            } else {
+                cout << v[i] << endl;
+            }
+        } else {
+            if (i == pos) {
+                cout << "(" << v[i] << ")" << " ";
+            } else {
+                cout << v[i] << " ";
+            }
+        }
+    }
 }
 
 int main() {
