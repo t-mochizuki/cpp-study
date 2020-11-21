@@ -15,39 +15,47 @@ using std::sort;
 
 const long INF = 1L << 61;
 
+void print(vector<long> arr, int pos) {
+    for (int i = 0; i < arr.size(); ++i) {
+        if (i == arr.size() - 1) {
+            if (i == pos) {
+                cout << "(" << arr[i] << ")" << endl;
+            } else {
+                cout << arr[i] << endl;
+            }
+        } else {
+            if (i == pos) {
+                cout << "(" << arr[i] << ")" << " ";
+            } else {
+                cout << arr[i] << " ";
+            }
+        }
+    }
+}
+
 void solve() {
     int N, K; cin >> N >> K;
-    vector<long> v(3 * N);
-    for (int i = 0; i < N; ++i) {
-        v[i] = i;
-    }
-    for (int i = 0; i < N; ++i) {
-        v[i + N] = i;
-    }
-    for (int i = 0; i < N; ++i) {
-        v[i + 2 * N] = i;
+    int D = 5;
+    vector<long> v(D * N);
+    for (int i = 0; i < N; ++i) for (int j = 0; j < D; ++j) {
+        v[i+N*j] = i;
     }
     sort(v.begin(), v.end());
 
-    for (auto x : v) {
-        cout << x << endl;
-    }
+    printf("Find %d in an array\n", K);
 
     int left = -1;
     int right = v.size();
     while (right - left > 1) {
         int pivot = (left + right) / 2;
         if (v[pivot] >= K) {
-            cout << "right " << pivot << endl;
             right = pivot;
         } else {
-            cout << "left " << pivot << endl;
             left = pivot;
         }
     }
 
-    cout << "K=" << K << endl;
-    cout << "v[" << right << "]=" << v[right] << endl;
+    print(v, right);
 }
 
 int main() {

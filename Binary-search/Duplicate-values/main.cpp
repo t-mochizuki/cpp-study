@@ -70,8 +70,9 @@ void print(vector<long> arr, int pos) {
 
 void solve() {
     int N, K; cin >> N >> K;
-    vector<long> v(3 * N);
-    for (int i = 0; i < N; ++i) for (int j = 0; j < 3; ++j) {
+    int D = 5;
+    vector<long> v(D * N);
+    for (int i = 0; i < N; ++i) for (int j = 0; j < D; ++j) {
         v[i+N*j] = i;
     }
     sort(v.begin(), v.end());
