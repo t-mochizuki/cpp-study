@@ -15,7 +15,8 @@ using std::terminate;
 using std::vector;
 using std::sort;
 using nutshell::binary_search;
-using nutshell::binary_search_alternative;
+using nutshell::binary_search_rightmost;
+using nutshell::binary_search_leftmost;
 using nutshell::print;
 
 const long INF = 1L << 61;
@@ -35,7 +36,11 @@ void solve() {
 
     print(v, pos);
 
-    pos = binary_search_alternative(v, K, 0, v.size() - 1);
+    pos = binary_search_rightmost(v, K, 0, v.size() - 1);
+
+    print(v, pos);
+
+    pos = binary_search_leftmost(v, K, 0, v.size() - 1);
 
     print(v, pos);
 }

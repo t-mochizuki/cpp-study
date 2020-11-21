@@ -24,7 +24,8 @@ using std::to_string;
 using std::lower_bound;
 using std::distance;
 using nutshell::binary_search;
-using nutshell::binary_search_alternative;
+using nutshell::binary_search_rightmost;
+using nutshell::binary_search_leftmost;
 using nutshell::print;
 
 void solve() {
@@ -40,7 +41,11 @@ void solve() {
 
     print(v, pos);
 
-    pos = binary_search_alternative(v, K, 0, v.size() - 1);
+    pos = binary_search_rightmost(v, K, 0, v.size() - 1);
+
+    print(v, pos);
+
+    pos = binary_search_leftmost(v, K, 0, v.size() - 1);
 
     print(v, pos);
 }

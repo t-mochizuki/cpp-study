@@ -24,7 +24,7 @@ int binary_search(vector<long> arr, int value, int left, int right) {
     }
 }
 
-int binary_search_alternative(vector<long> arr, int value, int left, int right) {
+int binary_search_rightmost(vector<long> arr, int value, int left, int right) {
     if (right == left) {
         if (arr[right] == value) {
             return right;
@@ -35,9 +35,27 @@ int binary_search_alternative(vector<long> arr, int value, int left, int right) 
         // the ceiling of (L + R) / 2
         int pivot = left + (right - left + 1) / 2;
         if (value < arr[pivot]) {
-            return binary_search_alternative(arr, value, left, pivot - 1);
+            return binary_search_rightmost(arr, value, left, pivot - 1);
         } else {
-            return binary_search_alternative(arr, value, pivot, right);
+            return binary_search_rightmost(arr, value, pivot, right);
+        }
+    }
+}
+
+int binary_search_leftmost(vector<long> arr, int value, int left, int right) {
+    if (right == left) {
+        if (arr[right] == value) {
+            return right;
+        } else {
+            return KEY_NOT_FOUND;
+        }
+    } else {
+        // the floor of (L + R) / 2
+        int pivot = left + (right - left) / 2;
+        if (arr[pivot] < value) {
+            return binary_search_leftmost(arr, value, pivot + 1, right);
+        } else {
+            return binary_search_leftmost(arr, value, left, pivot);
         }
     }
 }
