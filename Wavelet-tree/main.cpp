@@ -30,7 +30,8 @@ public:
 
     int _n;
     string _value;
-    vector<bool> B;
+    vector<bool> _B;
+    int _p = 0;
     Node* _left = NULL;
     Node* _right = NULL;
 
@@ -44,10 +45,10 @@ public:
                 int tmp = a2i(c);
                 if ((tmp >> bitNum & 1) == 0) {
                     lvalue.push_back(c);
-                    B.push_back(false);
+                    _B.push_back(false);
                 } else {
                     rvalue.push_back(c);
-                    B.push_back(true);
+                    _B.push_back(true);
                 }
             }
             if (!(lvalue.empty())) {
@@ -93,16 +94,30 @@ public:
             _left->bitprint();
         }
 
-        for (int i = 0; i < B.size(); ++i) {
-            if (i == B.size() - 1) {
-                cout << B[i] << endl;
+        for (int i = 0; i < _B.size(); ++i) {
+            if (i == _B.size() - 1) {
+                cout << _B[i] << endl;
             } else {
-                cout << B[i];
+                cout << _B[i];
             }
         }
 
         if (_right != NULL) {
             _right->bitprint();
+        }
+    }
+
+    string decode() {
+        if (_p < _B.size()) {
+            bool b = _B[_p];
+            _p++;
+            if (b) {
+                return _right->decode();
+            } else {
+                return _left->decode();
+            }
+        } else {
+            return _value;
         }
     }
 };
@@ -123,6 +138,14 @@ public:
 
     void bitprint() {
         _root.bitprint();
+    }
+
+    void decode() {
+        string s;
+        for (auto _ : _root._B) {
+            s += _root.decode();
+        }
+        cout << s << endl;
     }
 };
 
@@ -152,6 +175,7 @@ void solve() {
     WaveletTree tree = WaveletTree(node);
     tree.insert();
     tree.bitprint();
+    tree.decode();
 }
 
 int main() {
