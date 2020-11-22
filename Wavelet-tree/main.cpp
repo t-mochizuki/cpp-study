@@ -30,6 +30,7 @@ public:
 
     int _n;
     string _value;
+    vector<bool> B;
     Node* _left = NULL;
     Node* _right = NULL;
 
@@ -43,8 +44,10 @@ public:
                 int tmp = a2i(c);
                 if ((tmp >> bitNum & 1) == 0) {
                     lvalue.push_back(c);
+                    B.push_back(false);
                 } else {
                     rvalue.push_back(c);
+                    B.push_back(true);
                 }
             }
             if (!(lvalue.empty())) {
@@ -55,6 +58,8 @@ public:
                 _right = new Node(bitNum, rvalue);
                 _right->insert();
             }
+        } else {
+            _value = _value.substr(0, 1);
         }
     }
 
@@ -82,13 +87,31 @@ public:
             _right->print();
         }
     }
+
+    void bitprint() {
+        if (_left != NULL) {
+            _left->bitprint();
+        }
+
+        for (int i = 0; i < B.size(); ++i) {
+            if (i == B.size() - 1) {
+                cout << B[i] << endl;
+            } else {
+                cout << B[i];
+            }
+        }
+
+        if (_right != NULL) {
+            _right->bitprint();
+        }
+    }
 };
 
-class BinaryTree {
+class WaveletTree {
 public:
 
     Node _root;
-    BinaryTree(Node& node): _root(node) {}
+    WaveletTree(Node node): _root(node) {}
 
     void insert() {
         _root.insert();
@@ -96,6 +119,10 @@ public:
 
     void print() {
         _root.print();
+    }
+
+    void bitprint() {
+        _root.bitprint();
     }
 };
 
@@ -122,9 +149,9 @@ void solve() {
     }
 
     Node node = Node(bitNum, T);
-    BinaryTree tree = BinaryTree(node);
+    WaveletTree tree = WaveletTree(node);
     tree.insert();
-    tree.print();
+    tree.bitprint();
 }
 
 int main() {
