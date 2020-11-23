@@ -32,10 +32,11 @@ public:
     string _value;
     vector<bool> _B;
     int _p = 0;
+    bool _isroot = false;
     Node* _left = NULL;
     Node* _right = NULL;
 
-    Node(int n, string value): _n(n), _value(value) {}
+    Node(int n, string value, bool isroot): _n(n), _value(value), _isroot(isroot) {}
 
     void insert() {
         if (_n > 0) {
@@ -52,11 +53,11 @@ public:
                 }
             }
             if (!(lvalue.empty())) {
-                _left = new Node(bitNum, lvalue);
+                _left = new Node(bitNum, lvalue, false);
                 _left->insert();
             }
             if (!(rvalue.empty())) {
-                _right = new Node(bitNum, rvalue);
+                _right = new Node(bitNum, rvalue, false);
                 _right->insert();
             }
         } else {
@@ -120,6 +121,22 @@ public:
             return _value;
         }
     }
+
+    bool isroot() {
+        return _isroot;
+    }
+
+    bool isleaf() {
+        if (_left == NULL && _right == NULL) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    Node* leaf(string s) {
+        return NULL; // TODO
+    }
 };
 
 class WaveletTree {
@@ -147,6 +164,14 @@ public:
         }
         cout << s << endl;
     }
+
+    Node root() {
+        return _root;
+    }
+
+    Node* leaf(string s) {
+        return _root.leaf(s);
+    }
 };
 
 int a2i(char a) {
@@ -171,7 +196,7 @@ void solve() {
         bitNum++;
     }
 
-    Node node = Node(bitNum, T);
+    Node node = Node(bitNum, T, true);
     WaveletTree tree = WaveletTree(node);
     tree.insert();
     tree.bitprint();
