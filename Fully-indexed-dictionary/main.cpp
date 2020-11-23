@@ -21,7 +21,11 @@ bool access(vector<bool> B, int i) {
 
 // B[0, n)中のi+1番目の1の位置を返す
 int select1(int* acc, int i) {
-    return acc[i] + (-1);
+    if (i == -1) {
+        return -1;
+    } else {
+        return acc[i] + (-1);
+    }
 }
 
 // B[0, n)中のi+1番目の0の位置を返す
@@ -52,17 +56,13 @@ int rank0(int* first, int* last, int i) {
 
 void solve() {
     int m; cin >> m;
-    int P[m]; // 正整数列
-    int n = 0;
+    int P[m]; // 正整数列P[0, m)
+    int n = 0; // ビット列の長さ
     int acc[m];
     for (int i = 0; i < m; ++i) {
         cin >> P[i];
         n += P[i];
         acc[i] = n;
-    }
-    for (int i = 0; i < m; ++i) {
-        if (i == m-1) cout << acc[i] << endl;
-        else cout << acc[i] << " ";
     }
 
     // 正整数列の各要素をアルファ符号で表したものを順につなげたビット列を求めよ
@@ -73,14 +73,20 @@ void solve() {
     for (int i = 0; i < m; ++i) {
         B[acc[i]-1]=true;
     }
-    for (int i = 0; i < n; ++i) {
-        if (i == n-1) cout << B[i] << endl;
-        else cout << B[i];
+
+    // P[0]+P[1]+P[2]
+    if (select1(acc, 2) - select1(acc, -1) != 6) {
+        terminate();
     }
 
-    int x; cin >> x;
-    // cout << rank1(acc, acc+m, x) << endl;
-    cout << select0(B, x) << endl;
+    // P[4]
+    if (select1(acc, 4) - select1(acc, 3) != P[4]) {
+        terminate();
+    }
+
+    if (rank1(acc, acc+m, 4) != 1) {
+        terminate();
+    }
 }
 
 int main() {
