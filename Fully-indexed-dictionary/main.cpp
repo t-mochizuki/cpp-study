@@ -15,49 +15,64 @@ using std::lower_bound;
 using std::upper_bound;
 using std::distance;
 
-bool access(vector<bool> B, int i) {
-    return B[i];
-}
+class FullyIndexedDictionary {
+public:
 
-// B[0, n)中のi+1番目の1の位置を返す
-int select1(int* acc, int i) {
-    if (i == -1) {
-        return -1;
-    } else {
-        return acc[i] + (-1);
-    }
-}
-
-// B[0, n)中のi+1番目の0の位置を返す
-int select0(vector<bool> B, int i) {
-    int cnt = 0;
-    vector<bool>::iterator it;
-    for (it = B.begin(); it != B.end(); ++it) {
-        if ((*it) == 0) {
-            cnt++;
-        }
-        if (cnt == i+1) {
-            break;
+    vector<bool> _B;
+    int widthOfChunk = 8;
+    vector<int> _chunk; // 幅は256
+    int widthOfBlock = 4;
+    vector<int> _block; // 幅は8
+    FullyIndexedDictionary(vector<bool> B): _B(B) {
+        int cnt = 0;
+        for (int i = 0; i < B.size(); ++i) {
+            if (i % widthOfChunk == 0) {
+                _chunk.push_back(cnt);
+            }
+            if (i % widthOfBlock == 0) {
+                _block.push_back(cnt - _chunk.back());
+            }
+            if (_B[i]) {
+                cnt++;
+            }
         }
     }
-    return distance(B.begin(), it);
-}
 
-// B[0, i)中の1の数を返す
-int rank1(int* first, int* last, int i) {
-    auto it = upper_bound(first, last, i);
-    return distance(first, it);
-}
+    bool access(int i) {
+        return _B[i];
+    }
 
-// B[0, i)中の0の数を返す
-int rank0(int* first, int* last, int i) {
-    return i - rank1(first, last, i);
-}
+    int rank1(int i) {
+        int ichunk = i / widthOfChunk;
+        int iblock = i / widthOfBlock;
+        int cnt = 0;
+        for (int j = (iblock * widthOfBlock); j < i; ++j) {
+            if (_B[j]) {
+                cnt++;
+            }
+        }
+        return _chunk[ichunk] + _block[iblock] + cnt;
+    }
+
+    int rank0(int i) {
+        return i - rank1(i);
+    }
+
+    int select1(int i) {
+        return 0; // TODO
+    }
+
+    int select0(int i) {
+        return 0; // TODO
+    }
+
+};
+
 
 void solve() {
     int m; cin >> m;
     int P[m]; // 正整数列P[0, m)
-    int n = 0; // ビット列の長さ
+    int n = 0; // ビット列の長さ (2^16以下とする)
     int acc[m];
     for (int i = 0; i < m; ++i) {
         cin >> P[i];
@@ -74,18 +89,22 @@ void solve() {
         B[acc[i]-1]=true;
     }
 
-    // P[0]+P[1]+P[2]
-    if (select1(acc, 2) - select1(acc, -1) != 6) {
-        terminate();
+    for (int i = 0; i < n; ++i) {
+        if (i == n - 1) {
+            cout << B[i] << endl;
+        } else {
+            cout << B[i];
+        }
     }
 
-    // P[4]
-    if (select1(acc, 4) - select1(acc, 3) != P[4]) {
-        terminate();
+    FullyIndexedDictionary f = FullyIndexedDictionary(B);
+
+    for (int i = 0; i <= n; ++i) {
+        printf("rank1(B, %d)=%d\n", i, f.rank1(i));
     }
 
-    if (rank1(acc, acc+m, 4) != 1) {
-        terminate();
+    for (int i = 0; i <= n; ++i) {
+        printf("rank0(B, %d)=%d\n", i, f.rank0(i));
     }
 }
 
