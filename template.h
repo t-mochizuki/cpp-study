@@ -28,6 +28,13 @@ template<class T> inline void swap(T &A, T &B) {
     B = tmp;
 }
 
+inline reverse(int N, int A[]) {
+    for (int i = 0; i < N / 2; ++i) {
+        int j = N - i - 1;
+        swap(A[i], A[j]);
+    }
+}
+
 // greatest common divisor
 template<class T> inline T gcd(T a, T b) {
   while (b > 0) {
