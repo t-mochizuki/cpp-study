@@ -17,7 +17,7 @@ public:
     int tail = 0;
     int* _a = NULL;
 
-    Queue(int* a): _a(a) {};
+    Queue(int* a): _a(a) {}
     Queue(const Queue&) = default;
     Queue& operator=(const Queue&) = delete;
 
