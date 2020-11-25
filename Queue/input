@@ -1,0 +1,8 @@
+1
+6
+enqueue 4
+enqueue 8
+enqueue 1
+dequeue
+enqueue 7
+dequeue
