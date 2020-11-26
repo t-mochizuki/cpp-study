@@ -13,3 +13,4 @@
 - [Disjoint-set data structure](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
 - [素集合データ構造](https://ja.wikipedia.org/wiki/%E7%B4%A0%E9%9B%86%E5%90%88%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0)
 - [Union-Find 木](https://yutaka-watanobe.github.io/star-aida/books/pseudo_code/disjoint_set_simulation/code.html)
+- [互いに素な集合](https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/1/DSL_1_A)
