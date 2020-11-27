@@ -48,7 +48,7 @@ public:
 
             int j = parent(i);
 
-            if (_a[i]._value >= _a[j]._value) {
+            if (_a[i] >= _a[j]) {
                 break;
             }
 
@@ -67,7 +67,7 @@ public:
                 break;
             }
 
-            if (_a[l]._value < _a[j]._value) {
+            if (_a[l] < _a[j]) {
                 j = l;
             }
 
@@ -76,7 +76,7 @@ public:
                 break;
             }
 
-            if (_a[r]._value < _a[j]._value) {
+            if (_a[r] < _a[j]) {
                 j = r;
             }
 
@@ -107,9 +107,9 @@ public:
     void print() {
         for (int i = 0; i < _heapSize; ++i) {
             if (i == _heapSize - 1) {
-                cout << _a[i]._w << endl;
+                cout << _a[i] << endl;
             } else {
-                cout << _a[i]._w << " ";
+                cout << _a[i] << " ";
             }
         }
     }

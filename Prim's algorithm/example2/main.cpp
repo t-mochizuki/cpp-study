@@ -27,6 +27,22 @@ public:
 
     Edge() {}
     Edge(int v, int w, int value): _v(v), _w(w), _value(value) {}
+
+    friend bool operator<(const Edge& lhs, const Edge& rhs) {
+        return lhs._value < rhs._value;
+    }
+    friend bool operator>(const Edge& lhs, const Edge& rhs) { return rhs < lhs; }
+    friend bool operator<=(const Edge& lhs, const Edge& rhs) { return !(lhs > rhs); }
+    friend bool operator>=(const Edge& lhs, const Edge& rhs) { return !(lhs < rhs); }
+    friend bool operator==(const Edge& lhs, const Edge& rhs) {
+        return lhs._value == rhs._value;
+    }
+    friend bool operator!=(const Edge& lhs, const Edge& rhs) { return !(lhs == rhs); }
+
+    friend std::ostream& operator<<(std::ostream& os, const Edge& e)
+    {
+        return os << e._w;
+    }
 };
 
 void solve() {
