@@ -1,11 +1,8 @@
 #ifndef DISJOINT_SET
 #define DISJOINT_SET 1
 
-#include <iostream>
 #include <vector>
 
-using std::cout;
-using std::endl;
 using std::vector;
 
 namespace nutshell {
@@ -67,5 +64,6 @@ public:
     }
 };
 
-}
+} // namespace nutshell
+
 #endif // DISJOINT_SET
