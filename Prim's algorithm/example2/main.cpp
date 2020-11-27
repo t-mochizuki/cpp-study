@@ -1,4 +1,4 @@
-// g++ -std=c++11 main.cpp -I ..
+// g++ -std=c++11 main.cpp -I ../..
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -14,7 +14,7 @@ using std::endl;
 using std::terminate;
 using std::vector;
 using std::set;
-using nutshell::Heap;
+using nutshell::MinHeap;
 
 const int INF = 1 << 30;
 
@@ -55,7 +55,7 @@ void solve() {
     }
 
     Edge b[10000];
-    Heap<Edge> h(0, b);
+    MinHeap<Edge> h(0, b);
 
     vector<int> C;
     C.resize(n+1, INF);

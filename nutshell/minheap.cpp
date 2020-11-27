@@ -1,5 +1,5 @@
-#ifndef HEAP
-#define HEAP 1
+#ifndef MIN_HEAP
+#define MIN_HEAP 1
 
 #include <iostream>
 #include <vector>
@@ -11,12 +11,12 @@ using std::vector;
 namespace nutshell {
 
 template<class T>
-class Heap {
+class MinHeap {
 public:
     T* _a = NULL;
     int _heapSize;
 
-    Heap(int heapSize, T* a): _heapSize(heapSize), _a(a) {}
+    MinHeap(int heapSize, T* a): _heapSize(heapSize), _a(a) {}
 
     T top() {
         return _a[0];
@@ -117,4 +117,4 @@ public:
 
 } // namespace nutshell
 
-#endif // HEAP
+#endif // MIN_HEAP
