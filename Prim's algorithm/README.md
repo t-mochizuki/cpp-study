@@ -8,4 +8,4 @@
 
 - [Prim's algorithm](https://en.wikipedia.org/wiki/Prim%27s_algorithm)
 - [最小全域木](https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/12/ALDS1_12_A)
-- [最小木問題（その２）](http://www.dais.is.tohoku.ac.jp/~shioura/teaching/ad09/ad09-10.pdf)
+- [第10回目 --- グラフのデータ構造，最小木問題（その２）](http://www.dais.is.tohoku.ac.jp/~shioura/teaching/ad09/ad09-10.pdf)
