@@ -13,3 +13,4 @@
 - [最短経路問題](https://ja.wikipedia.org/wiki/%E6%9C%80%E7%9F%AD%E7%B5%8C%E8%B7%AF%E5%95%8F%E9%A1%8C)
 - [Shortest-path tree](https://en.wikipedia.org/wiki/Shortest-path_tree)
 - [単一始点最短経路](https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/12/ALDS1_12_B)
+- [単一始点最短経路 II](https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/12/ALDS1_12_C)
