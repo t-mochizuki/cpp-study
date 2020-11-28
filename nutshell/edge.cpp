@@ -10,12 +10,12 @@ const int INF = 1 << 30;
 class Edge {
 public:
 
+    int _u = -1;
     int _v = -1;
-    int _w = -1;
     int _value = INF;
 
     Edge() {}
-    Edge(int v, int w, int value): _v(v), _w(w), _value(value) {}
+    Edge(int u, int v, int value): _u(u), _v(v), _value(value) {}
 
     friend bool operator<(const Edge& lhs, const Edge& rhs) {
         return lhs._value < rhs._value;
@@ -30,7 +30,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Edge& e)
     {
-        return os << e._w;
+        return os << e._v;
     }
 };
 

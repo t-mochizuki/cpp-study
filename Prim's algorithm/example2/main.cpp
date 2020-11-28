@@ -60,10 +60,10 @@ void solve() {
 
             Edge e = h.extract();
 
-            auto it = F.find(e._w);
+            auto it = F.find(e._v);
             if (it == F.end()) {
                 cost = e._value;
-                vertex = e._w;
+                vertex = e._v;
                 break;
             }
         }

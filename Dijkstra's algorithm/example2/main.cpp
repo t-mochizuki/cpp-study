@@ -57,7 +57,7 @@ void solve() {
 
     while (h._heapSize != 0) {
         Edge tmp = h.extract();
-        int u = tmp._w;
+        int u = tmp._v;
         int cost = tmp._value;
 
         if (dist[u] < cost) {
@@ -67,13 +67,13 @@ void solve() {
         T.insert(u);
 
         for (auto e : E[u]) {
-            if (T.find(e._w) != T.end()) {
+            if (T.find(e._v) != T.end()) {
                 continue;
             }
-            if (dist[e._w] > dist[u] + e._value) {
-                dist[e._w] = dist[u] + e._value;
-                h.insert(Edge(u, e._w, dist[e._w]));
-                parent[e._w] = u;
+            if (dist[e._v] > dist[u] + e._value) {
+                dist[e._v] = dist[u] + e._value;
+                h.insert(Edge(u, e._v, dist[e._v]));
+                parent[e._v] = u;
             }
         }
     }

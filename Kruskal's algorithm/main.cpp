@@ -40,8 +40,8 @@ void solve() {
 
     int ans = 0;
     for (auto e : E) {
-        if (F.find(e._v) != F.find(e._w)) {
-            F.merge(e._v, e._w);
+        if (F.find(e._u) != F.find(e._v)) {
+            F.merge(e._u, e._v);
             ans += e._value;
         }
     }
