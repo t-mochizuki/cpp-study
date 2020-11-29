@@ -1,21 +1,21 @@
 #ifndef EDGE
 #define EDGE 1
 
-#include <iostream>
-
 namespace nutshell {
 
-const int INF = 1 << 30;
+#include <iostream>
+
+const long INF = 1L << 30;
 
 class Edge {
 public:
 
     int _u = -1;
     int _v = -1;
-    int _value = INF;
+    long _value = INF;
 
     Edge() {}
-    Edge(int u, int v, int value): _u(u), _v(v), _value(value) {}
+    Edge(int u, int v, long value): _u(u), _v(v), _value(value) {}
 
     friend bool operator<(const Edge& lhs, const Edge& rhs) {
         return lhs._value < rhs._value;

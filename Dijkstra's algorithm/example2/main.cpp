@@ -17,7 +17,7 @@ using std::set;
 using nutshell::Edge;
 using nutshell::MinHeap;
 
-const int INF = 1 << 30;
+const long INF = 1L << 60;
 
 void solve() {
     int n; cin >> n;
@@ -29,16 +29,16 @@ void solve() {
         int k; cin >> k;
         for (int j = 0; j < k; ++j) {
             int v; cin >> v;
-            int c; cin >> c;
+            long c; cin >> c;
             E[u].push_back(Edge(u, v, c));
         }
     }
 
-    int dist[n];
+    long dist[n];
     int s = 0;
     for (int i = 0; i < n; ++i) {
         if (i == s) {
-            dist[i] = 0;
+            dist[i] = 0L;
         } else {
             dist[i] = INF;
         }

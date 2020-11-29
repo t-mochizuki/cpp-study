@@ -22,11 +22,13 @@ void solve() {
 
     Graph g(n);
     for (int i = 0; i < m; ++i) {
-        int u, v, w; cin >> u >> v >> w;
+        int u, v; cin >> u >> v;
+        long w; cin >> w;
         g._adjacencyList[u].push_back(Edge(u, v, w));
     }
 
     BellmanFord b(g, r);
+    b.print();
 }
 
 int main() {

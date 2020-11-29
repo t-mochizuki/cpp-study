@@ -19,7 +19,7 @@ void solve() {
     vector<Edge> E;
     for (int u = 1; u <= n; ++u) {
         for (int v = 1; v <= n; ++v) {
-            int value = 0; cin >> value;
+            long value = 0; cin >> value;
             if (value != -1) {
                 E.push_back(Edge(u, v, value));
             }

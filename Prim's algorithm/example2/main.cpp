@@ -18,11 +18,11 @@ using std::set;
 using nutshell::MinHeap;
 using nutshell::Edge;
 
-const int INF = 1 << 30;
+const long INF = 1L << 60;
 
 void solve() {
     int n; cin >> n;
-    int a[n+1][n+1];
+    long a[n+1][n+1];
     for (int u = 1; u <= n; ++u) {
         for (int v = 1; v <= n; ++v) {
             cin >> a[u][v];
@@ -32,17 +32,17 @@ void solve() {
     Edge b[10000];
     MinHeap<Edge> h(0, b);
 
-    vector<int> C;
+    vector<long> C;
     C.resize(n+1, INF);
 
-    int v = 1;
+    auto v = 1;
 
     set<int> F;
     F.insert(1);
 
-    int k = 0;
+    auto k = 0;
 
-    int ans = 0;
+    auto ans = 0;
     while (k < n - 1) {
         for (int w = 1; w <= n; ++w) {
             auto it = F.find(w);
@@ -51,8 +51,8 @@ void solve() {
             }
         }
 
-        int cost = INF;
-        int vertex = -1;
+        auto cost = INF;
+        auto vertex = -1;
         while (true) {
             if (h._heapSize == 0) {
                 break;

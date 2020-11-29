@@ -4,53 +4,56 @@
 namespace nutshell {
 
 #include <iostream>
+#include <vector>
 #include "graph"
 
 using std::cout;
 using std::endl;
+using std::vector;
 
 class BellmanFord {
 public:
 
     bool _negativeCycle = false;
+    vector<long> _dist;
 
     BellmanFord(Graph g, int source) {
-        int dist[g._n];
-        for (int i = 0; i < g._n; ++i) {
-            dist[i] = INF;
-        }
+        _dist.resize(g._n, INF);
 
-        dist[source] = 0;
+        _dist[source] = 0;
 
         for (int t = 0; t < g._n; ++t) {
-            relaxEdges(t, g, dist);
+            relaxEdges(t, g);
         }
 
-        if (_negativeCycle) {
-            cout << "NEGATIVE CYCLE" << endl;
-        } else {
-            for (auto d : dist) {
-                if (d == INF) {
-                    cout << "INF" << endl;
-                } else {
-                    cout << d << endl;
+    }
+
+    void relaxEdges(int t, Graph& g) {
+        for (int u = 0; u < g._n; ++u) {
+            if (_dist[u] == INF) {
+                continue;
+            }
+
+            for (auto e : g._adjacencyList[u]) {
+                if (_dist[e._v] > _dist[u] + e._value) {
+                    _dist[e._v] = _dist[u] + e._value;
+                    if (t == g._n - 1) {
+                        _negativeCycle = true;
+                    }
                 }
             }
         }
     }
 
-    void relaxEdges(int t, Graph& g, int* dist) {
-        for (int u = 0; u < g._n; ++u) {
-            if (dist[u] == INF) {
-                continue;
-            }
-
-            for (auto e : g._adjacencyList[u]) {
-                if (dist[e._v] > dist[u] + e._value) {
-                    dist[e._v] = dist[u] + e._value;
-                    if (t == g._n - 1) {
-                        _negativeCycle = true;
-                    }
+    void print() {
+        if (_negativeCycle) {
+            cout << "NEGATIVE CYCLE" << endl;
+        } else {
+            for (auto d : _dist) {
+                if (d == INF) {
+                    cout << "INF" << endl;
+                } else {
+                    cout << d << endl;
                 }
             }
         }
