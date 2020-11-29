@@ -17,10 +17,6 @@ using nutshell::Edge;
 using nutshell::Graph;
 using nutshell::BellmanFord;
 
-const int INF = 1 << 30;
-
-
-
 void solve() {
     int n, m, r; cin >> n >> m >> r;
 
