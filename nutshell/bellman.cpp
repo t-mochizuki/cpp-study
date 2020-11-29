@@ -23,21 +23,7 @@ public:
         dist[source] = 0;
 
         for (int t = 0; t < g._n; ++t) {
-            bool updated = false;
-            for (int u = 0; u < g._n; ++u) {
-                if (dist[u] == INF) {
-                    continue;
-                }
-
-                for (auto e : g._adjacencyList[u]) {
-                    if (dist[e._v] > dist[u] + e._value) {
-                        dist[e._v] = dist[u] + e._value;
-                        if (t == g._n - 1) {
-                            _negativeCycle = true;
-                        }
-                    }
-                }
-            }
+            relaxEdges(t, g, dist);
         }
 
         if (_negativeCycle) {
@@ -48,6 +34,23 @@ public:
                     cout << "INF" << endl;
                 } else {
                     cout << d << endl;
+                }
+            }
+        }
+    }
+
+    void relaxEdges(int t, Graph& g, int* dist) {
+        for (int u = 0; u < g._n; ++u) {
+            if (dist[u] == INF) {
+                continue;
+            }
+
+            for (auto e : g._adjacencyList[u]) {
+                if (dist[e._v] > dist[u] + e._value) {
+                    dist[e._v] = dist[u] + e._value;
+                    if (t == g._n - 1) {
+                        _negativeCycle = true;
+                    }
                 }
             }
         }
