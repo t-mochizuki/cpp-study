@@ -35,7 +35,7 @@ void solve() {
     vector<long> C;
     C.resize(n+1, INF);
 
-    auto v = 1;
+    auto u = 1;
 
     set<int> F;
     F.insert(1);
@@ -44,15 +44,14 @@ void solve() {
 
     auto ans = 0;
     while (k < n - 1) {
-        for (int w = 1; w <= n; ++w) {
-            auto it = F.find(w);
-            if (it == F.end() && a[v][w] != -1) {
-                h.insert(Edge(v, w, a[v][w]));
+        for (int v = 1; v <= n; ++v) {
+            if (F.find(v) == F.end() && a[u][v] != -1) {
+                h.insert(Edge(u, v, a[u][v]));
             }
         }
 
-        auto cost = INF;
-        auto vertex = -1;
+        auto value = INF;
+        auto v = -1;
         while (true) {
             if (h._heapSize == 0) {
                 break;
@@ -60,22 +59,21 @@ void solve() {
 
             Edge e = h.extract();
 
-            auto it = F.find(e._v);
-            if (it == F.end()) {
-                cost = e._value;
-                vertex = e._v;
+            if (F.find(e._v) == F.end()) {
+                value = e._value;
+                v = e._v;
                 break;
             }
         }
 
-        if (vertex == -1) {
+        if (v == -1) {
             terminate();
         }
 
-        F.insert(vertex);
+        F.insert(v);
         k++;
-        ans += cost;
-        v = vertex;
+        ans += value;
+        u = v;
     }
 
     cout << ans << endl;
