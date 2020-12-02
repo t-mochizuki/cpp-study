@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <deque>
+#include <set>
 
 #define DEV 1
 
@@ -20,6 +22,8 @@ using std::sort;
 using std::to_string;
 using std::lower_bound;
 using std::distance;
+using std::deque;
+using std::set;
 
 void solve() {
 }
