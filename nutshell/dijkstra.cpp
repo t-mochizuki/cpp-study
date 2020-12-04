@@ -5,7 +5,7 @@
 #include <set>
 #include "graph"
 #include "edge"
-#include "heap"
+#include "minheap"
 
 using std::vector;
 using std::set;

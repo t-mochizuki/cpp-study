@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <nutshell/heap>
+#include <nutshell/maxheap>
 
 #define DEV 1
 

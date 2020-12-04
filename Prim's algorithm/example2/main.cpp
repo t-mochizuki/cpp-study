@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <set>
-#include <nutshell/heap>
+#include <nutshell/minheap>
 #include <nutshell/edge>
 
 #define DEV 1
