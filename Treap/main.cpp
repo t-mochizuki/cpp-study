@@ -23,14 +23,14 @@ public:
     Node(long key, long priority): _key(key), _priority(priority) {}
 
     ~Node() {
-        // if (_left != NULL) {
-        //     delete _left;
-        //     _left = NULL;
-        // }
-        // if (_right != NULL) {
-        //     delete _right;
-        //     _right = NULL;
-        // }
+        if (_left != NULL) {
+            delete _left;
+            _left = NULL;
+        }
+        if (_right != NULL) {
+            delete _right;
+            _right = NULL;
+        }
     }
 
     bool find(long key) {
@@ -49,6 +49,48 @@ public:
         } else {
             return true;
         }
+    }
+
+    Node* erase(long key) {
+        if (key < _key) {
+            if (_left != NULL) {
+                printf("Erase %ld on the left node(%ld)\n", key, _left->_key);
+                _left = _left->erase(key);
+            } else {
+                cout << "Could not be found." << endl;
+            }
+        } else if (key > _key) {
+            if (_right != NULL) {
+                printf("Erase %ld on the right node(%ld)\n", key, _right->_key);
+                _right = _right->erase(key);
+            } else {
+                cout << "Could not be found." << endl;
+            }
+        } else {
+            cout << "Could be found." << endl;
+
+            if (_left == NULL && _right == NULL) {
+                printf("Delete a node(%ld)\n", _key);
+                delete this;
+                return NULL;
+            } else if (_left == NULL || _right == NULL) {
+                printf("Delete a node(%ld)\n", _key);
+                Node* tmp = _left != NULL ? _left : _right;
+                _key = tmp->_key;
+                delete tmp;
+                if (_left != NULL) _left = NULL;
+                else _right = NULL;
+            } else {
+                Node* tmp = _right;
+                while (tmp->_left != NULL) {
+                    tmp = tmp->_left;
+                }
+                _key = tmp->_key;
+                _right = _right->erase(_key);
+            }
+        }
+
+        return this;
     }
 
     void inorder() {
@@ -128,33 +170,6 @@ public:
         return t;
     }
 
-    Node* _erase(Node* t, long key) {
-        if (t == NULL) {
-            return NULL;
-        } else if (key < t->_key) {
-            t->_left = _erase(t->_left, key);
-        } else if (key > t->_key) {
-            t->_right = _erase(t->_right, key);
-        } else {
-            if (t->_left == NULL && t->_right == NULL) {
-                return NULL;
-            } else if (t->_left == NULL) {
-                t = leftRotate(t);
-            } else if (t->_right == NULL) {
-                t = rightRotate(t);
-            } else {
-                if (t->_left->_priority > t->_right->_priority) {
-                    t = rightRotate(t);
-                } else {
-                    t = leftRotate(t);
-                }
-            }
-            return _erase(t, key);
-        }
-
-        return t;
-    }
-
     bool find(long key) {
         return _node->find(key);
     }
@@ -168,7 +183,7 @@ public:
     }
 
     void erase(int key) {
-        _erase(_node, key);
+        _node->erase(key);
     }
 
     void print() {
