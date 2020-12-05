@@ -51,48 +51,6 @@ public:
         }
     }
 
-    Node* erase(long key) {
-        if (key < _key) {
-            if (_left != NULL) {
-                printf("Erase %ld on the left node(%ld)\n", key, _left->_key);
-                _left = _left->erase(key);
-            } else {
-                cout << "Could not be found." << endl;
-            }
-        } else if (key > _key) {
-            if (_right != NULL) {
-                printf("Erase %ld on the right node(%ld)\n", key, _right->_key);
-                _right = _right->erase(key);
-            } else {
-                cout << "Could not be found." << endl;
-            }
-        } else {
-            cout << "Could be found." << endl;
-
-            if (_left == NULL && _right == NULL) {
-                printf("Delete a node(%ld)\n", _key);
-                delete this;
-                return NULL;
-            } else if (_left == NULL || _right == NULL) {
-                printf("Delete a node(%ld)\n", _key);
-                Node* tmp = _left != NULL ? _left : _right;
-                _key = tmp->_key;
-                delete tmp;
-                if (_left != NULL) _left = NULL;
-                else _right = NULL;
-            } else {
-                Node* tmp = _right;
-                while (tmp->_left != NULL) {
-                    tmp = tmp->_left;
-                }
-                _key = tmp->_key;
-                _right = _right->erase(_key);
-            }
-        }
-
-        return this;
-    }
-
     void inorder() {
         if (_left != NULL) {
             _left->inorder();
@@ -170,10 +128,6 @@ public:
         return t;
     }
 
-    bool find(long key) {
-        return _node->find(key);
-    }
-
     void insert(long key, long priority) {
         if (_node == NULL) {
             _node = new Node(key, priority);
@@ -182,8 +136,54 @@ public:
         }
     }
 
+    Node* _erase(Node* t, long key) {
+        if (key < t->_key) {
+            if (t->_left != NULL) {
+                printf("Erase %ld on the left node(%ld)\n", key, t->_left->_key);
+                t->_left = _erase(t->_left, key);
+            } else {
+                cout << "Could not be found." << endl;
+            }
+        } else if (key > t->_key) {
+            if (t->_right != NULL) {
+                printf("Erase %ld on the right node(%ld)\n", key, t->_right->_key);
+                t->_right = _erase(t->_right, key);
+            } else {
+                cout << "Could not be found." << endl;
+            }
+        } else {
+            cout << "Could be found." << endl;
+
+            if (t->_left == NULL && t->_right == NULL) {
+                printf("Delete a node(%ld)\n", t->_key);
+                delete t;
+                return NULL;
+            } else if (t->_left == NULL || t->_right == NULL) {
+                printf("Delete a node(%ld)\n", t->_key);
+                Node* tmp = t->_left != NULL ? t->_left : t->_right;
+                t->_key = tmp->_key;
+                delete tmp;
+                if (t->_left != NULL) t->_left = NULL;
+                else t->_right = NULL;
+            } else {
+                Node* tmp = t->_right;
+                while (tmp->_left != NULL) {
+                    tmp = tmp->_left;
+                }
+                t->_key = tmp->_key;
+                t->_right = _erase(t->_right, t->_key);
+            }
+        }
+
+        return t;
+    }
+
     void erase(int key) {
-        _node->erase(key);
+        _erase(_node, key);
+    }
+
+    bool find(long key) {
+        return _node->find(key);
     }
 
     void print() {
