@@ -1,0 +1,12 @@
+1
+10
+insert 35 99
+insert 3 80
+insert 1 53
+insert 14 25
+insert 80 76
+print
+rotate_right 35
+print
+rotate_left 3
+print
