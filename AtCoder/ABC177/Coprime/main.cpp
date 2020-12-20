@@ -14,6 +14,33 @@ using std::terminate;
 using std::vector;
 using std::set;
 
+template<class T> inline T gcd(T a, T b) {
+    while (b > 0) {
+      T r = a % b;
+      a = b;
+      b = r;
+    }
+
+    return a;
+}
+
+template<class T> inline T _gcd(int n, T* a) {
+    T ret = a[0];
+    for (int i = 0; i < n; ++i) {
+        if (ret == 1) {
+            return 1;
+        } else {
+            if (ret > a[i]) {
+                ret = gcd(ret, a[i]);
+            } else {
+                ret = gcd(a[i], ret);
+            }
+        }
+    }
+
+    return ret;
+}
+
 template<class T> inline T max(T X, T Y) {
     return X > Y ? X : Y;
 }
@@ -79,7 +106,13 @@ void solve() {
     }
     sieve(A, D);
 
-    set<int> S;
+    int setwise = _gcd(n, a);
+
+    if (setwise != 1) {
+        cout << "not coprime" << endl;
+        return ;
+    }
+
     vector<bool> check;
     check.resize(A, false);
     bool pairwise = true;
@@ -88,7 +121,6 @@ void solve() {
         factorize(a[i], D, T);
 
         for (auto v : T) {
-            S.insert(v);
             if (check[v] == false) {
                 check[v] = true;
             } else {
@@ -106,27 +138,10 @@ void solve() {
     if (pairwise) {
         cout << "pairwise coprime" << endl;
         return ;
+    } else {
+        cout << "setwise coprime" << endl;
+        return ;
     }
-
-    for (auto v : S) {
-        if (v == 1) {
-            continue;
-        }
-
-        bool all = true;
-        for (int i = 0; i < n; ++i) {
-            if (a[i] % v != 0) {
-                all = false;
-            }
-        }
-
-        if (all) {
-            cout << "not coprime" << endl;
-            return ;
-        }
-    }
-
-    cout << "setwise coprime" << endl;
 }
 
 int main() {
