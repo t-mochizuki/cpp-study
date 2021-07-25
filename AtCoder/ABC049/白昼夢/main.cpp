@@ -1,13 +1,17 @@
 #include <stdio.h>
-#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <string>
 
-using namespace std;
+#define DEV 1
 
-int main() {
+using std::cin;
+using std::string;
 
-    char S[100001];
-    scanf("%s", S);
-    int end = (int)strlen(S);
+void solve() {
+
+    string S; cin >> S;
+    int end = S.length();
     end--; // zero origin
 
     bool match = false;
@@ -97,6 +101,21 @@ int main() {
     } else {
         printf("NO\n");
     }
+}
+
+int main() {
+
+#ifdef DEV
+    std::ifstream in("input");
+    cin.rdbuf(in.rdbuf());
+
+    int t; cin >> t;
+    for (int x = 1; x <= t; ++x) {
+        solve();
+    }
+#else
+    solve();
+#endif
 
     return 0;
 }
