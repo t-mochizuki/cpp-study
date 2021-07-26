@@ -1,24 +1,20 @@
-// C++14 (GCC 5.4.1)
+// g++ -std=c++14 -DDEV=1 -Wall main.cpp
 #include <stdio.h>
-#include <cmath>
+#include <iostream>
+#include <fstream>
 #include <map>
 
 using namespace std;
 
-#define REP(a, i, n) for (int i = a; i <= n; ++i)
-
 const int module = 1e9 + 7;
 
-map<int, int> m;
-
 // 約数
-void divisor(int n) {
-    int a = 2;
+void divisor(map<int, int> &m, int n) {
+    long a = 2;
     while (n >= a * a) {
         if (n % a == 0) {
-            // printf("%ld * ", a);
             n /= a;
-            decltype(m)::iterator it = m.find(a);
+            map<int, int>::iterator it = m.find(a);
             if (it != m.end()) {
                 m[a]++;
             } else {
@@ -28,8 +24,8 @@ void divisor(int n) {
             a++;
         }
     }
-    // printf("%ld\n", n);
-    decltype(m)::iterator it = m.find(n);
+
+    map<int, int>::iterator it = m.find(n);
     if (it != m.end()) {
         m[n]++;
     } else {
@@ -38,15 +34,16 @@ void divisor(int n) {
 }
 
 // 剰余演算の分配則
-int main() {
-    int N; // 1000
-    scanf("%d", &N);
+void solve() {
+    int N; // 1 <= N <= 1000
+    cin >> N;
 
-    REP(1, n, N) {
-        divisor(n);
+    map<int, int> m;
+    for (int i = 1; i <= N; ++i) {
+        divisor(m, i);
     }
 
-    // REP(1, i, N) {
+    // for (int i = 1; i <= N; ++i) {
     //     if (m[i] > 0) printf("%d %d\n", i, m[i]);
     // }
 
@@ -57,7 +54,23 @@ int main() {
         if (ans > module) ans = ans % module;
     }
 
-    printf("%ld\n", ans);
+    cout << ans << endl;
+}
+
+// N!の正の約数の個数を1e9+7で割った余りを求めよ
+int main() {
+
+#ifdef DEV
+    std::ifstream in("input");
+    cin.rdbuf(in.rdbuf());
+
+    int t; cin >> t;
+    for (int x = 1; x <= t; ++x) {
+        solve();
+    }
+#else
+    solve();
+#endif
 
     return 0;
 }
