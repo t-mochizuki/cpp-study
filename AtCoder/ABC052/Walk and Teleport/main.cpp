@@ -2,29 +2,25 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
-#include <map>
-#include <algorithm>
-#include <deque>
-#include <set>
 
 using std::cin;
 using std::cout;
 using std::endl;
-using std::terminate;
-using std::string;
-using std::vector;
-using std::map;
-using std::make_pair;
-using std::sort;
-using std::to_string;
-using std::lower_bound;
-using std::distance;
-using std::deque;
-using std::set;
 
 void solve() {
+    long N, A, B; cin >> N >> A >> B;
+    long X[N];
+    for (int i = 0; i < N; ++i) {
+        cin >> X[i];
+    }
+
+    long ans = 0;
+    for (int i = 0; i < N-1; ++i) {
+        long D = X[i+1] - X[i];
+        ans += (B > A * D) ? A * D : B;
+    }
+
+    cout << ans << endl;
 }
 
 int main() {
