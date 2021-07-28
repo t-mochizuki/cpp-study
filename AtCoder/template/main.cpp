@@ -24,8 +24,16 @@ using std::distance;
 using std::deque;
 using std::set;
 
-void solve() {
-}
+class Problem {
+private:
+
+public:
+    Problem() {
+    }
+
+    void solve() {
+    }
+};
 
 int main() {
 
@@ -35,10 +43,12 @@ int main() {
 
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
-        solve();
+        Problem p;
+        p.solve();
     }
 #else
-    solve();
+    Problem p;
+    p.solve();
 #endif
 
     return 0;
