@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ int max(int X, int Y) {
     return X > Y ? X : Y;
 }
 
-int main() {
+void solve() {
     int N, W; cin >> N >> W; // N <= 100, W <= 100000
     for (int i = 1; i <= N; ++i) {
         cin >> I[i].w;
@@ -54,6 +55,21 @@ int main() {
     // }
 
     cout << V[N][W] << endl;
+}
+
+int main() {
+
+#ifdef DEV
+    std::ifstream in("input");
+    cin.rdbuf(in.rdbuf());
+
+    int t; cin >> t;
+    for (int x = 1; x <= t; ++x) {
+        solve();
+    }
+#else
+    solve();
+#endif
 
     return 0;
 }

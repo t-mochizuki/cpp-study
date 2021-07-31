@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
-
-#define REP(a, i, n) for (int i = a; i < n; ++i)
 
 struct data_t {
     int w, v;
@@ -13,7 +12,7 @@ int min(int X, int Y) {
     return X < Y ? X : Y;
 }
 
-int main() {
+void solve() {
     int N, w; cin >> N >> w; // N <= 100, w <= 1e9
     data_t I[N + 1];
     for (int i = 1; i <= N; ++i) {
@@ -58,6 +57,21 @@ int main() {
     }
 
     cout << ans << endl;
+}
+
+int main() {
+
+#ifdef DEV
+    std::ifstream in("input");
+    cin.rdbuf(in.rdbuf());
+
+    int t; cin >> t;
+    for (int x = 1; x <= t; ++x) {
+        solve();
+    }
+#else
+    solve();
+#endif
 
     return 0;
 }
