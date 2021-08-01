@@ -1,76 +1,51 @@
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using std::abs;
+using std::min;
 
 #define rep(i, n) for (int i = 0; i < (n); ++i)
+
+const int INF = 1e9;
 
 class Problem {
 private:
 
+    int N, K;
+    vector<int> h;
+    vector<long> dp;
+
 public:
     Problem() {
+        cin >> N >> K;
+
+        h.assign(N, 0);
+        rep(i, N) cin >> h[i];
+
+        dp.assign(N, INF);
     }
 
-    int max(int X, int Y) {
-        return X > Y ? X : Y;
-    }
-
-    int min(int X, int Y) {
-        return X < Y ? X : Y;
-    }
-
-    int abs(int X, int Y) {
-        return X > Y ? X - Y : Y - X;
-    }
-
-    int dp(int N, int K, int h[], int m[]) {
-        int idx = N - 1;
-
-        if ((-1) != m[idx]) {
-            return m[idx];
-        }
-
-        if (2 == N) {
-            return abs(h[idx], h[idx - 1]);
-        } else {
-            for (int i = 1; i < K + 1; ++i) {
-                if (N - i >= 2) {
-                    m[idx - i] = dp(N - i, K, h, m);
-                }
-            }
-
-            int ans = 2000000000;
-            for (int i = 1; i < K + 1; ++i) {
-                if (N - i >= 2) {
-                    ans = min(ans, abs(h[idx], h[idx - i]) + m[idx - i]);
-                } else {
-                    ans = min(ans, abs(h[idx], h[idx - i]));
-                    break;
-                }
-            }
-
-            return ans;
-        }
+    int cost(int i, int j) {
+        return abs(h[i] - h[j]);
     }
 
     void solve() {
-        int N; // 2 <= N <= 10^5
-        int K; // 1 <= K <= 100
-        cin >> N >> K;
-
-        int h[N]; // 1 <= hi <= 10^4
         rep(i, N) {
-            cin >> h[i];
+            if (i == 0) dp[i] = 0;;
+            rep(k, K) {
+                if (i - k - 1 < 0) continue;
+                dp[i] = min(cost(i - k - 1, i) + dp[i - k - 1], dp[i]);
+            }
         }
 
-        int m[N];
-        rep(i, N) {
-            m[i] = -1;
-        }
-
-        printf("%d\n", dp(N, K, h, m));
+        cout << dp[N - 1] << endl;
     }
 };
 
