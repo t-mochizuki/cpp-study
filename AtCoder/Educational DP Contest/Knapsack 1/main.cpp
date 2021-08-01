@@ -1,61 +1,49 @@
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using std::max;
 
-#define REP(a, i, n) for (int i = a; i < n; ++i)
+#define rep(i, n) for (int i = 0; i < (n); ++i)
 
-struct data_t {
-    int w, v;
-};
+class Problem {
+private:
 
-data_t I[101];
+    int N; // 1 <= N <= 100
+    int W; // 1 <= W <= 1e5
+    vector<int> w; // 1 <= w <= W
+    vector<int> v; // 1 <= v <= 1e9
+    vector<vector<long>> dp;
 
-// 太郎君が持ち帰る品物の価値の総和の最大値
-long V[101][100001];
+public:
+    Problem() {
+        cin >> N >> W;
 
-int max(int X, int Y) {
-    return X > Y ? X : Y;
-}
-
-void solve() {
-    int N, W; cin >> N >> W; // N <= 100, W <= 100000
-    for (int i = 1; i <= N; ++i) {
-        cin >> I[i].w;
-        cin >> I[i].v;
-    }
-
-    for (int w = 0; w <= W; ++w) {
-        V[0][w] = 0;
-    }
-    for (int i = 0; i <= N; ++i) {
-        V[i][0] = 0;
-    }
-    for (int i = 1; i <= N; ++i) {
-        for (int w = 0; w <= W; ++w) {
-            if (w >= I[i].w) {
-                V[i][w] = max(V[i - 1][w], V[i - 1][w - I[i].w] + I[i].v);
-            } else {
-                V[i][w] = V[i - 1][w];
-            }
+        w.assign(N+1, 0);
+        v.assign(N+1, 0);
+        rep(i, N+1) {
+            if (i == 0) continue;
+            cin >> w[i] >> v[i];
         }
+
+        dp.assign(N+1, vector<long>(W+1, 0));
     }
 
-    // DEBUG
-    // for (int i = 1; i <= N; ++i) {
-    //     for (int w = 0; w <= W; ++w) {
-    //         if (w == 0) {
-    //             cout << V[i][w];
-    //         } else {
-    //             cout << " " << V[i][w];
-    //         }
-    //     }
-    //     cout << endl;
-    // }
+    void solve() {
+        rep(i, N+1) rep(j, W+1) {
+            if (i == 0 | j == 0) continue;
+            dp[i][j] = max(j >= w[i] ? v[i] + dp[i-1][j-w[i]] : 0, dp[i-1][j]);
+        }
 
-    cout << V[N][W] << endl;
-}
+        cout << dp[N][W] << endl;
+    }
+};
 
 int main() {
 
@@ -65,10 +53,12 @@ int main() {
 
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
-        solve();
+        Problem p;
+        p.solve();
     }
 #else
-    solve();
+    Problem p;
+    p.solve();
 #endif
 
     return 0;
