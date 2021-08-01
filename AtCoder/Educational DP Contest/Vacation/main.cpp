@@ -1,76 +1,52 @@
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using std::max;
 
 #define rep(i, n) for (int i = 0; i < (n); ++i)
-
-struct data_t {
-    int a;
-    int b;
-    int c;
-};
-
-enum enum_t {
-    I, A, B, C,
-};
-
-data_t d[100005];
-
-long memo[100005][4];
 
 class Problem {
 private:
 
+    int N;
+    vector<int> a, b, c;
+    vector<long> dpa, dpb, dpc;
+
 public:
     Problem() {
-    }
+        cin >> N;
 
-    int max(int X, int Y) {
-        return X > Y ? X : Y;
-    }
+        a.assign(N, 0);
+        b.assign(N, 0);
+        c.assign(N, 0);
+        rep(i, N) cin >> a[i] >> b[i] >> c[i];
 
-    long dp(int cur, int n, enum_t e) {
-        if (cur == n) return 0;
-
-        if (memo[cur][e] != 0) {
-            return memo[cur][e];
-        }
-
-        if (e == A) {
-            long b = dp(cur + 1, n, B) + d[cur].b;
-            long c = dp(cur + 1, n, C) + d[cur].c;
-            memo[cur][e] = max(b, c);
-        } else if (e == B) {
-            long a = dp(cur + 1, n, A) + d[cur].a;
-            long c = dp(cur + 1, n, C) + d[cur].c;
-            memo[cur][e] = max(a, c);
-        } else if (e == C) {
-            long a = dp(cur + 1, n, A) + d[cur].a;
-            long b = dp(cur + 1, n, B) + d[cur].b;
-            memo[cur][e] = max(a, b);
-        } else {
-            long a = dp(cur + 1, n, A) + d[cur].a;
-            long b = dp(cur + 1, n, B) + d[cur].b;
-            long c = dp(cur + 1, n, C) + d[cur].c;
-            memo[cur][e] = max(a, max(b, c));
-        }
-
-        return memo[cur][e];
+        dpa.assign(N, 0);
+        dpb.assign(N, 0);
+        dpc.assign(N, 0);
     }
 
     void solve() {
-        int n; cin >> n;
-        rep(i, n) {
-            cin >> d[i].a;
-            cin >> d[i].b;
-            cin >> d[i].c;
+        rep(i, N) {
+            if (i == 0) {
+                dpa[i] = a[i];
+                dpb[i] = b[i];
+                dpc[i] = c[i];
+            } else {
+                dpa[i] = a[i] + max(dpb[i-1], dpc[i-1]);
+                dpb[i] = b[i] + max(dpa[i-1], dpc[i-1]);
+                dpc[i] = c[i] + max(dpa[i-1], dpb[i-1]);
+            }
         }
 
-        rep(i, n) rep(j, 4) memo[i][j] = 0;
-
-        cout << dp(0, n, I) << endl;
+        cout << max(max(dpa[N - 1], dpb[N - 1]), dpc[N - 1]) << endl;
     }
 };
 
