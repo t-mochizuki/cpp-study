@@ -1,64 +1,47 @@
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using std::abs;
+using std::min;
 
 #define rep(i, n) for (int i = 0; i < (n); ++i)
 
 class Problem {
 private:
 
+    int N;
+    vector<int> h;
+    vector<long> dp;
+
 public:
     Problem() {
+        cin >> N;
+
+        h.assign(N, 0);
+        rep(i, N) cin >> h[i];
+
+        dp.assign(N, 0);
     }
 
-    int max(int X, int Y) {
-        return X > Y ? X : Y;
-    }
-
-    int min(int X, int Y) {
-        return X < Y ? X : Y;
-    }
-
-    int abs(int X, int Y) {
-        return X > Y ? X - Y : Y - X;
-    }
-
-    int dp(int N, int h[], int m[]) {
-        int idx = N - 1;
-
-        if ((-1) != m[idx]) {
-            return m[idx];
-        }
-
-        if (2 == N) {
-            return abs(h[idx], h[idx - 1]);
-        } else if (3 == N) {
-            m[idx - 1] = dp(N - 1, h, m);
-            return min(abs(h[idx], h[idx - 2]), abs(h[idx], h[idx - 1]) + m[idx - 1]);
-        } else {
-            m[idx - 2] = dp(N - 2, h, m);
-            m[idx - 1] = dp(N - 1, h, m);
-            return min(abs(h[idx], h[idx - 2]) + m[idx - 2], abs(h[idx], h[idx - 1]) + m[idx - 1]);
-        }
+    int cost(int i, int j) {
+        return abs(h[i] - h[j]);
     }
 
     void solve() {
-        int N; // 2 <= N <= 10^5
-        cin >> N;
-
-        int h[N]; // 1 <= hi <= 10^4
         rep(i, N) {
-            cin >> h[i];
+            if (i == 0) continue;
+            if (i == 1) dp[i] = cost(i - 1, i) + dp[i - 1];
+            else dp[i] = min(cost(i - 1, i) + dp[i - 1], cost(i - 2, i) + dp[i - 2]);
         }
 
-        int m[N];
-        rep(i, N) {
-            m[i] = -1;
-        }
-
-        printf("%d\n", dp(N, h, m));
+        cout << dp[N - 1] << endl;
     }
 };
 

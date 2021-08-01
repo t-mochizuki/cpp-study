@@ -1,9 +1,9 @@
-// g++ -std=c++14 -DDEV=1 -Wall main.cpp
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <vector>
+#include <string>
 #include <map>
 #include <algorithm>
 #include <deque>
@@ -23,6 +23,8 @@ using std::lower_bound;
 using std::distance;
 using std::deque;
 using std::set;
+
+#define rep(i, n) for (int i = 0; i < (n); ++i)
 
 class Problem {
 private:
