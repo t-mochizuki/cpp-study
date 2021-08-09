@@ -19,7 +19,7 @@ private:
     int W; // 1 <= W <= 1e5
     vector<int> w; // 1 <= w <= W
     vector<int> v; // 1 <= v <= 1e9
-    vector<vector<long>> dp;
+    vector<vector<long> > dp;
 
 public:
     Problem() {
@@ -37,8 +37,15 @@ public:
 
     void solve() {
         rep(i, N+1) rep(j, W+1) {
-            if (i == 0 | j == 0) continue;
-            dp[i][j] = max(j >= w[i] ? v[i] + dp[i-1][j-w[i]] : 0, dp[i-1][j]);
+            if (i == 0 || j == 0) continue;
+
+            dp[i][j] = j >= w[i] ? v[i] : 0;
+
+            if (j >= w[i]) {
+                dp[i][j] = v[i] + dp[i-1][j-w[i]];
+            }
+
+            dp[i][j] = max(dp[i-1][j], dp[i][j]);
         }
 
         cout << dp[N][W] << endl;

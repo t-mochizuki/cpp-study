@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
 
 using std::cin;
 using std::cout;
@@ -42,29 +41,17 @@ public:
     void solve() {
         rep(i, N+1) {
             rep(j, 100001) {
-                if (i == 0 || j == 0) {
-                    dp[i][j] = INF;
-                    continue;
-                }
-                // dp[i][j] = min(dp[i-1][j], min(j <= v[i] ? w[i] : INF, w[i] + dp[i-1][j - v[i]]));
-                if (j <= v[i]) {
-                    dp[i][j] = w[i];
-                } else {
+                if (i == 0 || j == 0) continue;
+
+                dp[i][j] = j <= v[i] ? w[i] : INF;
+
+                if (j > v[i]) {
                     dp[i][j] = w[i] + dp[i-1][j - v[i]];
                 }
+
                 dp[i][j] = min(dp[i-1][j], dp[i][j]);
             }
         }
-
-        // rep(i, N+1) {
-        //     rep(j, 28) {
-        //         if (j == 0) 
-        //             cout << (dp[i][j] == INF ? "INF" : std::to_string(dp[i][j]));
-        //         else
-        //             cout << " " << (dp[i][j] == INF ? "INF" : std::to_string(dp[i][j]));
-        //     }
-        //     cout << endl;
-        // }
 
         int ans = 0;
         rep(j, 100001) {
