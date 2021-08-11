@@ -1,65 +1,50 @@
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
-
-#define DEV 1
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
 using std::string;
+using std::vector;
 
-template<class T> inline T max(T X, T Y) {
-    return X > Y ? X : Y;
-}
+#define rep(i, n) for (int i = 0; i < (n); ++i)
 
-// trace back approach
-void solve() {
-    string s, t; cin >> s >> t;
+class Problem {
+private:
 
-    int dp[s.size() + 1][t.size() + 1];
-    for (int i = 0; i < s.size() + 1; ++i) {
-        for (int j = 0; j < t.size() + 1; ++j) {
-            dp[i][j] = 0;
-        }
+    string s, t;
+    vector<vector<string>> dp;
+
+public:
+    Problem() {
+        cin >> s >> t;
+
+        dp.assign(t.length()+1, vector<string>(s.length()+1, ""));
     }
 
-    for (int i = 0; i < s.size(); ++i) {
-        for (int j = 0; j < t.size(); ++j) {
-            if (s[i] == t[j]) {
-                dp[i+1][j+1] = dp[i][j] + 1;
+    void solve() {
+        rep(row, t.length()+1) rep(col, s.length()+1) {
+            if (col == 0 || row == 0) continue;
+
+            dp[row][col] = s[col-1] == t[row-1] ? dp[row-1][col-1] + string(1, s[col-1]) : "";
+
+            if (dp[row-1][col].length() > dp[row][col].length()) {
+                dp[row][col] = dp[row-1][col];
             }
-            dp[i+1][j+1] = max(dp[i+1][j+1], dp[i+1][j]);
-            dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j+1]);
+
+            if (dp[row][col-1].length() > dp[row][col].length()) {
+                dp[row][col] = dp[row][col-1];
+            }
         }
+
+        cout << dp[t.length()][s.length()] << endl;
     }
-
-    // for (int i = 0; i < s.size(); ++i) {
-    //     for (int j = 0; j < t.size(); ++j) {
-    //         if (j != t.size() - 1) cout << dp[i+1][j+1] << " ";
-    //         else cout << dp[i+1][j+1] << endl;
-    //     }
-    // }
-
-    string ans = "";
-    int i, j; i = s.size() - 1; j = t.size() - 1;
-    while (i >= 0 && j >= 0 && dp[i+1][j+1] != 0) {
-        if (dp[i+1][j+1] == dp[i+1][j]) {
-            --j;
-        } else if (dp[i+1][j+1] == dp[i][j+1]) {
-            --i;
-        } else if (dp[i+1][j+1] != dp[i+1][j] && dp[i+1][j+1] != dp[i][j+1]) {
-            ans.insert(ans.begin(), s[i]);
-            --i; --j;
-        } else {
-            // It's not reachable
-        }
-    }
-
-    cout << ans << endl;
-}
+};
 
 int main() {
 
@@ -69,10 +54,12 @@ int main() {
 
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
-        solve();
+        Problem p;
+        p.solve();
     }
 #else
-    solve();
+    Problem p;
+    p.solve();
 #endif
 
     return 0;
