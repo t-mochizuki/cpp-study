@@ -43,21 +43,19 @@ public:
         for (const auto& x : dp) cout << x << endl;
     }
 
-    void rec(int from) {
-        for (auto to : E[from]) {
-            dp[to] = max(dp[from] + 1, dp[to]);
+    int rec(int from) {
+        if (dp[from] != -1) return dp[from];
 
-            rec(to);
+        int ret = 0;
+        for (auto to : E[from]) {
+            ret = max(rec(to) + 1, ret);
         }
+        return dp[from] = ret;
     }
 
     void solve() {
         rep(startNode, n) {
             if (B[startNode].empty()) {
-                if (dp[startNode] == -1) {
-                    dp[startNode] = 0;
-                }
-
                 rec(startNode);
             }
         }
