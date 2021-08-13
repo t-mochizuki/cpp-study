@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <stack>
 
 using std::cin;
 using std::cout;
@@ -10,60 +11,82 @@ using std::endl;
 using std::terminate;
 using std::vector;
 using std::max;
+using std::stack;
 
 #define rep(i, n) for (int i = 0; i < (n); ++i)
 
 class Problem {
 private:
 
-    int n, m;
-    vector<vector<int>> E;
-    vector<vector<int>> B;
+    int N, M;
+    vector<vector<int>> E; // adjacency list
+    vector<int> incoming;
+
+    vector<int> L; // Empty list that will contain the sorted elements.
+    stack<int> S; // Stack of all nodes with no incoming edge.
+
     vector<int> dp;
 
 public:
     Problem() {
-        cin >> n >> m;
+        cin >> N >> M;
 
-        E.assign(n, vector<int>());
-        B.assign(n, vector<int>());
-        rep(i, m) {
+        E.assign(N, vector<int>(0));
+        incoming.assign(N, 0);
+        rep(i, M) {
             int x, y;
             cin >> x >> y;
             x--; y--;
 
             E[x].push_back(y);
-            B[y].push_back(x);
+            incoming[y]++;
         }
 
-        dp.assign(n, -1);
+        rep(startNode, N) {
+            if (incoming.at(startNode) == 0) {
+                S.push(startNode);
+            }
+        }
+
+        dp.assign(N, 0);
     }
 
     void debug() {
-        for (const auto& x : dp) cout << x << endl;
-    }
-
-    int rec(int from) {
-        if (dp[from] != -1) return dp[from];
-
-        int ret = 0;
-        for (auto to : E[from]) {
-            ret = max(rec(to) + 1, ret);
+        bool first = true;
+        for (const auto& x : dp) {
+            if (first) {
+                first = false;
+                cout << x;
+            } else {
+                cout << " " << x;
+            }
         }
-        return dp[from] = ret;
+        cout << endl;
     }
 
     void solve() {
-        rep(startNode, n) {
-            if (B[startNode].empty()) {
-                rec(startNode);
+        while (!S.empty()) {
+            int x = S.top(); S.pop();
+            L.push_back(x);
+
+            auto ys = E[x];
+            for (const auto& y : ys) {
+                incoming[y]--;
+
+                if (incoming[y] == 0) {
+                    S.push(y);
+                }
+            }
+        }
+
+        for (auto from : L) {
+            for (auto to : E[from]) {
+                dp[to] = max(dp[to], dp[from] + 1);
             }
         }
 
         int ans = 0;
-        rep(i, n) {
-            ans = max(dp[i], ans);
-        }
+        rep(i, N) ans = max(ans, dp[i]);
         cout << ans << endl;
     }
 };

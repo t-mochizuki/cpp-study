@@ -29,7 +29,7 @@ public:
     Problem() {
         cin >> N >> M;
 
-        E.assign(N, vector<int>(N, 0));
+        E.assign(N, vector<int>(0));
         incoming.assign(N, 0);
         rep(i, M) {
             int x, y;
@@ -65,7 +65,7 @@ public:
             int x = S.top(); S.pop();
             L.push_back(x);
 
-            auto ys = E[x]; E[x].clear();
+            auto ys = E[x];
             for (const auto& y : ys) {
                 incoming[y]--;
 
