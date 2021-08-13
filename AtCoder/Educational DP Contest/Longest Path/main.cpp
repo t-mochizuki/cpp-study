@@ -69,7 +69,7 @@ public:
             int x = S.top(); S.pop();
             L.push_back(x);
 
-            auto ys = E[x];
+            const auto& ys = E[x];
             for (const auto& y : ys) {
                 incoming[y]--;
 
@@ -79,8 +79,8 @@ public:
             }
         }
 
-        for (auto from : L) {
-            for (auto to : E[from]) {
+        for (const auto& from : L) {
+            for (const auto& to : E[from]) {
                 dp[to] = max(dp[to], dp[from] + 1);
             }
         }

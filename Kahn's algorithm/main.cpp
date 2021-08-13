@@ -65,7 +65,7 @@ public:
             int x = S.top(); S.pop();
             L.push_back(x);
 
-            auto ys = E[x];
+            const auto& ys = E[x];
             for (const auto& y : ys) {
                 incoming[y]--;
 
