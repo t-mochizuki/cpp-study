@@ -19,8 +19,8 @@ class Problem {
 private:
 
     int N, M;
-    vector<vector<int>> E;
-    vector<vector<int>> B;
+    vector<vector<int>> E; // adjacency list
+    vector<int> incoming;
 
     vector<int> L; // Empty list that will contain the sorted elements.
     stack<int> S; // Stack of all nodes with no incoming edge.
@@ -29,19 +29,19 @@ public:
     Problem() {
         cin >> N >> M;
 
-        E.assign(N, vector<int>());
-        B.assign(N, vector<int>());
+        E.assign(N, vector<int>(N, 0));
+        incoming.assign(N, 0);
         rep(i, M) {
             int x, y;
             cin >> x >> y;
             x--; y--;
 
             E[x].push_back(y);
-            B[y].push_back(x);
+            incoming[y]++;
         }
 
         rep(startNode, N) {
-            if (B[startNode].empty()) {
+            if (incoming.at(startNode) == 0) {
                 S.push(startNode);
             }
         }
@@ -67,16 +67,9 @@ public:
 
             auto ys = E[x]; E[x].clear();
             for (const auto& y : ys) {
-                for (auto it = B[y].begin(); it != B[y].end();) {
-                    if (*it == x) {
-                        it = B[y].erase(it);
-                        break;
-                    } else {
-                        ++it;
-                    }
-                }
+                incoming[y]--;
 
-                if (B[y].empty()) {
+                if (incoming[y] == 0) {
                     S.push(y);
                 }
             }
