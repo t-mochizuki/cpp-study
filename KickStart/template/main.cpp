@@ -1,9 +1,8 @@
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-
-#define DEV 1
 
 using std::cin;
 using std::cout;
