@@ -9,6 +9,7 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
+using std::max;
 
 #define rep(i, n) for (int i = 0; i < (n); ++i)
 
@@ -20,6 +21,7 @@ private:
     int N, K;
     vector<int> a;
     vector<vector<int>> dp;
+    vector<int> cum; // 'cu.mu.la.tive sum
 
 public:
     Problem() {
@@ -31,16 +33,22 @@ public:
         // 子供1から子供iまでにj個の飴を分け合う方法は何通りかを求める。
         dp.assign(N+1, vector<int>(K+1, 0));
         dp[0][0] = 1;
+
+        // cum[k]: 1,dp[i-1][0],dp[i-1][1],...,dp[i-1][k-1]の和を求める。
+        cum.assign(K+1+1, 0);
     }
 
     void solve() {
-        if (K > 10000) {
-            terminate();
-        }
+        for (int i = 1; i <= N; ++i) {
+            rep(j, K+1+1) {
+                if (j == 0) cum[0] = 1;
+                else cum[j] = cum[j-1] + dp[i-1][j-1];
 
-        for (int i = 1; i <= N; ++i) rep(j, K+1) rep(k, a[i]+1) {
-            if (j-k >= 0) {
-                dp[i][j] += dp[i-1][j-k];
+                cum[j] %= MOD;
+            }
+
+            rep(j, K+1) {
+                dp[i][j] = cum[j+1] - cum[max(0, j-a[i])] + MOD;
                 dp[i][j] %= MOD;
             }
         }
