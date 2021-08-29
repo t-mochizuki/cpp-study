@@ -40,7 +40,7 @@ public:
 
         rep(i, N+1) rep(j, i+1) {
             if (i == 0) continue;
-            if (j == 0) dp[i][j] = dp[i-1][j] * (1 - p[i]);
+            if (j == 0) dp[i][0] = dp[i-1][0] * (1 - p[i]);
             else dp[i][j] = dp[i-1][j] * (1 - p[i]) + dp[i-1][j-1] * p[i];
         }
 
