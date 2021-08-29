@@ -20,7 +20,7 @@ private:
 
     int N;
     vector<vector<int>> a;
-    vector<vector<int>> dp;
+    vector<int> dp;
 
 public:
     Problem() {
@@ -29,27 +29,24 @@ public:
         a.resize(N, vector<int>(N, 0));
         rep(i, N) rep(j, N) cin >> a[i][j];
 
-        // dp[i][S]:
-        // 男性1から男性iまででi組のペアを作ったとして、
-        // そのペアになった女性の集合がSであるときの場合の数を求める。
-        dp.resize(N+1, vector<int>(1<<N, 0));
-        dp[0][0] = 1;
+        // dp[S]:
+        // 男性とペアを作った女性の集合がSであるときの場合の数を求める。
+        dp.resize(1<<N, 0);
+        dp[0] = 1;
     }
 
     void solve() {
-        if (N > 10) {
-            terminate();
-        }
+        for (int S = 1; S < 1<<N; ++S) rep(j, N) {
+            int i = __builtin_popcount(S);
 
-        for (int i = 1; i <= N; ++i)  rep(S, 1<<N) rep(j, N) {
             // 女性jは集合Sに属し、マッチングするか。
             if (bit(S, j) == 1 && a[i-1][j] == 1) {
-                dp[i][S] += dp[i-1][S^(1<<j)];
-                dp[i][S] %= MOD;
+                dp[S] += dp[S^(1<<j)];
+                dp[S] %= MOD;
             }
         }
 
-        cout << dp[N][(1<<N) - 1] << endl;
+        cout << dp[(1<<N) - 1] << endl;
     }
 };
 
