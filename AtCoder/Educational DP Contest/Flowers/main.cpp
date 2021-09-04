@@ -13,13 +13,84 @@ using std::max;
 
 #define rep(i, n) for (int i = 0; i < (n); ++i)
 
+class RangeMaxQuery {
+private:
+
+    int N;
+    vector<long> v;
+
+    int parent(int i) {
+        return (i - 1) / 2;
+    }
+
+    int left(int i) {
+        return 2 * i + 1;
+    }
+
+    int right(int i) {
+        return 2 * i + 2;
+    }
+
+public:
+
+    // 葉の最も左に配列[0]の値があり、最も右に配列[n-1]がある。
+    int n = 1;
+
+    RangeMaxQuery(int len) {
+        while (n < len) {
+            n *= 2;
+        }
+
+        N = 2 * n - 1;
+
+        v.assign(N, 0);
+    }
+
+    void update(int i, long x) {
+        i = n + i - 1;
+        v[i] = x;
+
+        while (i > 0) {
+            i = parent(i);
+            v[i] = max(v[left(i)], v[right(i)]);
+        }
+    }
+
+    long query(int i, int j, int k, int l, int r) {
+        long ret = 0;
+
+        if (j <= l || r <= i) {
+        } else if (i <= l && r <= j) {
+            ret = v[k];
+        } else {
+            long vl = query(i, j, left(k), l, (l + r) / 2);
+            long vr = query(i, j, right(k), (l + r) / 2, r);
+            ret = max(vl, vr);
+        }
+
+        return ret;
+    }
+
+    void print() {
+        bool first = true;
+        for (auto x : v) {
+            if (first) {
+                cout << x;
+                first = false;
+            } else {
+                cout << " " << x;
+            }
+        }
+        cout << endl;
+    }
+};
+
 class Problem {
 private:
 
     int N;
     vector<int> h;
     vector<int> a;
-    vector<long> dp;
 
 public:
     Problem() {
@@ -30,37 +101,17 @@ public:
 
         a.resize(N);
         rep(i, N) cin >> a[i];
-
-        dp.assign(N+1, 0);
-    }
-
-    void print() {
-        bool first = true;
-        for (auto x : dp) {
-            if (first) {
-                cout << x;
-                first = false;
-            } else {
-                cout << " " << x;
-            }
-        }
-        cout << endl;
     }
 
     void solve() {
+        RangeMaxQuery dp(N+1);
+
         rep(i, N) {
-            long tmp = 0;
-            rep(j, h[i]) {
-                tmp = max(dp[j], tmp);
-            }
-            dp[h[i]] = tmp + a[i];
+            long tmp = dp.query(0, h[i], 0, 0, dp.n);
+            dp.update(h[i], tmp + a[i]);
         }
 
-        long ans = 0;
-        rep(i, N+1) {
-            ans = max(dp[i], ans);
-        }
-        cout << ans << endl;
+        cout << dp.query(0, dp.n, 0, 0, dp.n) << endl;
     }
 };
 
