@@ -27,31 +27,32 @@ public:
     Problem() {
         cin >> N >> s;
 
-        dp.assign(N, vector<long>(N, 0));
+        s = " " + s;
+
+        dp.assign(N+1, vector<long>(N, 0));
     }
 
     void solve() {
 
-        rep(j, N) dp[0][j] = 1;
+        rep(j, N) dp[1][j] = 1;
 
-        // 文字列sの添字は0からN-2である。
-        for (int i = 1; i < N; ++i) {
+        for (int i = 1; i <= N-1; ++i) {
             rep(j, N-i) {
-                if (s[i-1] == '<') {
+                if (s[i] == '<') {
                     for (int k = 0; k <= j; ++k) {
-                        dp[i][j] += dp[i-1][k];
-                        dp[i][j] %= MOD;
+                        dp[i+1][j] += dp[i][k];
+                        dp[i+1][j] %= MOD;
                     }
                 } else {
                     for (int k = j+1; k < N; ++k) {
-                        dp[i][j] += dp[i-1][k];
-                        dp[i][j] %= MOD;
+                        dp[i+1][j] += dp[i][k];
+                        dp[i+1][j] %= MOD;
                     }
                 }
             }
         }
 
-        cout << dp[N-1][0] << endl;
+        cout << dp[N][0] << endl;
     }
 };
 
