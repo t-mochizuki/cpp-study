@@ -21,7 +21,11 @@ private:
 
     int N;
     string s;
-    vector<vector<long>> dp;
+    // 文字列sのi番目まで条件を満たすときに、順列Pのi+1番目の値が決まる。
+    // この値より小さい値がj個あり、
+    // この値より大きい値がk個あるとする。
+    // そのときに条件を満たす順列が何通りかを求める。
+    vector<vector<vector<vector<long>>>> dp;
 
 public:
     Problem() {
@@ -29,30 +33,57 @@ public:
 
         s = " " + s;
 
-        dp.assign(N+1, vector<long>(N, 0));
+        dp.assign(N, vector<vector<vector<long>>>(N+1, vector<vector<long>>(N, vector<long>(N, 0))));
     }
 
     void solve() {
 
-        rep(j, N) dp[1][j] = 1;
+        if (N > 20) {
+            terminate();
+        }
+
+        for (int p = 1; p <= N; ++p) {
+            dp[0][p][p-1][N-p] = 1;
+        }
 
         for (int i = 1; i <= N-1; ++i) {
-            rep(j, N-i) {
-                if (s[i] == '<') {
-                    for (int k = 0; k <= j; ++k) {
-                        dp[i+1][j] += dp[i][k];
-                        dp[i+1][j] %= MOD;
+            if (s[i] == '<') {
+                for (int p = 1; p <= N; ++p) for (int q = 1; q <= N; ++q) {
+                    if (p < q) {
+                        rep(j, N) rep(k, N) {
+                            int z = q-p;
+                            int kk = k-z;
+                            int whole = j+k-1;
+                            int jj = whole-kk;
+                            if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
+                                dp[i][q][jj][kk] += dp[i-1][p][j][k];
+                            }
+                        }
                     }
-                } else {
-                    for (int k = j+1; k < N; ++k) {
-                        dp[i+1][j] += dp[i][k];
-                        dp[i+1][j] %= MOD;
+                }
+            } else {
+                for (int p = 1; p <= N; ++p) for (int q = 1; q <= N; ++q) {
+                    if (p > q) {
+                        rep(k, N) rep(j, N) {
+                            int z = p-q; // > 0
+                            int jj = j-z;
+                            int whole = j+k-1;
+                            int kk = whole-jj;
+                            if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
+                                dp[i][q][jj][kk] += dp[i-1][p][j][k];
+                            }
+                        }
                     }
                 }
             }
         }
 
-        cout << dp[N][0] << endl;
+        long ans = 0;
+        for (int p = 1; p <= N; ++p) {
+            ans = (ans + dp[N-1][p][0][0]) % MOD;
+        }
+
+        cout << ans << endl;
     }
 };
 
