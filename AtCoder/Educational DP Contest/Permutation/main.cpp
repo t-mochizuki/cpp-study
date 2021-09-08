@@ -51,6 +51,9 @@ public:
                 for (int p = 1; p <= N; ++p) for (int q = 1; q <= N; ++q) {
                     if (p < q) {
                         rep(j, N) rep(k, N) {
+                            // q=p+1のときにk'はk-1になる。
+                            // q=p+2のときにk'はk-2になる。
+                            // q=p+zのときにk'はk-zになる。
                             int z = q-p;
                             int kk = k-z;
                             int whole = j+k-1;
@@ -65,7 +68,10 @@ public:
                 for (int p = 1; p <= N; ++p) for (int q = 1; q <= N; ++q) {
                     if (p > q) {
                         rep(k, N) rep(j, N) {
-                            int z = p-q; // > 0
+                            // q=p-1のときにj'はj-1になる。
+                            // q=p-2のときにj'はj-2になる。
+                            // q=p-zのときにj'はj-zになる。
+                            int z = p-q;
                             int jj = j-z;
                             int whole = j+k-1;
                             int kk = whole-jj;
