@@ -25,7 +25,7 @@ private:
     // この値より小さい値がj個あり、
     // この値より大きい値がk個あるとする。
     // そのときに条件を満たす順列が何通りかを求める。
-    vector<vector<vector<vector<long>>>> dp;
+    vector<vector<vector<long>>> dp;
 
 public:
     Problem() {
@@ -33,61 +33,48 @@ public:
 
         s = " " + s;
 
-        dp.assign(N, vector<vector<vector<long>>>(N+1, vector<vector<long>>(N, vector<long>(N, 0))));
+        if (N > 100) {
+            terminate();
+        }
+
+        dp.assign(N, vector<vector<long>>(N, vector<long>(N, 0)));
     }
 
     void solve() {
 
-        if (N > 20) {
-            terminate();
-        }
-
         for (int p = 1; p <= N; ++p) {
-            dp[0][p][p-1][N-p] = 1;
+            dp[0][p-1][N-p] = 1;
         }
 
         for (int i = 1; i <= N-1; ++i) {
             if (s[i] == '<') {
-                for (int p = 1; p <= N; ++p) for (int q = 1; q <= N; ++q) {
-                    if (p < q) {
-                        rep(j, N) rep(k, N) {
-                            // q=p+1のときにk'はk-1になる。
-                            // q=p+2のときにk'はk-2になる。
-                            // q=p+zのときにk'はk-zになる。
-                            int z = q-p;
-                            int kk = k-z;
-                            int whole = j+k-1;
-                            int jj = whole-kk;
-                            if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
-                                dp[i][q][jj][kk] += dp[i-1][p][j][k];
-                            }
+                // int z = q-p;
+                for (int z = 1; z <= N-i; ++z) {
+                    rep(j, N) rep(k, N) {
+                        int kk = k-z;
+                        int whole = j+k-1;
+                        int jj = whole-kk;
+                        if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
+                            dp[i]/*[q]*/[jj][kk] += dp[i-1]/*[p]*/[j][k];
                         }
                     }
                 }
             } else {
-                for (int p = 1; p <= N; ++p) for (int q = 1; q <= N; ++q) {
-                    if (p > q) {
-                        rep(k, N) rep(j, N) {
-                            // q=p-1のときにj'はj-1になる。
-                            // q=p-2のときにj'はj-2になる。
-                            // q=p-zのときにj'はj-zになる。
-                            int z = p-q;
-                            int jj = j-z;
-                            int whole = j+k-1;
-                            int kk = whole-jj;
-                            if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
-                                dp[i][q][jj][kk] += dp[i-1][p][j][k];
-                            }
+                // int z = p-q;
+                for (int z = 1; z <= N-i; ++z) {
+                    rep(k, N) rep(j, N) {
+                        int jj = j-z;
+                        int whole = j+k-1;
+                        int kk = whole-jj;
+                        if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
+                            dp[i]/*[q]*/[jj][kk] += dp[i-1]/*[p]*/[j][k];
                         }
                     }
                 }
             }
         }
 
-        long ans = 0;
-        for (int p = 1; p <= N; ++p) {
-            ans = (ans + dp[N-1][p][0][0]) % MOD;
-        }
+        long ans = dp[N-1][0][0] % MOD;
 
         cout << ans << endl;
     }
