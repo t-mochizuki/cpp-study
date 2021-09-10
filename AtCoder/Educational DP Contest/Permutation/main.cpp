@@ -53,11 +53,7 @@ public:
                 // N-i = j+k
                 rep(z, 1, N-i+1) {
                     rep(j, 0, N-i-z+1) {
-                        int k = (N-i)-j;
-                        int kk = k-z;
-                        int whole = N-i-1;
-                        int jj = whole-kk;
-                        dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
+                        dp[i]/*[q]*/[j+z-1]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                     }
                 }
             } else {
@@ -65,10 +61,7 @@ public:
                 // N-i = j+k
                 rep(z, 1, N-i+1) {
                     rep(j, z, N-i+1) {
-                        int jj = j-z;
-                        int whole = N-i-1;
-                        int kk = whole-jj;
-                        dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
+                        dp[i]/*[q]*/[j-z]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                     }
                 }
             }
