@@ -21,9 +21,10 @@ private:
 
     int N;
     string s;
+    // 集合{1,2,...,N}から元を選んで順列Pを作る。
     // 文字列sのi番目まで条件を満たすときに、順列Pのi+1番目の値が決まる。
-    // この値より小さい値がj個あり、
-    // この値より大きい値がk個あるとする。
+    // この値より小さい値をもつ元であり、まだ選ばれていない値をもつ元がj個あるとする。
+    // この値より大きい値をもつ元であり、まだ選ばれていない値をもつ元がk個あるとする。
     // そのときに条件を満たす順列が何通りかを求める。
     vector<vector<vector<long>>> dp;
 
@@ -48,11 +49,12 @@ public:
 
         for (int i = 1; i <= N-1; ++i) {
             if (s[i] == '<') {
-                // int z = q-p;
+                // z = q-p;
+                // N-i = j+k
                 for (int z = 1; z <= N-i; ++z) {
                     rep(j, N) rep(k, N) {
                         int kk = k-z;
-                        int whole = j+k-1;
+                        int whole = N-i-1;
                         int jj = whole-kk;
                         if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
                             dp[i]/*[q]*/[jj][kk] += dp[i-1]/*[p]*/[j][k];
@@ -60,11 +62,12 @@ public:
                     }
                 }
             } else {
-                // int z = p-q;
+                // z = p-q;
+                // N-i = j+k
                 for (int z = 1; z <= N-i; ++z) {
                     rep(k, N) rep(j, N) {
                         int jj = j-z;
-                        int whole = j+k-1;
+                        int whole = N-i-1;
                         int kk = whole-jj;
                         if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
                             dp[i]/*[q]*/[jj][kk] += dp[i-1]/*[p]*/[j][k];
