@@ -12,7 +12,7 @@ using std::terminate;
 using std::vector;
 using std::string;
 
-#define rep(i, n) for (int i = 0; i < (n); ++i)
+#define rep(i, a, n) for (int i = a; i < (n); ++i)
 
 const long MOD = 1e9 + 7;
 
@@ -23,8 +23,8 @@ private:
     string s;
     // 集合{1,2,...,N}から元を選んで順列Pを作る。
     // 文字列sのi番目まで条件を満たすときに、順列Pのi+1番目の値が決まる。
-    // この値より小さい値をもつ元であり、まだ選ばれていない値をもつ元がj個あるとする。
-    // この値より大きい値をもつ元であり、まだ選ばれていない値をもつ元がk個あるとする。
+    // この値P_i+1より小さい値をもつ元であり、まだ選ばれていない値をもつ元がj個あるとする。
+    // この値P_i+1より大きい値をもつ元であり、まだ選ばれていない値をもつ元がk個あるとする。
     // そのときに条件を満たす順列が何通りかを求める。
     vector<vector<long>> dp;
 
@@ -43,36 +43,32 @@ public:
 
     void solve() {
 
-        for (int p = 1; p <= N; ++p) {
+        rep(p, 1, N+1) {
             dp[0]/*[p]*/[p-1]/*[N-p]*/ = 1;
         }
 
-        for (int i = 1; i <= N-1; ++i) {
+        rep(i, 1, N) {
             if (s[i] == '<') {
                 // z = q-p;
                 // N-i = j+k
-                for (int z = 1; z <= N-i; ++z) {
-                    rep(j, N) {
-                        int k = (N-i)-j;
+                rep(z, 1, N-i+1) {
+                    rep(k, z, N-i+1) {
+                        int j = (N-i)-k;
                         int kk = k-z;
                         int whole = N-i-1;
                         int jj = whole-kk;
-                        if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
-                            dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
-                        }
+                        dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                     }
                 }
             } else {
                 // z = p-q;
                 // N-i = j+k
-                for (int z = 1; z <= N-i; ++z) {
-                    rep(j, N) {
+                rep(z, 1, N-i+1) {
+                    rep(j, z, N-i+1) {
                         int jj = j-z;
                         int whole = N-i-1;
                         int kk = whole-jj;
-                        if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
-                            dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
-                        }
+                        dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                     }
                 }
             }
