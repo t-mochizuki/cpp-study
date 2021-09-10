@@ -52,8 +52,8 @@ public:
                 // z = q-p;
                 // N-i = j+k
                 rep(z, 1, N-i+1) {
-                    rep(k, z, N-i+1) {
-                        int j = (N-i)-k;
+                    for (int j = N-i-z; j >= 0; --j) {
+                        int k = (N-i)-j;
                         int kk = k-z;
                         int whole = N-i-1;
                         int jj = whole-kk;
