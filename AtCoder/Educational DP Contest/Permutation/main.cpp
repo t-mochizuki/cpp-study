@@ -26,7 +26,7 @@ private:
     // この値より小さい値をもつ元であり、まだ選ばれていない値をもつ元がj個あるとする。
     // この値より大きい値をもつ元であり、まだ選ばれていない値をもつ元がk個あるとする。
     // そのときに条件を満たす順列が何通りかを求める。
-    vector<vector<vector<long>>> dp;
+    vector<vector<long>> dp;
 
 public:
     Problem() {
@@ -34,17 +34,17 @@ public:
 
         s = " " + s;
 
-        if (N > 100) {
+        if (N > 500) {
             terminate();
         }
 
-        dp.assign(N, vector<vector<long>>(N, vector<long>(N, 0)));
+        dp.assign(N, vector<long>(N, 0));
     }
 
     void solve() {
 
         for (int p = 1; p <= N; ++p) {
-            dp[0][p-1][N-p] = 1;
+            dp[0]/*[p]*/[p-1]/*[N-p]*/ = 1;
         }
 
         for (int i = 1; i <= N-1; ++i) {
@@ -52,12 +52,13 @@ public:
                 // z = q-p;
                 // N-i = j+k
                 for (int z = 1; z <= N-i; ++z) {
-                    rep(j, N) rep(k, N) {
+                    rep(j, N) {
+                        int k = (N-i)-j;
                         int kk = k-z;
                         int whole = N-i-1;
                         int jj = whole-kk;
                         if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
-                            dp[i]/*[q]*/[jj][kk] += dp[i-1]/*[p]*/[j][k];
+                            dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                         }
                     }
                 }
@@ -65,19 +66,19 @@ public:
                 // z = p-q;
                 // N-i = j+k
                 for (int z = 1; z <= N-i; ++z) {
-                    rep(k, N) rep(j, N) {
+                    rep(j, N) {
                         int jj = j-z;
                         int whole = N-i-1;
                         int kk = whole-jj;
                         if ((0 <= jj && jj <= N-1) && (0 <= kk && kk <= N-1)) {
-                            dp[i]/*[q]*/[jj][kk] += dp[i-1]/*[p]*/[j][k];
+                            dp[i]/*[q]*/[jj]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                         }
                     }
                 }
             }
         }
 
-        long ans = dp[N-1][0][0] % MOD;
+        long ans = dp[N-1][0] % MOD;
 
         cout << ans << endl;
     }
