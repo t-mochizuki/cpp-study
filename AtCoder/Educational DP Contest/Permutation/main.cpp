@@ -27,6 +27,7 @@ private:
     // この値P_i+1より大きい値をもつ元であり、まだ選ばれていない値をもつ元がk個あるとする。
     // そのときに条件を満たす順列が何通りかを求める。
     vector<vector<long>> dp;
+    vector<long> cum; // 'cu.mu.la.tive sum
 
 public:
     Problem() {
@@ -34,11 +35,13 @@ public:
 
         s = " " + s;
 
-        if (N > 500) {
+        if (N > 3000) {
             terminate();
         }
 
         dp.assign(N, vector<long>(N, 0));
+
+        cum.assign(N, 0);
     }
 
     void solve() {
@@ -48,6 +51,14 @@ public:
         }
 
         rep(i, 1, N) {
+            rep(j, 0, N) {
+                if (j == 0) {
+                    cum[j] = dp[i-1]/*[p]*/[j]/*[k]*/;
+                } else {
+                    cum[j] = (dp[i-1]/*[p]*/[j]/*[k]*/ + cum[j-1]) % MOD;
+                }
+            }
+
             if (s[i] == '<') {
                 // z = q-p;
                 // N-i = j+k
@@ -56,22 +67,20 @@ public:
                 // j=N-2のときにz=2となるp,qの対はp=N,q=N+2. p=N-1,q=N+1である。
                 // j=N-3のときにz=3となるp,qの対はp=N,q=N+3. p=N-1,q=N+2. p=N-2,q=N+1である。
                 // これらは条件を満たさないので取り除く。
-                rep(zz, 0, N-i) rep(j, 0, zz+1) {
-                    dp[i]/*[q]*/[zz]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
+                rep(zz, 0, N-i) {
+                    dp[i]/*[q]*/[zz]/*[kk]*/ = cum[zz];
                 }
             } else {
                 // z = p-q;
                 // N-i = j+k
                 // zz = j-z
-                rep(zz, 0, N-i) rep(j, zz+1, N-i+1) {
-                    dp[i]/*[q]*/[zz]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
+                rep(zz, 0, N-i) {
+                    dp[i]/*[q]*/[zz]/*[kk]*/ = (cum[N-i] - cum[zz] + MOD) % MOD;
                 }
             }
         }
 
-        long ans = dp[N-1][0] % MOD;
-
-        cout << ans << endl;
+        cout << dp[N-1][0] << endl;
     }
 };
 
