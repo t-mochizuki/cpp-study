@@ -51,18 +51,20 @@ public:
             if (s[i] == '<') {
                 // z = q-p;
                 // N-i = j+k
-                rep(z, 1, N-i+1) {
-                    rep(j, 0, N-i-z+1) {
-                        dp[i]/*[q]*/[j+z-1]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
-                    }
+                // zz = j+z-1
+                // j=N-1のときにz=1となるp,qの対はp=N,q=N+1である。
+                // j=N-2のときにz=2となるp,qの対はp=N,q=N+2. p=N-1,q=N+1である。
+                // j=N-3のときにz=3となるp,qの対はp=N,q=N+3. p=N-1,q=N+2. p=N-2,q=N+1である。
+                // これらは条件を満たさないので取り除く。
+                rep(zz, 0, N-i) rep(j, 0, zz+1) {
+                    dp[i]/*[q]*/[zz]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                 }
             } else {
                 // z = p-q;
                 // N-i = j+k
-                rep(z, 1, N-i+1) {
-                    rep(j, z, N-i+1) {
-                        dp[i]/*[q]*/[j-z]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
-                    }
+                // zz = j-z
+                rep(zz, 0, N-i) rep(j, zz+1, N-i+1) {
+                    dp[i]/*[q]*/[zz]/*[kk]*/ += dp[i-1]/*[p]*/[j]/*[k]*/;
                 }
             }
         }
