@@ -22,14 +22,21 @@ private:
     // dp[i][j]: 部分列A'をj個の部分列Bに切り分ける。
     // そのときに条件を満たす切り分け方が何通りかを求める。
     vector<vector<long>> dp;
+    vector<long> cum;
 
 public:
     Problem() {
         cin >> N;
 
         A.resize(N+1); A[0] = 0;
+        cum.resize(N+1); cum[0] = 0;
         rep(i, 1, N+1) {
             cin >> A[i];
+            if (i == 1) {
+                cum[i] = A[i];
+            } else {
+                cum[i] = A[i] + cum[i-1];
+            }
         }
 
         dp.assign(N+1, vector<long>(N+1, 0));
@@ -37,17 +44,14 @@ public:
     }
 
     void solve() {
-        if (N > 100) {
+        if (N > 500) {
             terminate();
         }
 
         for (int i = 1; i <= N; ++i) {
             for (int j = 1; j <= i; ++j) {
                 for (int ii = j-1; ii < i; ++ii) {
-                    long sum = 0;
-                    for (int jj = ii+1; jj <= i; ++jj) {
-                        sum = sum + A[jj];
-                    }
+                    long sum = cum[i] - cum[ii];
 
                     if (sum % j == 0) {
                         dp[i][j] = (dp[i][j] + dp[ii][j-1]) % MOD;
