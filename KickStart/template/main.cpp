@@ -10,9 +10,20 @@ using std::endl;
 using std::terminate;
 using std::string;
 
-void solve(int x) {
-    cout << "Case #" << x << ": " << y << endl;
-}
+#define rep(i, n) for (int i = 0; i < (n); ++i)
+
+class Problem {
+private:
+
+public:
+    Problem() {
+    }
+
+    void solve(int x) {
+        int y = 0;
+        cout << "Case #" << x << ": " << y << endl;
+    }
+};
 
 int main() {
 
@@ -22,12 +33,14 @@ int main() {
 
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
-        solve(x);
+        Problem p;
+        p.solve(x);
     }
 #else
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
-        solve(x);
+        Problem p;
+        p.solve(x);
     }
 #endif
 
