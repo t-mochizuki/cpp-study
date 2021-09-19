@@ -23,6 +23,7 @@ private:
     // そのときに条件を満たす切り分け方が何通りかを求める。
     vector<vector<long>> dp;
     vector<long> cum;
+    vector<vector<int>> visited;
 
 public:
     Problem() {
@@ -40,24 +41,21 @@ public:
         }
 
         dp.assign(N+1, vector<long>(N+1, 0));
-        dp[1][0] = dp[1][1] = 1;
+        dp[1][1] = 1;
+
+        visited.assign(N+1, vector<int>(N+1, -1));
+        visited[1][0] = 1;
     }
 
     void solve() {
-        if (N > 500) {
-            terminate();
-        }
-
         for (int i{1}; i <= N; ++i) {
-            for (int j{1}; j <= i; ++j) {
-                int jj = j-1;
-                for (int ii{jj}; ii < i; ++ii) {
-                    long sum = cum[i] - cum[ii];
-
-                    if (sum % j == 0) {
-                        dp[i][j] = (dp[i][j] + dp[ii][jj]) % MOD;
-                    }
+            for (int j{1}; j <= N; ++j) {
+                int remainder = cum[i] % j;
+                int ii = visited[j][remainder];
+                if (ii != -1) {
+                    dp[i][j] = (dp[ii][j] + dp[ii][j-1]) % MOD;
                 }
+                visited[j][remainder] = i;
             }
         }
 
