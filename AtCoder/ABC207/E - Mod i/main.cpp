@@ -48,20 +48,21 @@ public:
             terminate();
         }
 
-        for (int i = 1; i <= N; ++i) {
-            for (int j = 1; j <= i; ++j) {
-                for (int ii = j-1; ii < i; ++ii) {
+        for (int i{1}; i <= N; ++i) {
+            for (int j{1}; j <= i; ++j) {
+                int jj = j-1;
+                for (int ii{jj}; ii < i; ++ii) {
                     long sum = cum[i] - cum[ii];
 
                     if (sum % j == 0) {
-                        dp[i][j] = (dp[i][j] + dp[ii][j-1]) % MOD;
+                        dp[i][j] = (dp[i][j] + dp[ii][jj]) % MOD;
                     }
                 }
             }
         }
 
         long y = 0;
-        rep(k, 1, N+1) {
+        for (int k{1}; k <= N; ++k) {
             y = (y + dp[N][k]) % MOD;
         }
         cout << y << endl;
