@@ -102,7 +102,7 @@ public:
 
     T get(int n, int k) {
         assert(n >= k);
-        assert(k > 0);
+        assert(k >= 0);
         return fac[n] * inv[k] * inv[n-k];
     }
 };
