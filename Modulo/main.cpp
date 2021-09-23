@@ -1,5 +1,6 @@
 // g++ -std=c++14 main.cpp
 #include <stdio.h>
+#include <cassert>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -38,12 +39,8 @@ private:
         int x, y;
         tie(x, y) = extendedEuclidean(value, MOD);
         int gcd = value * x + MOD * y;
-        if (gcd == 1) {
-            return x % MOD;
-        } else {
-            terminate();
-            return 0;
-        }
+        assert(gcd == 1);
+        return x % MOD;
     }
 
 public:
