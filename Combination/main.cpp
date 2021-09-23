@@ -76,12 +76,13 @@ template<class T>
 class Combination {
 private:
 
+    int N;
     vector<T> fac/*torial*/, inv/*erse element*/;
 
 public:
 
-    Combination(int N) {
-        fac.resize(N, T(1));
+    Combination(int N): N(N) {
+        fac.assign(N+1, T(1));
         rep(i, 1, N+1) {
             if (i == 1) {
                 fac[i] = T(1);
@@ -90,7 +91,7 @@ public:
             }
         }
 
-        inv.resize(N+1, T(1));
+        inv.assign(N+1, T(1));
         for (int i = N; i >= 1; --i) {
             if (i == N) {
                 inv[i] = T(1) / fac[i];
@@ -101,6 +102,7 @@ public:
     }
 
     T get(int n, int k) {
+        assert(N >= n);
         assert(n >= k);
         assert(k >= 0);
         return fac[n] * inv[k] * inv[n-k];
@@ -123,6 +125,8 @@ public:
         assert(20 == (comb.get(6, 3)).get());
         assert(35 == (comb.get(7, 3)).get());
         assert(56 == (comb.get(8, 3)).get());
+        assert(1 == (comb.get(200000, 200000)).get());
+        assert(1 == (comb.get(200000, 0)).get());
     }
 };
 
