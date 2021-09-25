@@ -15,7 +15,7 @@ using std::tie;
 using std::make_tuple;
 using std::tuple;
 
-// キーワード: 同じ遷移のDPは行列累乗
+// キーワード: 余りを持って桁DP
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
@@ -75,77 +75,14 @@ public:
 
 typedef Modulo<1000000007> Mod;
 
-
-template<class T>
-class Matrix {
-private:
-
-public:
-
-    vector<vector<T>> value;
-
-    Matrix(int dimension) {
-        value.assign(dimension, vector<T>(dimension, T(0)));
-    }
-
-    Matrix(vector<vector<T>> a): value(a) {
-    }
-
-    // dimension
-    int D() {
-        return value.size();
-    }
-
-    // unit matrix
-    Matrix I() {
-        Matrix tmp(D());
-        rep(i, 0, D()) tmp.value[i][i] = T(1);
-        return tmp;
-    }
-
-    Matrix operator*(const Matrix & mat) {
-        Matrix tmp(D());
-        rep(i, 0, D()) rep(j, 0, D()) rep(k, 0, D()) {
-            tmp.value[i][j] = tmp.value[i][j] + value[i][k] * mat.value[k][j];
-        }
-        return tmp;
-    }
-
-    Matrix fastpow(long exponent) {
-        if (exponent == 0) return Matrix(D()).I();
-
-        if (exponent % 2 == 1) {
-            return Matrix(value) * fastpow(exponent - 1);
-        } else {
-            Matrix tmp = fastpow(exponent / 2);
-            return tmp * tmp;
-        }
-    }
-
-    void print() {
-        rep(i, 0, D()) {
-            bool first = true;
-            rep(j, 0, D()) {
-                if (j == 0) {
-                    cout << value[i][j].get();
-                    first = false;
-                } else {
-                    cout << " " << value[i][j].get();
-                }
-            }
-            cout << endl;
-        }
-        cout << endl;
-    }
-
-};
-
 class Problem {
 private:
 
     long N;
     int B, K;
     vector<int> c;
+    // dp[i][j]: 上からi桁目をBで割った余りがjである場合の数を求めよ。
+    vector<vector<Mod>> dp;
 
 public:
     Problem() {
@@ -154,24 +91,25 @@ public:
         c.resize(K);
         rep(i, 0, K) cin >> c[i];
 
-        if (B > 30) {
+        if (N > 10000) {
             terminate();
         }
+
+        dp.assign(N, vector<Mod>(B, Mod(0)));
     }
 
     void solve() {
-        vector<vector<Mod>> value;
-        value.assign(B, vector<Mod>(B, Mod(0)));
-        // dp[i][j]からdp[i+1][k]に遷移する場合はj行k列の値が1となる。
-        rep(j, 0, B) for (auto v : c) {
-            int k = (10 * j + v) % B;
-            value[j][k] = value[j][k] + Mod(1);
+        rep(k, 0, K) {
+            int next = c[k] % B;
+            dp[0][next] = dp[0][next] + Mod(1);
         }
 
-        Matrix<Mod> mat(value);
-        Matrix<Mod> tmp = mat.fastpow(N);
+        rep(i, 0, N-1) rep(j, 0, B) rep(k, 0, K) {
+            int next = (10 * j + c[k]) % B;
+            dp[i+1][next] = dp[i+1][next] + dp[i][j];
+        }
 
-        cout << tmp.value[0][0].get() << endl;
+        cout << dp[N-1][0].get() << endl;
     }
 };
 
