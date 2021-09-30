@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
-#include <functional>
 
 // キーワード: 真ん中決め打ち+偏角ソート
 
@@ -79,10 +78,9 @@ public:
             rep(i, 0, N-1) {
                 double t1 = as[i];
                 double value = fmod(t1 + 180.0, 360.0);
-                auto it = lower_bound(as.begin(), as.end(), value, std::greater_equal<double>());
-                if (it != as.end()) ans = max(ans, angle(t1, *it));
-                it = lower_bound(as.begin(), as.end(), value, std::less_equal<double>());
-                if (it != as.end()) ans = max(ans, angle(t1, *it));
+                auto pos = lower_bound(as.begin(), as.end(), value) - as.begin();
+                ans = max(ans, angle(t1, as[pos % as.size()]));
+                ans = max(ans, angle(t1, as[(pos+as.size()-1) % as.size()]));
             }
         }
 
