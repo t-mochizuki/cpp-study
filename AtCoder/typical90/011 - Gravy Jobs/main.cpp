@@ -15,6 +15,8 @@ using std::max;
 
 // キーワード: 仕事は締切の早い順に
 
+// キーワード: ソート順にDP
+
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 
@@ -40,17 +42,20 @@ public:
 class Problem {
 private:
     int N;
+    int D = 0;
     vector<Job> xs;
+    vector<vector<long>> dp;
 
 public:
     Problem() {
         cin >> N;
 
-        rep(i, 0, N) xs.push_back(Job());
-
-        if (N > 20) {
-            terminate();
+        rep(i, 0, N) {
+            xs.push_back(Job());
+            D = max(D, xs[i].D);
         }
+
+        dp.assign(N+1, vector<long>(D+1, 0));
     }
 
     void debug() {
@@ -59,7 +64,17 @@ public:
         }
     }
 
-    void solve() {
+    void debug_dp() {
+        rep(i, 1, N+1) {
+            rep(j, 0, D) {
+                if (j == 0) cout << dp[i][j];
+                else cout << "," << dp[i][j];
+            }
+            cout << endl;
+        }
+    }
+
+    void fullSearch() {
         sort(xs.begin(), xs.end());
 
         long y = 0;
@@ -76,6 +91,25 @@ public:
                 }
             }
             y = max(y, score);
+        }
+
+        cout << y << endl;
+    }
+
+    void solve() {
+        sort(xs.begin(), xs.end());
+
+        rep(i, 1, N+1) rep(j, 0, D+1) {
+            if (j < xs[i-1].C || xs[i-1].D < j) {
+                dp[i][j] = dp[i-1][j];
+            } else {
+                dp[i][j] = max(dp[i-1][j-xs[i-1].C > 0 ? j-xs[i-1].C : 0] + xs[i-1].S, dp[i-1][j]);
+            }
+        }
+
+        long y = 0;
+        rep(j, 0, D+1) {
+            y = max(y, dp[N][j]);
         }
 
         cout << y << endl;
