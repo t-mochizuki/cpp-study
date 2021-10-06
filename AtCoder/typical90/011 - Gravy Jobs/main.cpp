@@ -66,7 +66,7 @@ public:
 
     void debug_dp() {
         rep(i, 1, N+1) {
-            rep(j, 0, D) {
+            rep(j, 0, D+1) {
                 if (j == 0) cout << dp[i][j];
                 else cout << "," << dp[i][j];
             }
