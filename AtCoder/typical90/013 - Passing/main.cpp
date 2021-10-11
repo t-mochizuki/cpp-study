@@ -5,7 +5,6 @@
 #include <vector>
 #include <map>
 #include <queue>
-#include <functional>
 
 using std::cin;
 using std::cout;
@@ -13,10 +12,8 @@ using std::endl;
 using std::terminate;
 using std::vector;
 using std::map;
-using std::pair;
 using std::make_pair;
 using std::priority_queue;
-using std::greater;
 
 // キーワード: 各頂点への最短経路はダイクストラ
 
@@ -25,11 +22,38 @@ using std::greater;
 
 using Weight = int;
 
+class Edge {
+public:
+
+    int from;
+    int to;
+    Weight value;
+
+    Edge(int from, int to, Weight value): from(from), to(to), value(value) {}
+
+    friend bool operator<(const Edge& lhs, const Edge& rhs) {
+        return lhs.value < rhs.value;
+    }
+    friend bool operator>(const Edge& lhs, const Edge& rhs) { return rhs < lhs; }
+    friend bool operator<=(const Edge& lhs, const Edge& rhs) { return !(lhs > rhs); }
+    friend bool operator>=(const Edge& lhs, const Edge& rhs) { return !(lhs < rhs); }
+    friend bool operator==(const Edge& lhs, const Edge& rhs) {
+        return lhs.value == rhs.value;
+    }
+    friend bool operator!=(const Edge& lhs, const Edge& rhs) { return !(lhs == rhs); }
+
+    friend std::ostream& operator<<(std::ostream& os, const Edge& edge)
+    {
+        return os << edge.value;
+    }
+};
+
 class Dijkstra {
 private:
 
-    vector<pair<int, Weight>>* adjacency;
-    priority_queue<pair<Weight, int>, vector<pair<Weight, int>>, greater<pair<Weight, int>>> que;
+    vector<int> prev;
+    map<int, map<int, Weight>>& adjacency;
+    priority_queue<Edge> que;
 
     const int INF = 1 << 30;
 
@@ -37,11 +61,17 @@ public:
 
     vector<int> d;
 
-    Dijkstra(int N, int s, vector<pair<int, Weight>>* adjacency): adjacency(adjacency) {
-        d.assign(N, INF);
-        d[s] = 0;
+    Dijkstra(int N, int s, map<int, map<int, Weight>>& adjacency): adjacency(adjacency) {
+        d.resize(N);
+        prev.resize(N);
+        rep(i, 0, N) {
+            if (i == s) d[i] = 0;
+            else d[i] = INF;
 
-        que.push(make_pair(0, s));
+            prev[i] = -1;
+        }
+
+        que.push(Edge(INF, s, 0));
     }
 
     void debug() {
@@ -54,14 +84,14 @@ public:
 
     void solve() {
         while(!que.empty()) {
-            int from = que.top().second; que.pop();
+            Edge edge = que.top(); que.pop();
 
-            rep(i, 0, adjacency[from].size()) {
-                int to = adjacency[from][i].first;
-                Weight value = adjacency[from][i].second;
-                if (d[to] > d[from] + value) {
-                    d[to] = d[from] + value;
-                    que.push(make_pair(d[to], to));
+            int from = edge.to;
+            for (auto m : adjacency[from]) {
+                if (d[m.first] > d[from] + m.second) {
+                    d[m.first] = d[from] + m.second;
+                    que.push(Edge(from, m.first, d[m.first]));
+                    prev[m.first] = from;
                 }
             }
         }
@@ -74,10 +104,25 @@ class Problem {
 private:
 
     int N, M;
-    vector<pair<int, Weight>> adjacency[100000];
+    map<int, map<int, Weight>> adjacency;
+
+    void make(int a, int b, Weight c, map<int, map<int, Weight>>& adjacency) {
+        auto from = adjacency.find(a);
+        if (from != adjacency.end()) {
+            auto to = adjacency[a].find(b);
+            if (to != adjacency[a].end()) {
+                adjacency[a][b] = c;
+            } else {
+                adjacency[a].insert(make_pair(b, c));
+            }
+        } else {
+            map<int, Weight> tmp;
+            tmp.insert(make_pair(b, c));
+            adjacency.insert(make_pair(a, tmp));
+        }
+    }
 
 public:
-
     Problem() {
         cin >> N >> M;
 
@@ -86,8 +131,8 @@ public:
             cin >> a >> b >> c;
             a--; b--;
 
-            adjacency[a].push_back(make_pair(b, c));
-            adjacency[b].push_back(make_pair(a, c));
+            make(a, b, c, adjacency);
+            make(b, a, c, adjacency);
         }
     }
 
