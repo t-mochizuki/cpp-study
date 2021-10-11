@@ -50,11 +50,15 @@ public:
     }
 };
 
+using Graph = map<int, vector<Edge>>;
+
 class Dijkstra {
 private:
 
     vector<int> prev;
-    map<int, map<int, Weight>>& adjacency;
+    Graph& adjacency;
+    // topメンバ関数で、
+    // Weightの値が最小である要素にアクセスする。
     priority_queue<Edge, vector<Edge>, greater<Edge>> que;
 
     const int INF = 1 << 30;
@@ -63,15 +67,11 @@ public:
 
     vector<int> d;
 
-    Dijkstra(int N, int s, map<int, map<int, Weight>>& adjacency): adjacency(adjacency) {
-        d.resize(N);
-        prev.resize(N);
-        rep(i, 0, N) {
-            if (i == s) d[i] = 0;
-            else d[i] = INF;
+    Dijkstra(int N, int s, Graph& adjacency): adjacency(adjacency) {
+        d.assign(N, INF);
+        d[s] = 0;
 
-            prev[i] = -1;
-        }
+        prev.assign(N, -1);
 
         que.push(Edge(INF, s, 0));
     }
@@ -86,14 +86,13 @@ public:
 
     void solve() {
         while(!que.empty()) {
-            Edge edge = que.top(); que.pop();
+            int from = que.top().to; que.pop();
 
-            int from = edge.to;
-            for (auto m : adjacency[from]) {
-                if (d[m.first] > d[from] + m.second) {
-                    d[m.first] = d[from] + m.second;
-                    que.push(Edge(from, m.first, d[m.first]));
-                    prev[m.first] = from;
+            for (auto edge : adjacency[from]) {
+                if (d[edge.to] > d[from] + edge.value) {
+                    d[edge.to] = d[from] + edge.value;
+                    que.push(Edge(from, edge.to, d[edge.to]));
+                    prev[edge.to] = from;
                 }
             }
         }
@@ -106,21 +105,14 @@ class Problem {
 private:
 
     int N, M;
-    map<int, map<int, Weight>> adjacency;
+    Graph adjacency;
 
-    void make(int a, int b, Weight c, map<int, map<int, Weight>>& adjacency) {
+    void make(int a, int b, Weight c, Graph& adjacency) {
         auto from = adjacency.find(a);
         if (from != adjacency.end()) {
-            auto to = adjacency[a].find(b);
-            if (to != adjacency[a].end()) {
-                adjacency[a][b] = c;
-            } else {
-                adjacency[a].insert(make_pair(b, c));
-            }
+            adjacency[a].push_back(Edge(a, b, c));
         } else {
-            map<int, Weight> tmp;
-            tmp.insert(make_pair(b, c));
-            adjacency.insert(make_pair(a, tmp));
+            adjacency.insert(make_pair(a, vector<Edge>(1, Edge(a, b, c))));
         }
     }
 
