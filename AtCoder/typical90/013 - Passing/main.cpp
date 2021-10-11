@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <queue>
+#include <functional>
 
 using std::cin;
 using std::cout;
@@ -14,6 +15,7 @@ using std::vector;
 using std::map;
 using std::make_pair;
 using std::priority_queue;
+using std::greater;
 
 // キーワード: 各頂点への最短経路はダイクストラ
 
@@ -53,7 +55,7 @@ private:
 
     vector<int> prev;
     map<int, map<int, Weight>>& adjacency;
-    priority_queue<Edge> que;
+    priority_queue<Edge, vector<Edge>, greater<Edge>> que;
 
     const int INF = 1 << 30;
 
