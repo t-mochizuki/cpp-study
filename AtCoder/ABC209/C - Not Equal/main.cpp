@@ -3,12 +3,14 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
+using std::sort;
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
@@ -16,12 +18,27 @@ using std::vector;
 class Problem {
 private:
 
-public:
+    const int MOD = 1e9+7;
+    int N;
+    vector<int> C;
 
+public:
     Problem() {
+        cin >> N;
+
+        C.resize(N);
+        rep(i, 0, N) cin >> C[i];
+        sort(C.begin(), C.end());
     }
 
     void solve() {
+        long ans = 1;
+        rep(i, 0, N) {
+            ans *= C[i] - i;
+
+            ans %= MOD;
+        }
+        cout << ans << endl;
     }
 };
 
