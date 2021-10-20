@@ -5,7 +5,6 @@
 #include <fstream>
 #include <vector>
 #include <tuple>
-#include <algorithm>
 
 using std::cin;
 using std::cout;
@@ -15,9 +14,14 @@ using std::vector;
 using std::tuple;
 using std::make_tuple;
 using std::tie;
-using std::sort;
+
+// キーワード: 調和級数はO(NlogN)
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
+#define bit(n, k) ((n >> k) & 1)
+
+// ボールpを選ぶと、ボールp+1からボールp+k-1までは選ぶことができない。
+// a個のボールの選び方は(N-(k-1)(a-1))!/((N-(k-1)(a-1)-a)!a!)通りになる。
 
 template<int MOD>
 class Modulo {
@@ -114,61 +118,26 @@ typedef Combination<Mod1000000007> Combination1000000007;
 class Problem {
 private:
 
-    int H, W, N;
-    vector<tuple<int, int>> grid;
-    // dp[i]: 1からi-1番目の壁のマスを避けてi番目の壁のマスまで辿り着く場合の数を求める。
-    vector<Mod1000000007> dp;
+    int N;
 
 public:
+
     Problem() {
-        cin >> H >> W >> N;
-
-        grid.resize(N+2);
-        grid[0] = make_tuple(0, 0);
-        rep(i, 1, N+1) {
-            int r, c;
-            cin >> r >> c;
-            r--; c--;
-            grid[i] = make_tuple(r, c);
-        }
-        grid[N+1] = make_tuple(H-1, W-1);
-
-        sort(grid.begin(), grid.end());
-
-        dp.assign(N+2, Mod1000000007(0));
-        dp[0] = 1;
-    }
-
-    void debug() {
-        int r, c;
-        for (auto t : grid) {
-            tie(r, c) = t;
-            cout << "(" << r << " " << c << ")";
-        }
-        cout << endl;
+        cin >> N;
     }
 
     void solve() {
-        Combination1000000007 f(200000);
+        Combination1000000007 C = Combination1000000007(N);
 
-        rep(i, 1, N+2) {
-            int ri, ci;
-            tie(ri, ci) = grid[i];
-
-            Mod1000000007 tmp(0);
-            rep(j, 1, i) {
-                int rj, cj;
-                tie(rj, cj) = grid[j];
-
-                if (ci-cj >= 0 && ri-rj >= 0) {
-                    tmp = tmp + dp[j] * f.get(ri-rj+(ci-cj), ci-cj);
+        rep(k, 1, N+1) {
+            Mod1000000007 ans = Mod1000000007(0);
+            rep(a, 1, N+1) {
+                if (N-(k-1)*(a-1) >= a) {
+                    ans = ans + C.get(N-(k-1)*(a-1), a);
                 }
             }
-
-            dp[i] = f.get(ri+ci, ri > ci ? ri : ci) - tmp;
+            cout << ans.get() << endl;
         }
-
-        cout << dp[N+1].get() << endl;
     }
 };
 
