@@ -92,7 +92,7 @@ public:
         }
 
         inv.assign(N+1, T(1));
-        for (int i = N; i >= 1; --i) {
+        for (int i = N; i >= 0; --i) {
             if (i == N) {
                 inv[i] = T(1) / fac[i];
             } else {
@@ -127,6 +127,8 @@ public:
         assert(56 == (comb.get(8, 3)).get());
         assert(1 == (comb.get(200000, 200000)).get());
         assert(1 == (comb.get(200000, 0)).get());
+        assert(1 == (comb.get(8, 0)).get());
+        assert(1 == (comb.get(0, 0)).get());
     }
 };
 
