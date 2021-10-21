@@ -87,7 +87,7 @@ private:
 public:
 
     Combination(int N) {
-        fac.resize(N+1, T(1));
+        fac.assign(N+1, T(1));
         rep(i, 1, N+1) {
             if (i == 1) {
                 fac[i] = T(1);
@@ -96,8 +96,8 @@ public:
             }
         }
 
-        inv.resize(N+1, T(1));
-        for (int i = N; i >= 1; --i) {
+        inv.assign(N+1, T(1));
+        for (int i = N; i >= 0; --i) {
             if (i == N) {
                 inv[i] = T(1) / fac[i];
             } else {
@@ -131,7 +131,9 @@ public:
 
         rep(k, 1, N+1) {
             Mod1000000007 ans = Mod1000000007(0);
-            rep(a, 1, N+1) {
+            for (int a = 1; a <= N; ++a) {
+                if ((k-1)*(a-1) > N) break;
+
                 if (N-(k-1)*(a-1) >= a) {
                     ans = ans + C.get(N-(k-1)*(a-1), a);
                 }
