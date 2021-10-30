@@ -117,7 +117,7 @@ public:
             assign(from, from);
         }
 
-        map<int, int> tmp;
+        map<int, long> tmp;
         for (int i = 1; i <= N; ++i) {
             if (tmp.find(assigned[i]) == tmp.end()) {
                 tmp.insert(make_pair(assigned[i], 1));
@@ -126,7 +126,7 @@ public:
             }
         }
 
-        int ans = 0;
+        long ans = 0;
         for (auto p : tmp) {
             ans += (p.second*(p.second-1))/2;
         }
