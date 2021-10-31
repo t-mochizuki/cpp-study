@@ -76,11 +76,12 @@ public:
         if (visited[from]) return ;
 
         visited[from] = true;
-        L.push(from);
 
         for (auto to : E[from]) {
             visit(to);
         }
+
+        L.push(from);
     }
 
     void assign(int from, int root) {
