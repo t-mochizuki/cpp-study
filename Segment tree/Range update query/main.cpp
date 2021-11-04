@@ -11,6 +11,7 @@ using std::endl;
 using std::terminate;
 using std::vector;
 using std::max;
+using std::min;
 
 const long VALUE = (1L<<31)-1;
 
@@ -46,7 +47,7 @@ private:
     }
 
     long find(int lhs, int rhs, int i, int L, int R) {
-        // assert(i < M);
+        assert(i < N);
         assert(i >= 0);
 
         eval(i);
@@ -60,7 +61,7 @@ private:
         } else {
             int lv = find(lhs, rhs, left(i), L, (L + R) / 2);
             int rv = find(lhs, rhs, right(i), (L + R) / 2, R);
-            ret = max(lv, rv);
+            ret = min(lv, rv);
         }
 
         return ret;
@@ -105,14 +106,6 @@ public:
         // }
     }
 
-    long find(int i) {
-        i += M - 1;
-
-        eval(i);
-
-        return value[i];
-    }
-
     long find(int lhs, int rhs) {
         int root = 0; // 葉の数はM、区間は[0, M)
         return find(lhs, rhs, root, 0, M);
@@ -152,7 +145,7 @@ void solve() {
             assert(i >= 0);
             assert(i < n);
 
-            cout << tree.find(i) << endl;
+            cout << tree.find(i, i+1) << endl;
         }
     }
 }
