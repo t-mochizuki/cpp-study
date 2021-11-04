@@ -1,38 +1,25 @@
+// g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
+#include <cassert>
 #include <iostream>
 #include <fstream>
 #include <vector>
-
-#define DEV 1
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
+using std::min;
 
-const int INF = 2147483647;
+const long INF = (1L<<31)-1;
 
-template<class T> inline T min(T X, T Y) {
-    return X < Y ? X : Y;
-}
+class RangeMinimumQuery {
+private:
 
-class RMQ {
-public:
-
-    int _n = 1;
-    int _N;
-    vector<int> _minv;
-
-
-    RMQ(int len) {
-        while (_n < len) {
-            _n *= 2;
-        }
-        _N = 2 * _n - 1;
-
-        _minv.resize(_N, INF);
-    }
+    int M = 1;
+    int N;
+    vector<long> value;
 
     int parent(int i) {
         return (i - 1) / 2;
@@ -46,49 +33,65 @@ public:
         return 2 * i + 2;
     }
 
-    void update(int i, int x) {
-        i += _n - 1;
-        _minv[i] = x;
-
-        while (i > 0) {
-            i = parent(i);
-            _minv[i] = min(_minv[left(i)], _minv[right(i)]);
-        }
-    }
-
-    int query(int s, int t, int i, int l, int r) {
+    int query(int lhs, int rhs, int i, int L, int R) {
         int ret = INF;
 
-        if (t <= l || r <= s) {
+        if (rhs <= L || R <= lhs) {
             ret = INF;
-        } else if (s <= l && r <= t) {
-            ret = _minv[i];
+        } else if (lhs <= L && R <= rhs) {
+            ret = value[i];
         } else {
-            int vl = query(s, t, left(i), l, (l + r) / 2);
-            int vr = query(s, t, right(i), (l + r) / 2, r);
-            ret = min(vl, vr);
+            int lv = query(lhs, rhs, left(i), L, (L + R) / 2);
+            int rv = query(lhs, rhs, right(i), (L + R) / 2, R);
+            ret = min(lv, rv);
         }
 
         return ret;
     }
 
-    int find(int s, int t) {
-        return query(s, t + 1, 0, 0, _n);
+public:
+
+    RangeMinimumQuery(int len) {
+        while (M < len) {
+            M *= 2;
+        }
+
+        N = 2 * M - 1;
+
+        value.assign(N, INF);
+    }
+
+    void update(int i, long x) {
+        assert(i < M);
+        assert(i >= 0);
+
+        i += M - 1;
+        value[i] = x;
+
+        while (i > 0) {
+            i = parent(i);
+            value[i] = min(value[left(i)], value[right(i)]);
+        }
+    }
+
+    int find(int lhs, int rhs) {
+        int root = 0; // 葉の数はM、区間は[0, M)
+        return query(lhs, rhs, root, 0, M);
     }
 };
 
 void solve() {
     int n, q; cin >> n >> q;
 
-    RMQ tree(n);
+    RangeMinimumQuery tree(n);
 
     for (int i = 0; i < q; ++i) {
         int command; cin >> command;
-        int x, y; cin >> x >> y;
+        long x, y; cin >> x >> y;
         if (command == 0) {
             tree.update(x, y);
         } else {
-            cout << tree.find(x, y) << endl;
+            cout << tree.find(x, y+1) << endl;
         }
     }
 }
