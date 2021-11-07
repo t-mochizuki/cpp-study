@@ -5,6 +5,12 @@
 # $1: 問題を識別するディレクトリ名を指定する
 # $2: 0ならば出力例を出力し、1ならば入力例を出力する
 
+case $2 in
+  0) ;;
+  1) ;;
+  *) exit 0 ;;
+esac
+
 readonly URLBASE="https://atcoder.jp/contests/typical90/tasks"
 readonly URL="${URLBASE}/$1"
 readonly TEXT=`curl $URL --show-error | \
