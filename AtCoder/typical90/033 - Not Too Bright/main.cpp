@@ -11,6 +11,8 @@ using std::endl;
 using std::terminate;
 using std::vector;
 
+// キーワード: コーナーケースに気を付けよう
+
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 
@@ -34,6 +36,11 @@ public:
     }
 
     void solve() {
+        if (H == 1 || W == 1) {
+            cout << H * W << endl;
+            return ;
+        }
+
         int ans = 0;
         rep(i, 0, H) rep(j, 0, W) {
             if (i % 2 == 0 && j % 2 == 0) ans++;
