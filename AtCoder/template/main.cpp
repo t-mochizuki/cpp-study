@@ -1,5 +1,6 @@
 // g++ -std=c++14 -DDEV=1 main.cpp
 #include <stdio.h>
+#include <cassert>
 #include <iostream>
 #include <fstream>
 #include <vector>
