@@ -2,11 +2,11 @@
 
 using namespace design;
 
-void Subject::addObserver(Observer* o) {
-    observers.push_back(o);
+void Subject::addObserver(Observer& o) {
+    observers.push_back(&o);
 }
 
-void Subject::removeObserver(Observer* o) {
+void Subject::removeObserver(Observer& o) {
     // todo
 }
 

@@ -31,12 +31,12 @@ public:
     /*
      * 指定した観察者を観察者の一覧に追加する
      */
-    void addObserver(Observer* o);
+    void addObserver(Observer& o);
 
     /*
      * 指定した観察者を観察者の一覧から削除する
      */
-    void removeObserver(Observer* o);
+    void removeObserver(Observer& o);
 
     void notifyObserver();
 };

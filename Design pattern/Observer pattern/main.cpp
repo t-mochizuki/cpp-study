@@ -46,16 +46,13 @@ public:
 
     void solve() {
         design::Subject s;
-        auto foo = new ConcreteObserver("foo");
-        auto bar = new ConcreteObserver("bar");
+        auto foo = ConcreteObserver("foo");
+        auto bar = ConcreteObserver("bar");
 
         s.addObserver(foo);
         s.addObserver(bar);
 
         s.notifyObserver();
-
-        delete bar;
-        delete foo;
     }
 };
 
