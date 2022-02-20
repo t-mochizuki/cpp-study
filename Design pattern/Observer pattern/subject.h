@@ -24,7 +24,9 @@ public:
     Subject() {
     }
 
-    virtual ~Subject() {}
+    virtual ~Subject() {
+        cout << "Delete a subject" << endl;
+    }
 
     /*
      * 指定した観察者を観察者の一覧に追加する

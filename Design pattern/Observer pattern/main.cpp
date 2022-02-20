@@ -26,6 +26,10 @@ public:
 
     ConcreteObserver(string name): name(name) {}
 
+    ~ConcreteObserver() {
+        cout << "Delete a concrete observer" << endl;
+    }
+
     void update(design::Subject* s) override {
         cout << "Subject: " << s << endl;
         cout << "name: " << name << endl;
@@ -49,6 +53,9 @@ public:
         s.addObserver(bar);
 
         s.notifyObserver();
+
+        delete bar;
+        delete foo;
     }
 };
 
