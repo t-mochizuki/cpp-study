@@ -8,6 +8,10 @@ namespace design {
 using std::cout;
 using std::endl;
 
+/*
+ * 観察者
+ * 観察対象からのイベントの発生の通知を監視する
+ */
 class Observer {
 private:
 
