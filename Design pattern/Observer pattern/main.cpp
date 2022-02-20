@@ -5,31 +5,19 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include "observer"
+#include "subject"
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
-using std::vector;
 using std::string;
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 
-class Observer {
-private:
-
-public:
-
-    Observer() {}
-    virtual ~Observer() {}
-
-    virtual void update() {
-        cout << "Observer" << endl;
-    };
-};
-
-class ConcreteObserver : public Observer {
+class ConcreteObserver : public design::Observer {
 private:
 
     string name;
@@ -43,33 +31,6 @@ public:
     }
 };
 
-class Subject {
-private:
-
-    vector<Observer*> observers;
-
-public:
-
-    Subject() {
-    }
-
-    virtual ~Subject() {}
-
-    void addObserver(Observer* o) {
-        observers.push_back(o);
-    }
-
-    void removeObserver(Observer* o) {
-        // todo
-    }
-
-    void notifyObserver() {
-        for (auto o : observers) {
-            o->update();
-        }
-    }
-};
-
 class Program {
 private:
 
@@ -79,7 +40,7 @@ public:
     }
 
     void solve() {
-        Subject s;
+        design::Subject s;
         auto foo = new ConcreteObserver("foo");
         auto bar = new ConcreteObserver("bar");
 
