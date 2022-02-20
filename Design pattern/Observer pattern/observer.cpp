@@ -1,30 +1,11 @@
-#ifndef OBSERVER
-#define OBSERVER 1
+#include "observer.h"
+#include "subject.h"
 
-namespace design {
+using namespace design;
 
-#include <iostream>
+Observer::Observer() {}
+Observer::~Observer() {}
 
-using std::cout;
-using std::endl;
-
-/*
- * 観察者
- * 観察対象からのイベントの発生の通知を監視する
- */
-class Observer {
-private:
-
-public:
-
-    Observer() {}
-    virtual ~Observer() {}
-
-    virtual void update() {
-        cout << "Observer" << endl;
-    };
-};
-
-} // namespace design
-
-#endif // OBSERVER
+void Observer::update(Subject* s) {
+  cout << "Observer" << endl;
+}

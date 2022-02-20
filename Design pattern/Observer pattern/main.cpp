@@ -5,8 +5,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "observer"
-#include "subject"
+#include "observer.cpp"
+#include "subject.cpp"
 
 using std::cin;
 using std::cout;
@@ -26,7 +26,8 @@ public:
 
     ConcreteObserver(string name): name(name) {}
 
-    void update() override {
+    void update(design::Subject* s) override {
+        cout << "Subject: " << s << endl;
         cout << "name: " << name << endl;
     }
 };
