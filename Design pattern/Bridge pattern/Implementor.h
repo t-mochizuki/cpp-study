@@ -10,6 +10,9 @@ using std::cout;
 using std::endl;
 using std::string;
 
+/*
+ * 実装
+ */
 class Implementor {
 private:
 

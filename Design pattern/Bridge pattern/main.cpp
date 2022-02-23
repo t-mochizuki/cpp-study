@@ -17,6 +17,9 @@ using std::vector;
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 
+/*
+ * 抽象的側面と実装を独立して変更できる
+ */
 class Program {
 private:
 

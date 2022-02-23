@@ -3,6 +3,9 @@
 
 namespace design {
 
+/*
+ * 抽象的側面
+ */
 class Abstraction {
 private:
 
