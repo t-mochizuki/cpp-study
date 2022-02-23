@@ -4,7 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "ConcreteImplementor.h"
+#include "ConcreteImplementorA.h"
+#include "ConcreteImplementorB.h"
 #include "RefinedAbstraction.h"
 
 using std::cin;
@@ -25,9 +26,14 @@ public:
     }
 
     void solve() {
-        design::ConcreteImplementor imp;
-        design::RefinedAbstraction abstraction(imp);
-        abstraction.operation();
+        design::ConcreteImplementorA impA;
+        design::ConcreteImplementorB impB;
+
+        design::RefinedAbstraction abstractionA(impA);
+        abstractionA.operation();
+
+        design::RefinedAbstraction abstractionB(impB);
+        abstractionB.operation();
     }
 };
 
