@@ -1,4 +1,9 @@
-<%# erb name=foo -T - class.erb -%>
+<%# erb name=foo_bar -T - class.erb -%>
+<%
+  def snake_to_pascal(str)
+    str.split('_').map(&:capitalize).join
+  end
+-%>
 #ifndef <%= name.upcase %>
 #define <%= name.upcase %> 1
 
@@ -11,16 +16,16 @@ using std::cout;
 using std::endl;
 using std::string;
 
-class <%= name.capitalize %> {
+class <%= snake_to_pascal(name) %> {
 private:
 
     string name;
 
 public:
 
-    <%= name.capitalize %>(): name("") {}
-    <%= name.capitalize %>(string name): name(name) {}
-    virtual ~<%= name.capitalize %>() {}
+    <%= snake_to_pascal(name) %>(): name("") {}
+    <%= snake_to_pascal(name) %>(string name): name(name) {}
+    virtual ~<%= snake_to_pascal(name) %>() {}
 };
 
 } // namespace design
