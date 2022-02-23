@@ -5,8 +5,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "observer.cpp"
 #include "subject.cpp"
+#include "ConcreteObserver.h"
 
 using std::cin;
 using std::cout;
@@ -17,25 +17,6 @@ using std::string;
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 
-class ConcreteObserver : public design::Observer {
-private:
-
-    string name;
-
-public:
-
-    ConcreteObserver(string name): name(name) {}
-
-    ~ConcreteObserver() {
-        cout << "Delete a concrete observer" << endl;
-    }
-
-    void update(design::Subject* s) override {
-        cout << "Subject: " << s << endl;
-        cout << "name: " << name << endl;
-    }
-};
-
 class Program {
 private:
 
@@ -45,7 +26,7 @@ public:
     }
 
     void solve() {
-        design::Subject s;
+        design::Subject s("a new record");
         auto foo = ConcreteObserver("foo");
         auto bar = ConcreteObserver("bar");
 

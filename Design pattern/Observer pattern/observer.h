@@ -19,10 +19,14 @@ private:
 
 public:
 
-    Observer();
-    virtual ~Observer();
+    Observer() {};
+    virtual ~Observer() {
+        cout << "Delete an observer" << endl;
+    };
 
-    virtual void update(Subject* s);
+    virtual void update(Subject* s) {
+        cout << "Observer" << endl;
+    };
 };
 
 } // namespace design

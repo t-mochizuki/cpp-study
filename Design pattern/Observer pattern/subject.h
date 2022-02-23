@@ -4,8 +4,10 @@
 namespace design {
 
 #include <vector>
+#include <string>
 
 using std::vector;
+using std::string;
 
 class Observer;
 
@@ -17,12 +19,13 @@ class Observer;
 class Subject {
 private:
 
+    string name;
     vector<Observer*> observers;
 
 public:
 
-    Subject() {
-    }
+    Subject(): name("") {}
+    Subject(string name): name(name) {}
 
     virtual ~Subject() {
         cout << "Delete a subject" << endl;
@@ -39,6 +42,8 @@ public:
     void removeObserver(Observer& o);
 
     void notifyObserver();
+
+    string getName() { return name; }
 };
 
 } // namespace design
