@@ -1,0 +1,28 @@
+<%# erb name=foo -T - class.erb -%>
+#ifndef <%= name.upcase %>
+#define <%= name.upcase %> 1
+
+namespace design {
+
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::string;
+
+class <%= name.capitalize %> {
+private:
+
+    string name;
+
+public:
+
+    <%= name.capitalize %>(): name("") {}
+    <%= name.capitalize %>(string name): name(name) {}
+    virtual ~<%= name.capitalize %>() {}
+};
+
+} // namespace design
+
+#endif // <%= name.upcase %>
