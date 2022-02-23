@@ -3,15 +3,12 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
-#include <string>
-#include "subject.cpp"
-#include "ConcreteObserver.h"
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
-using std::string;
+using std::vector;
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
@@ -25,14 +22,6 @@ public:
     }
 
     void solve() {
-        design::Subject s("a new record");
-        auto foo = ConcreteObserver("foo");
-        auto bar = ConcreteObserver("bar");
-
-        s.addObserver(foo);
-        s.addObserver(bar);
-
-        s.notifyObserver();
     }
 };
 
