@@ -13,6 +13,10 @@ using std::cout;
 using std::endl;
 using std::string;
 
+/*
+ * 具象クラスを指定せずに
+ * オブジェクトのファミリを生成するインタフェースを提供する
+ */
 class AbstractFactory {
 private:
 
