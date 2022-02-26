@@ -11,5 +11,5 @@
 classDiagram
      Creator <|-- ConcreteCreator
      Product <|-- ConcreteProduct
-     ConcreteProduct <.. ConcreteCreator
+     ConcreteCreator ..> ConcreteProduct
 ```
