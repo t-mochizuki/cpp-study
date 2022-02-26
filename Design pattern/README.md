@@ -9,7 +9,16 @@
 
 ```mermaid
 classDiagram
-     Creator <|-- ConcreteCreator
-     Product <|-- ConcreteProduct
-     ConcreteCreator ..> ConcreteProduct
+
+class Creator {
+  factoryMethod()*
+}
+
+class ConcreteCreator {
+  factoryMethod()
+}
+
+Creator <|-- ConcreteCreator
+Product <|-- ConcreteProduct
+ConcreteCreator ..> ConcreteProduct
 ```
