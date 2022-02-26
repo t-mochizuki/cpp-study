@@ -19,7 +19,7 @@ public:
     ConcreteCreator() {}
     virtual ~ConcreteCreator() {}
 
-    Product* factoryMethod() override {
+    ConcreteProduct* factoryMethod() override {
         return new ConcreteProduct();
     }
 };

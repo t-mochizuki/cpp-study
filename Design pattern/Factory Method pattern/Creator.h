@@ -19,8 +19,9 @@ public:
     virtual ~Creator() {}
 
     void operation() {
-        auto product = factoryMethod();
+        Product* product = factoryMethod();
         product->something();
+        delete product;
     }
 
     virtual Product* factoryMethod() {

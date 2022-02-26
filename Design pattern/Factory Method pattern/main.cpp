@@ -23,7 +23,7 @@ public:
     }
 
     void solve() {
-        auto creator = design::ConcreteCreator();
+        design::ConcreteCreator creator = design::ConcreteCreator();
         creator.operation();
     }
 };
