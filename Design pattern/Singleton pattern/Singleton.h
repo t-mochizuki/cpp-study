@@ -19,7 +19,7 @@ public:
 
     virtual ~Singleton() {}
     static Singleton* getInstance() {
-        if (instance == 0x0) {
+        if (instance == NULL) {
             instance = new Singleton();
         }
 

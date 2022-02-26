@@ -14,7 +14,7 @@ using std::vector;
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 
-design::Singleton* design::Singleton::instance;
+design::Singleton* design::Singleton::instance = NULL;
 
 class Program {
 private:
