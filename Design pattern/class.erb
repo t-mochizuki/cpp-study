@@ -10,21 +10,16 @@
 namespace design {
 
 #include <iostream>
-#include <string>
 
 using std::cout;
 using std::endl;
-using std::string;
 
 class <%= snake_to_pascal(name) %> {
 private:
 
-    string name;
-
 public:
 
-    <%= snake_to_pascal(name) %>(): name("") {}
-    <%= snake_to_pascal(name) %>(string name): name(name) {}
+    <%= snake_to_pascal(name) %>() {}
     virtual ~<%= snake_to_pascal(name) %>() {}
 };
 
