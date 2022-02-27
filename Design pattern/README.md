@@ -12,6 +12,7 @@ classDiagram
 
 class Creator {
   factoryMethod()*
+  operation()
 }
 
 class ConcreteCreator {
