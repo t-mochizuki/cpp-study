@@ -22,3 +22,13 @@ Creator <|-- ConcreteCreator
 Product <|-- ConcreteProduct
 ConcreteCreator ..> ConcreteProduct
 ```
+
+## Singleton Pattern
+
+```mermaid
+classDiagram
+
+class Singleton
+Singleton : -static instance
+Singleton : +static getInstance()
+```
