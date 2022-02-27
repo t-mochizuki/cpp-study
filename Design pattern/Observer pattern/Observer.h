@@ -8,8 +8,6 @@ namespace design {
 using std::cout;
 using std::endl;
 
-class Subject;
-
 /*
  * 観察者
  * 観察対象からのイベントの発生の通知を監視する
@@ -24,7 +22,7 @@ public:
         cout << "Delete an observer" << endl;
     };
 
-    virtual void update(Subject* s) {
+    virtual void update() {
         cout << "Observer" << endl;
     };
 };

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "subject.cpp"
+#include "ConcreteSubject.h"
 #include "ConcreteObserver.h"
 
 using std::cin;
@@ -12,6 +12,8 @@ using std::cout;
 using std::endl;
 using std::terminate;
 using std::string;
+
+using namespace design;
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
@@ -25,14 +27,14 @@ public:
     }
 
     void solve() {
-        design::Subject s("a new record");
-        auto foo = ConcreteObserver("foo");
-        auto bar = ConcreteObserver("bar");
+        ConcreteSubject subject("a new record");
+        auto foo = ConcreteObserver(subject);
+        auto bar = ConcreteObserver(subject);
 
-        s.addObserver(foo);
-        s.addObserver(bar);
+        subject.addObserver(foo);
+        subject.addObserver(bar);
 
-        s.notifyObserver();
+        subject.notifyObserver();
     }
 };
 

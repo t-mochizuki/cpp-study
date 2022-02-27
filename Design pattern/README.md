@@ -51,3 +51,31 @@ ConcreteClass : postproc()
 
 AbstractClass <|-- ConcreteClass
 ```
+
+## Observer Pattern
+
+```mermaid
+classDiagram
+
+class Subjct
+Subjct : -observers
+Subjct : addObserver(observer)
+Subjct : removeObserver(observer)
+Subjct : notifyObserver()
+
+class ConcreteSubjct
+ConcreteSubjct : -name
+ConcreteSubjct : getName()
+
+class Observer
+Observer : update()*
+
+class ConcreteObserver
+ConcreteObserver : -subject
+ConcreteObserver : update()
+
+Subjct <|-- ConcreteSubjct
+Observer <|-- ConcreteObserver
+Subjct --> Observer
+ConcreteSubjct <-- ConcreteObserver
+```

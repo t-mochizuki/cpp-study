@@ -1,8 +1,8 @@
 #ifndef CONCRETE_OBSERVER
 #define CONCRETE_OBSERVER 1
 
-#include "subject.h"
-#include "observer.h"
+#include "ConcreteSubject.h"
+#include "Observer.h"
 
 namespace design {
 
@@ -14,18 +14,18 @@ using std::endl;
 class ConcreteObserver : public Observer {
 private:
 
-    string name;
+    ConcreteSubject& subject;
 
 public:
 
-    ConcreteObserver(string name): name(name) {}
+    ConcreteObserver(ConcreteSubject& subject): subject(subject) {}
 
     ~ConcreteObserver() {
         cout << "Delete a concrete observer" << endl;
     }
 
-    void update(Subject* subject) override {
-        cout << "Observer to observe " << subject->getName() << " subject" << endl;
+    void update() override {
+        cout << "Observer to observe " << subject.getName() << " subject" << endl;
     }
 };
 

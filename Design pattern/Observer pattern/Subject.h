@@ -1,11 +1,15 @@
 #ifndef SUBJECT
 #define SUBJECT 1
 
+#include "Observer.h"
+
 namespace design {
 
 #include <vector>
 #include <string>
 
+using std::cout;
+using std::endl;
 using std::vector;
 using std::string;
 
@@ -19,13 +23,11 @@ class Observer;
 class Subject {
 private:
 
-    string name;
     vector<Observer*> observers;
 
 public:
 
-    Subject(): name("") {}
-    Subject(string name): name(name) {}
+    Subject() {}
 
     virtual ~Subject() {
         cout << "Delete a subject" << endl;
@@ -34,16 +36,22 @@ public:
     /*
      * 指定した観察者を観察者の一覧に追加する
      */
-    void addObserver(Observer& o);
+    void addObserver(Observer& o) {
+        observers.push_back(&o);
+    };
 
     /*
      * 指定した観察者を観察者の一覧から削除する
      */
-    void removeObserver(Observer& o);
+    void removeObserver(Observer& o) {
+        // todo
+    };
 
-    void notifyObserver();
-
-    string getName() { return name; }
+    void notifyObserver() {
+        for (auto o : observers) {
+            o->update();
+        }
+    };
 };
 
 } // namespace design
