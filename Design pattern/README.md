@@ -79,3 +79,27 @@ Observer <|-- ConcreteObserver
 Subjct --> Observer
 ConcreteSubjct <-- ConcreteObserver
 ```
+
+## Decorator Pattern
+
+```mermaid
+classDiagram
+
+class Component
+Component : operation()*
+
+class ConcreteComponent
+ConcreteComponent : operation()
+
+class Decorator
+Decorator : -component
+Decorator : operation()
+
+class ConcreteDecorator
+ConcreteDecorator : operation()
+
+Component <|-- ConcreteComponent
+Component <|-- Decorator
+Decorator o-- Component
+Decorator <|-- ConcreteDecorator
+```

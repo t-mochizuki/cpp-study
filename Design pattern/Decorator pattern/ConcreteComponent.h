@@ -1,7 +1,7 @@
 #ifndef CONCRETECOMPONENT
 #define CONCRETECOMPONENT 1
 
-#include "component.h"
+#include "Component.h"
 
 namespace design {
 
@@ -20,7 +20,9 @@ public:
         cout << "~ConcreteComponent" << endl;
     }
 
-    void operate() override;
+    void operate() override {
+        cout << "ConcreteComponent::operate" << endl;
+    };
 };
 
 } // namespace design

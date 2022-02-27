@@ -1,7 +1,7 @@
 #ifndef CONCRETEDECORATOR
 #define CONCRETEDECORATOR 1
 
-#include "decorator.h"
+#include "Decorator.h"
 
 namespace design {
 
@@ -17,12 +17,15 @@ private:
 
 public:
 
-    ConcreteDecorator(Component& component): component(&component) {}
+    ConcreteDecorator(Component& component): Decorator(component), component(&component) {}
     virtual ~ConcreteDecorator() {
         cout << "~ConcreteDecorator" << endl;
     }
 
-    void operate() override;
+    void operate() override {
+        cout << "ConcreteDecorator::operate" << endl;
+        this->component->operate();
+    };
 };
 
 } // namespace design

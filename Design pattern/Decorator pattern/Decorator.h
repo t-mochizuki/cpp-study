@@ -1,7 +1,7 @@
 #ifndef DECORATOR
 #define DECORATOR 1
 
-#include "component.h"
+#include "Component.h"
 
 namespace design {
 
@@ -17,7 +17,6 @@ private:
 
 public:
 
-    Decorator() {}
     Decorator(Component& component): component(&component) {}
     virtual ~Decorator() {
         cout << "~Decorator" << endl;

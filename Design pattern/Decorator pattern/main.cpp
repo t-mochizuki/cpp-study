@@ -3,8 +3,8 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
-#include "concretecomponent.cpp"
-#include "concretedecorator.cpp"
+#include "ConcreteComponent.h"
+#include "ConcreteDecorator.h"
 
 using std::cin;
 using std::cout;
