@@ -18,7 +18,7 @@ public:
     AbstractClass() {}
     virtual ~AbstractClass() {}
 
-    void proc() {
+    void templateMethod() {
         if (!preproc()) {
             throw runtime_error("preproc error");
         }

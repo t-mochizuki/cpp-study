@@ -24,7 +24,7 @@ public:
 
     void solve() {
         auto foo = new design::ConcreteClass;
-        foo->proc();
+        foo->templateMethod();
         delete foo;
     }
 };

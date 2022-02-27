@@ -32,3 +32,22 @@ class Singleton
 Singleton : -static instance
 Singleton : +static getInstance()
 ```
+
+## Template Method Pattern
+
+```mermaid
+classDiagram
+
+class AbstractClass
+AbstractClass : +templateMethod()
+AbstractClass : preproc()*
+AbstractClass : mainproc()*
+AbstractClass : postproc()*
+
+class ConcreteClass
+ConcreteClass : preproc()
+ConcreteClass : mainproc()
+ConcreteClass : postproc()
+
+AbstractClass <|-- ConcreteClass
+```
