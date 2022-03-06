@@ -1,4 +1,4 @@
-// g++ -std=c++14 -DDEV=1 main.cpp
+// g++ -std=c++14 -DDEV=1 pull_based.cpp
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -9,36 +9,45 @@ using std::cout;
 using std::endl;
 using std::vector;
 using std::abs;
-using std::min;
 
-#define rep(i, n) for (int i = 0; i < (n); ++i)
+#define rep(i, a, n) for (int i = (a); i < (n); ++i)
+
+const long INF = 1L << 30;
 
 class Program {
 private:
 
     int N;
-    vector<int> h;
+    vector<long> h;
     vector<long> dp;
+
+    template<class T> void chmin(T& a, T b) {
+        if (a > b) {
+            a = b;
+        }
+    }
 
 public:
     Program() {
         cin >> N;
 
-        h.assign(N, 0);
-        rep(i, N) cin >> h[i];
+        h.resize(N);
+        rep(i, 0, N) cin >> h[i];
 
-        dp.assign(N, 0);
+        dp.assign(N, INF);
+        dp[0] = 0;
     }
 
-    int cost(int i, int j) {
+    long cost(int i, int j) {
         return abs(h[i] - h[j]);
     }
 
     void solve() {
-        rep(i, N) {
-            if (i == 0) continue;
-            if (i == 1) dp[i] = cost(i - 1, i) + dp[i - 1];
-            else dp[i] = min(cost(i - 1, i) + dp[i - 1], cost(i - 2, i) + dp[i - 2]);
+        chmin(dp[1], cost(1, 0));
+
+        rep(i, 2, N) {
+            chmin(dp[i], dp[i-1] + cost(i, i-1));
+            chmin(dp[i], dp[i-2] + cost(i, i-2));
         }
 
         cout << dp[N - 1] << endl;
