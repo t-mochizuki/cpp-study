@@ -1,3 +1,6 @@
+/*
+g++ -std=c++14 -c dfs.cpp
+ */
 #ifndef DFS
 #define DFS 1
 
@@ -18,6 +21,10 @@ public:
 
     DepthFirstSearch() {}
 
+    DepthFirstSearch(int N) {
+        seen.assign(N, false);
+    }
+
     void search(Graph &g, int s) {
         seen.assign(g.size(), false);
         stack<int> st;
@@ -26,7 +33,7 @@ public:
         st.push(s);
 
         while (!st.empty()) {
-            int u = st.front(); st.pop();
+            int u = st.top(); st.pop();
             for (auto v : g[u]) {
                 if (seen[v]) continue;
 
@@ -34,6 +41,22 @@ public:
                 st.push(v);
             }
         }
+    }
+
+    void recur(Graph &g, int u) {
+        seen[u] = true;
+
+        for (auto v : g[u]) {
+            if (seen[v]) continue;
+
+            // 行き掛け
+            // ...
+
+            recur(g, v);
+        }
+
+        // 帰り掛け
+        // ...
     }
 
 };
