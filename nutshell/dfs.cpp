@@ -1,37 +1,37 @@
-#ifndef BFS
-#define BFS 1
+#ifndef DFS
+#define DFS 1
 
 #include <vector>
-#include <queue>
+#include <stack>
 
 using std::vector;
-using std::queue;
+using std::stack;
 
 using Graph = vector<vector<int>>;
 
 namespace nutshell {
 
-class BreadthFirstSearch {
+class DepthFirstSearch {
 public:
 
     vector<bool> seen;
 
-    BreadthFirstSearch() {}
+    DepthFirstSearch() {}
 
     void search(Graph &g, int s) {
         seen.assign(g.size(), false);
-        queue<int> que;
+        stack<int> st;
 
-        seen[s] = 0;
-        que.push(s);
+        seen[s] = true;
+        st.push(s);
 
-        while (!que.empty()) {
-            int u = que.front(); que.pop();
+        while (!st.empty()) {
+            int u = st.front(); st.pop();
             for (auto v : g[u]) {
                 if (seen[v]) continue;
 
                 seen[v] = true;
-                que.push(v);
+                st.push(v);
             }
         }
     }
@@ -40,4 +40,4 @@ public:
 
 } // namespace nutshell
 
-#endif // BFS
+#endif // DFS
