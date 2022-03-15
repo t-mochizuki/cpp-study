@@ -16,10 +16,11 @@ public:
 
     vector<bool> seen;
 
-    BreadthFirstSearch() {}
+    BreadthFirstSearch(int N) {
+        seen.assign(N, false);
+    }
 
     void search(Graph &g, int s) {
-        seen.assign(g.size(), false);
         queue<int> que;
 
         seen[s] = 0;
