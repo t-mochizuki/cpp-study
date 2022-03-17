@@ -35,8 +35,49 @@ private:
         j = tmp;
     }
 
+    bool equal(const Dice &other) const {
+        bool ret = true;
+
+        rep(i, 1, 7) {
+            if (this->v[i] != other.v[i]) {
+                ret = false;
+                break;
+            }
+        }
+
+        return ret;
+    }
+
     Dice counterclockwise() const {
         return Dice(v[1], v[4], v[2], v[5], v[3], v[6]);
+    }
+
+    bool match(Dice &other) const {
+        bool ret = false;
+
+        rep(j, 0, 4) {
+            // other.debug();
+
+            if (this->equal(other)) {
+                ret = true;
+            }
+
+            other = other.counterclockwise();
+        }
+
+        return ret;
+    }
+
+    Dice rotate(char direction) const {
+        if (direction == 'W') {
+            return Dice(v[3], v[2], v[6], v[1], v[5], v[4]);
+        } else if (direction == 'E') {
+            return Dice(v[4], v[2], v[1], v[6], v[5], v[3]);
+        } else if (direction == 'S') {
+            return Dice(v[5], v[1], v[3], v[4], v[6], v[2]);
+        } else {
+            return Dice(v[2], v[6], v[3], v[4], v[1], v[5]);
+        }
     }
 
 public:
@@ -52,13 +93,7 @@ public:
     Dice(int v1, int v2, int v3, int v4, int v5, int v6) {
         v.resize(7);
 
-        v[1] = v1;
-        v[2] = v2;
-        v[3] = v3;
-        v[4] = v4;
-        v[5] = v5;
-        v[5] = v5;
-        v[6] = v6;
+        v[1] = v1; v[2] = v2; v[3] = v3; v[4] = v4; v[5] = v5; v[5] = v5; v[6] = v6;
     }
 
     int get(int i, int j) {
@@ -94,45 +129,46 @@ public:
         terminate();
     }
 
-    Dice rotate(char direction) const {
-        if (direction == 'W') {
-            return Dice(v[3], v[2], v[6], v[1], v[5], v[4]);
-        } else if (direction == 'E') {
-            return Dice(v[4], v[2], v[1], v[6], v[5], v[3]);
-        } else if (direction == 'S') {
-            return Dice(v[5], v[1], v[3], v[4], v[6], v[2]);
-        } else {
-            return Dice(v[2], v[6], v[3], v[4], v[1], v[5]);
-        }
-    }
-
-    bool equal(const Dice &other) const {
-        bool ret = true;
-
-        rep(i, 1, 7) {
-            if (this->v[i] != other.v[i]) {
-                ret = false;
-                break;
-            }
-        }
-
-        return ret;
-    }
-
     bool operator==(Dice &other) const {
-        bool ret = false;
-
-        rep(j, 0, 4) {
-            // other.debug();
-
-            if (this->equal(other)) {
-                ret = true;
-            }
-
-            other = other.counterclockwise();
+        // top: 1
+        if (this->match(other)) {
+            return true;
         }
 
-        return ret;
+        // top: 2
+        other = other.rotate('N');
+        if (this->match(other)) {
+            return true;
+        }
+
+        // top: 6
+        other = other.rotate('N');
+        if (this->match(other)) {
+            return true;
+        }
+
+        // top: 5
+        other = other.rotate('N');
+        if (this->match(other)) {
+            return true;
+        }
+        other = other.rotate('N');
+
+        // top: 4
+        other = other.rotate('E');
+        if (this->match(other)) {
+            return true;
+        }
+        other = other.rotate('W');
+
+        // top: 3
+        other = other.rotate('W');
+        if (this->match(other)) {
+            return true;
+        }
+        other = other.rotate('E');
+
+        return false;
     }
 
     void debug() const {
@@ -142,48 +178,6 @@ public:
 
 class Program {
 private:
-
-    bool equal(const Dice &d1, Dice &d2) {
-        // top: 1
-        if (d1 == d2) {
-            return true;
-        }
-
-        // top: 2
-        d2 = d2.rotate('N');
-        if (d1 == d2) {
-            return true;
-        }
-
-        // top: 6
-        d2 = d2.rotate('N');
-        if (d1 == d2) {
-            return true;
-        }
-
-        // top: 5
-        d2 = d2.rotate('N');
-        if (d1 == d2) {
-            return true;
-        }
-        d2 = d2.rotate('N');
-
-        // top: 4
-        d2 = d2.rotate('E');
-        if (d1 == d2) {
-            return true;
-        }
-        d2 = d2.rotate('W');
-
-        // top: 3
-        d2 = d2.rotate('W');
-        if (d1 == d2) {
-            return true;
-        }
-        d2 = d2.rotate('E');
-
-        return false;
-    }
 
 public:
 
@@ -196,7 +190,7 @@ public:
         vector<Dice> ds(n);
 
         rep(i, 0, n) rep(j, i+1, n) {
-            if (equal(ds[i], ds[j])) {
+            if (ds[i] == ds[j]) {
                 cout << "No" << endl;
                 return ;
             }
