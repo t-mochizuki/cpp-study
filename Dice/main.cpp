@@ -76,6 +76,7 @@ private:
         } else if (direction == 'S') {
             return Dice(v[5], v[1], v[3], v[4], v[6], v[2]);
         } else {
+            assert(direction == 'N');
             return Dice(v[2], v[6], v[3], v[4], v[1], v[5]);
         }
     }
