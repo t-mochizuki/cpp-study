@@ -38,11 +38,29 @@ long pow(long base, long exponent) {
     }
 }
 
+long base8_to_long(const vector<long>& v) {
+    long ret = 0;
+    for (long d/*igit*/ = 0; d < v.size(); ++d) {
+        ret += v[d] * pow(8L, d);
+    }
+    return ret;
+}
+
+vector<long> long_to_base9(long n) {
+    vector<long> v;
+    while (n > 0) {
+        int r = n % 9;
+        v.push_back(r);
+        n /= 9;
+    }
+    return v;
+}
+
 class Program {
 private:
 
     string s;
-    vector<int> n8, n9;
+    vector<long> n8, n9;
     int k;
 
 public:
@@ -52,7 +70,7 @@ public:
 
         n8.resize(s.size());
         rep(i, 0, s.size()) {
-            n8[s.size()-1-i] = (int)(s[i] - '0');
+            n8[s.size()-1-i] = (long)(s[i] - '0');
         }
 
         // rep(i, 0, n8.size()) {
@@ -62,10 +80,7 @@ public:
 
     void solve() {
         rep(j, 0, k) {
-            long tmp = 0;
-            for (long i = 0; i < n8.size(); ++i) {
-                tmp += n8[i] * pow(8L, i);
-            }
+            long tmp = base8_to_long(n8);
 
             // cout << "tmp:" << tmp << endl;
 
@@ -73,22 +88,17 @@ public:
                 cout << 0 << endl;
                 return ;
             } else {
-                while (tmp > 0) {
-                    int r = tmp % 9;
-                    n9.push_back(r);
-                    tmp /= 9;
-                }
+                n9 = long_to_base9(tmp);
             }
-
 
             // rep(i, 0, n9.size()) {
             //     cout << i << ":" << n9[i] << endl;
             // }
 
             // 8の部分を5に書き直す
-            for (int i = n9.size()-1; i >= 0; --i) {
-                if (n9[i] == 8) {
-                    n9[i] = 5;
+            for (auto& x : n9) {
+                if (x == 8) {
+                    x = 5;
                 }
             }
 
