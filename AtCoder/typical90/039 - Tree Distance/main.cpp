@@ -38,6 +38,8 @@ private:
     vector<vector<int>> edge;
     vector<int> dp, a, b;
 
+    // 頂点posを含む部分木の頂点数を求める
+    // 葉: dp[pos] == 1
     void dfs(int pos, int pre) {
         dp[pos] = 1;
         for (int i : edge[pos]) {
@@ -82,11 +84,17 @@ public:
     }
 
     void solve() {
+        // 頂点0を根とする根付き木
         dfs(0, -1);
 
         long ans = 0;
+        // すべての辺の貢献度を足し合わせる
+        // なぜグループAの頂点数とグループBの頂点数の積が貢献度か？
+        // 木なので連結なグラフである
+        // 必ず頂点uから頂点vに移動できる
         rep(i, 0, n-1) {
             long r = dp[a[i]] > dp[b[i]] ? dp[b[i]] : dp[a[i]];
+            assert(r != n);
             ans +=  r * (n - r);
         }
         cout << ans << endl;
