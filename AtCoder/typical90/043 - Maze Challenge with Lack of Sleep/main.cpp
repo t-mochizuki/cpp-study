@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <deque>
+#include <queue>
 #include <queue>
 #include <stack>
 #include <tuple>
@@ -20,7 +20,7 @@ using std::vector;
 using std::string;
 using std::map;
 using std::pair;
-using std::deque;
+using std::queue;
 using std::queue;
 using std::stack;
 using std::tuple;
@@ -94,79 +94,53 @@ public:
     }
 
     void solve() {
-        deque<tuple<int, int, int>> deq;
+        queue<tuple<int, int, int>> que;
 
-        for (auto d : {East, South, West, North}) deq.push_back({rs, cs, d});
+        for (auto d : {East, South, West, North}) que.push({rs, cs, d});
 
-        while (!deq.empty()) {
-            auto [r, c, d] = deq.front();
+        while (!que.empty()) {
+            auto [r, c, d] = que.front();
             // printf("%d,%d,%d,%d\n", r, c, d, dist[r][c][d]);
-            deq.pop_front();
+            que.pop();
 
-            int cost = dist[r][c][d] + 1;
-
-            if (c+1 < W && S[r][c+1] == '.') {
+            if (c+1 < W && S[r][c+1] == '.' && dist[r][c+1][East] > dist[r][c][d] + (d != East ? 1 : 0)) {
                 // East
                 if (d != East) {
-                    if (dist[r][c+1][East] > dist[r][c][d] + 1) {
-                        dist[r][c+1][East] = dist[r][c][d] + 1;
-                        deq.push_back({r, c+1, East});
-                    }
+                    dist[r][c+1][East] = dist[r][c][d] + 1;
                 } else {
-                    if (dist[r][c+1][d] > dist[r][c][d]) {
-                        dist[r][c+1][d] = dist[r][c][d];
-                        deq.push_front({r, c+1, East});
-                    }
+                    dist[r][c+1][d] = dist[r][c][d];
                 }
-
+                que.push({r, c+1, East});
             }
 
-            if (r+1 < H && S[r+1][c] == '.') {
+            if (r+1 < H && S[r+1][c] == '.' && dist[r+1][c][South] > dist[r][c][d] + (d != South ? 1 : 0)) {
                 // South
                 if (d != South) {
-                    if (dist[r+1][c][South] > dist[r][c][d] + 1) {
-                        dist[r+1][c][South] = dist[r][c][d] + 1;
-                        deq.push_back({r+1, c, South});
-                    }
+                    dist[r+1][c][South] = dist[r][c][d] + 1;
                 } else {
-                    if (dist[r+1][c][d] > dist[r][c][d]) {
-                        dist[r+1][c][d] = dist[r][c][d];
-                        deq.push_front({r+1, c, South});
-                    }
+                    dist[r+1][c][d] = dist[r][c][d];
                 }
-
+                que.push({r+1, c, South});
             }
 
-            if (c-1 >= 0 && S[r][c-1] == '.') {
+            if (c-1 >= 0 && S[r][c-1] == '.' && dist[r][c-1][West] > dist[r][c][d] + (d != West ? 1 : 0)) {
                 // West
                 if (d != West) {
-                    if (dist[r][c-1][West] > dist[r][c][d] + 1) {
-                        dist[r][c-1][West] = dist[r][c][d] + 1;
-                        deq.push_back({r, c-1, West});
-                    }
+                    dist[r][c-1][West] = dist[r][c][d] + 1;
                 } else {
-                    if (dist[r][c-1][d] > dist[r][c][d]) {
-                        dist[r][c-1][d] = dist[r][c][d];
-                        deq.push_front({r, c-1, West});
-                    }
+                    dist[r][c-1][d] = dist[r][c][d];
                 }
-
+                que.push({r, c-1, West});
             }
 
-            if (r-1 >= 0 && S[r-1][c] == '.') {
+            if (r-1 >= 0 && S[r-1][c] == '.' && dist[r-1][c][North] > dist[r][c][d] + (d != North ? 1 : 0)) {
                 // North
                 if (d != North) {
-                    if (dist[r-1][c][North] > dist[r][c][d] + 1) {
-                        dist[r-1][c][North] = dist[r][c][d] + 1;
-                        deq.push_back({r-1, c, North});
-                    }
+                    dist[r-1][c][North] = dist[r][c][d] + 1;
                 } else {
-                    if (dist[r-1][c][d] > dist[r][c][d]) {
-                        dist[r-1][c][d] = dist[r][c][d];
-                        deq.push_front({r-1, c, North});
-                    }
+                    dist[r-1][c][d] = dist[r][c][d];
                 }
-
+                que.push({r-1, c, North});
             }
         }
 
