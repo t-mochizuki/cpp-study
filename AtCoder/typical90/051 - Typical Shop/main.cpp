@@ -48,6 +48,7 @@ public:
         cin >> n >> k >> p;
         a.resize(n+1);
         rep(i, 1, n+1) cin >> a[i];
+        sort(a.begin(), a.end());
 
         dp1.assign(n+1, map<long, long>());
         dp1[0][0] = 1;
@@ -60,7 +61,7 @@ public:
 
         rep(i, 1, x+1) {
             // 品物iを選ぶ
-            for (int j = n-1; j >= 0; --j) {
+            for (int j = k-1; j >= 0; --j) {
                 for (auto [total, cnt] : dp1[j]) {
                     if (total+a[i] <= p) {
                         if (dp1[j+1].count(total+a[i]) == 1) {
@@ -68,6 +69,8 @@ public:
                         } else {
                             dp1[j+1][total+a[i]] = cnt;
                         }
+                    } else {
+                        break;
                     }
                 }
             }
@@ -75,7 +78,7 @@ public:
 
         rep(i, x+1, n+1) {
             // 品物iを選ぶ
-            for (int j = n-1; j >= 0; --j) {
+            for (int j = k-1; j >= 0; --j) {
                 for (auto [total, cnt] : dp2[j]) {
                     if (total+a[i] <= p) {
                         if (dp2[j+1].count(total+a[i]) == 1) {
@@ -83,6 +86,8 @@ public:
                         } else {
                             dp2[j+1][total+a[i]] = cnt;
                         }
+                    } else {
+                        break;
                     }
                 }
             }
@@ -94,6 +99,8 @@ public:
                 for (auto [total2, cnt2] : dp2[k-i]) {
                     if (total1 + total2 <= p) {
                         ans += cnt1 * cnt2;
+                    } else {
+                        break;
                     }
                 }
             }
