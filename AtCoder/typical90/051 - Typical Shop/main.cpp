@@ -26,11 +26,10 @@ using std::abs;
 using std::sort;
 
 // TODO: WIP
+// キーワード: 半分全列挙をしよう
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
-
-const long INF = 1000000000L;
 
 class Program {
 private:
@@ -41,7 +40,7 @@ private:
     // 選んだ品物の数
     // 値段の合計
     // 品物の選び方は何通りか
-    vector<map<long, long>> dp;
+    vector<map<long, long>> dp1, dp2;
 
 public:
 
@@ -50,20 +49,39 @@ public:
         a.resize(n+1);
         rep(i, 1, n+1) cin >> a[i];
 
-        dp.assign(n+1, map<long, long>());
-        dp[0][0] = 1;
+        dp1.assign(n+1, map<long, long>());
+        dp1[0][0] = 1;
+        dp2.assign(n+1, map<long, long>());
+        dp2[0][0] = 1;
     }
 
     void solve() {
-        rep(i, 1, n+1) {
+        int x = n / 2;
+
+        rep(i, 1, x+1) {
             // 品物iを選ぶ
             for (int j = n-1; j >= 0; --j) {
-                for (auto [total, cnt] : dp[j]) {
+                for (auto [total, cnt] : dp1[j]) {
                     if (total+a[i] <= p) {
-                        if (dp[j+1].count(total+a[i]) == 1) {
-                            dp[j+1][total+a[i]] += cnt;
+                        if (dp1[j+1].count(total+a[i]) == 1) {
+                            dp1[j+1][total+a[i]] += cnt;
                         } else {
-                            dp[j+1][total+a[i]] = cnt;
+                            dp1[j+1][total+a[i]] = cnt;
+                        }
+                    }
+                }
+            }
+        }
+
+        rep(i, x+1, n+1) {
+            // 品物iを選ぶ
+            for (int j = n-1; j >= 0; --j) {
+                for (auto [total, cnt] : dp2[j]) {
+                    if (total+a[i] <= p) {
+                        if (dp2[j+1].count(total+a[i]) == 1) {
+                            dp2[j+1][total+a[i]] += cnt;
+                        } else {
+                            dp2[j+1][total+a[i]] = cnt;
                         }
                     }
                 }
@@ -71,8 +89,14 @@ public:
         }
 
         long ans = 0;
-        for (auto [total, cnt] : dp[k]) {
-            ans += cnt;
+        rep(i, 0, k+1) {
+            for (auto [total1, cnt1] : dp1[i]) {
+                for (auto [total2, cnt2] : dp2[k-i]) {
+                    if (total1 + total2 <= p) {
+                        ans += cnt1 * cnt2;
+                    }
+                }
+            }
         }
         cout << ans << endl;
 
