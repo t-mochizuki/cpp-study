@@ -25,6 +25,7 @@ using std::tie;
 using std::abs;
 using std::sort;
 
+// TODO: WIP
 // キーワード: DPをセグメント木で高速化
 // RMQ, スライド最小値
 
