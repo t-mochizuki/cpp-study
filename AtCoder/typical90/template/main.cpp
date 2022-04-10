@@ -1,25 +1,39 @@
-// g++ -std=c++14 -DDEV=1 main.cpp
+// g++ -std=c++17 -D DEV=1 main.cpp
 #include <stdio.h>
 #include <cassert>
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
+#include <map>
+#include <deque>
+#include <tuple>
+#include <algorithm>
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::terminate;
 using std::vector;
+using std::string;
+using std::map;
+using std::pair;
+using std::deque;
+using std::tuple;
+using std::make_tuple;
+using std::tie;
+using std::abs;
+using std::sort;
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 
-class Problem {
+class Program {
 private:
 
 public:
 
-    Problem() {
+    Program() {
     }
 
     void solve() {
@@ -34,11 +48,11 @@ int main() {
 
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
-        Problem p;
+        Program p;
         p.solve();
     }
 #else
-    Problem p;
+    Program p;
     p.solve();
 #endif
 
