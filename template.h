@@ -27,6 +27,21 @@ ostream& operator<<(ostream& o, vector<T>& v) {
     return o;
 }
 
+template<class T>
+ostream& operator<<(ostream& o, priority_queue<T> que) {
+    bool first = true;
+    while (!que.empty()) {
+        T x = que.top(); que.pop();
+        if (first) {
+            o << x;
+            first = false;
+        } else {
+            o << " " << x;
+        }
+    }
+    return o;
+}
+
 const double EPSILON = 0.000000001;
 
 using Point = pair<double, double>;
