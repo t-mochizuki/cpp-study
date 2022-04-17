@@ -32,6 +32,9 @@ using std::tie;
 using std::abs;
 using std::sort;
 using std::cbrt;
+using std::lower_bound;
+using std::upper_bound;
+using std::distance;
 
 using namespace std::chrono;
 
@@ -57,7 +60,6 @@ istream& operator>>(istream& i, vector<T>& v) {
 class Solver {
 private:
 
-    long n, m, k;
 
 public:
 
@@ -65,10 +67,6 @@ public:
     }
 
     void solve() {
-        int j;
-        rep(i,0,1000000) {
-            j += 1;
-        }
     }
 };
 

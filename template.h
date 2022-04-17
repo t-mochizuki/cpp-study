@@ -478,3 +478,13 @@ vector<long> long_to_base9(long n) {
     return v;
 }
 
+// 共線かどうかを判定する
+// (b.y - a.y) / (b.x - a.x)
+// (c.y - a.y) / (c.x - a.x)
+bool colinear(Point& a, Point& b, Point& c) {
+    auto [ax, ay] = a;
+    auto [bx, by] = b;
+    auto [cx, cy] = c;
+    return (by - ay) * (cx - ax) == (bx - ax) * (cy - ay);
+}
+
