@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: bash setup.sh https://atcoder.jp/contests/abc245/tasks/abc245_d 1
+# usage: bash atcoder.sh https://atcoder.jp/contests/abc245/tasks/abc245_d 1
 #
 # $1: 問題を識別するURLを指定する
 # $2: 0ならば出力例を出力し、1ならば入力例を出力する
