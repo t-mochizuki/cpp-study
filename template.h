@@ -15,6 +15,14 @@ using std::make_pair;
 // #define M_PI 3.14159265358979323846 /* pi */
 // #define M_PIl 3.141592653589793238462643383279502884L /* pi */
 
+void output(int x, double ans) {
+    printf("Case #%d: %.6f\n", x, ans);
+}
+
+void output(int x, int ans) {
+    printf("Case #%d: %d\n", x, ans);
+}
+
 template<class T>
 istream& operator>>(istream& i, vector<T>& v) {
     rep(j, 0, v.size()) i >> v[j];
