@@ -12,6 +12,9 @@ using std::sqrt;
 using std::pair;
 using std::make_pair;
 
+// #define M_PI 3.14159265358979323846 /* pi */
+// #define M_PIl 3.141592653589793238462643383279502884L /* pi */
+
 template<class T>
 istream& operator>>(istream& i, vector<T>& v) {
     rep(j, 0, v.size()) i >> v[j];
