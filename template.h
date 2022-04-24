@@ -488,3 +488,14 @@ bool colinear(Point& a, Point& b, Point& c) {
     return (by - ay) * (cx - ax) == (bx - ax) * (cy - ay);
 }
 
+// Returns true if s is a palindrome, otherwise false.
+bool palindrome(string s) {
+    bool ok = true;
+    rep(j, 0, s.size()/2) {
+        if (s[j] != s[s.size()-1-j]) {
+            ok = false;
+            break;
+        }
+    }
+    return ok;
+}
