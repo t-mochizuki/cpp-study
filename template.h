@@ -15,6 +15,18 @@ using std::make_pair;
 // #define M_PI 3.14159265358979323846 /* pi */
 // #define M_PIl 3.141592653589793238462643383279502884L /* pi */
 
+class Rectangle {
+public:
+
+    int h = 0, w = 0;
+
+    Rectangle() {}
+
+    bool operator>(const Rectangle& other) const {
+        return h > other.h;
+    }
+};
+
 void output(int x, double ans) {
     printf("Case #%d: %.6f\n", x, ans);
 }
