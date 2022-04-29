@@ -33,7 +33,6 @@ using std::make_tuple;
 using std::tie;
 using std::abs;
 using std::sort;
-using std::cbrt;
 using std::lower_bound;
 using std::upper_bound;
 using std::distance;
@@ -45,6 +44,8 @@ using namespace std::chrono;
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
+#define Yes cout << "Yes" << endl;
+#define No cout << "No" << endl;
 
 template <class T>
 bool max(T &a, const T b) {
