@@ -44,8 +44,8 @@ using namespace std::chrono;
 
 #define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
-#define Yes cout << "Yes" << endl;
-#define No cout << "No" << endl;
+#define yes { cout << "Yes" << endl; return ; }
+#define no { cout << "No" << endl; return ; }
 
 template <class T>
 bool max(T &a, const T b) {
