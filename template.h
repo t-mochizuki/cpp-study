@@ -343,10 +343,6 @@ map<T, long> factorization(T n) {
 
     return m;
 }
-    if (n != 1) m[n] = 1;
-
-    return m;
-}
 
 // 約数列挙
 void divisor(long n, vector<long> &v) {
@@ -499,6 +495,33 @@ vector<long> long_to_base9(long n) {
         n /= 9;
     }
     return v;
+}
+
+// 10進数から2進数
+vector<long> long_to_base2(long n) {
+    vector<long> v;
+    while (n > 0) {
+        int r = n % 2;
+        v.push_back(r);
+        n /= 2;
+    }
+    return v;
+}
+
+int countZero(long i) {
+    auto v = long_to_base2(i);
+
+    int cnt = 0;
+
+    rep(j, 0, v.size()) {
+        if (v[j] == 0) {
+            cnt++;
+        } else {
+            break;
+        }
+    }
+
+    return cnt;
 }
 
 // 共線かどうかを判定する
