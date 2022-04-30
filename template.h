@@ -50,6 +50,14 @@ ostream& operator<<(ostream& o, vector<T>& v) {
     return o;
 }
 
+template<class K, class T>
+ostream& operator<<(ostream& o, map<K, T>& m) {
+    for (auto& [k, v] : m) {
+        o << "{" << k << "," << v << "}";
+    }
+    return o;
+}
+
 template<class T>
 ostream& operator<<(ostream& o, priority_queue<T> que) {
     bool first = true;
