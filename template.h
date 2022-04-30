@@ -545,3 +545,10 @@ bool palindrome(string s) {
     }
     return ok;
 }
+
+// TODO:
+// An area of triangle is 1/2|ad-bc|.
+// (0, 0), (a, b), (c, d)
+long triangle(int i, int j, int k) {
+    return abs((x[i]-x[k])*(y[j]-y[k]) - (y[i]-y[k])*(x[j]-x[k]));
+}
