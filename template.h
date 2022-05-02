@@ -627,12 +627,24 @@ bool palindrome(string s) {
     return ok;
 }
 
-// TODO:
 // An area of triangle is 1/2|ad-bc|.
 // (0, 0), (a, b), (c, d)
-long triangle(int i, int j, int k) {
-    return abs((x[i]-x[k])*(y[j]-y[k]) - (y[i]-y[k])*(x[j]-x[k]));
+using Point = pair<long, long>;
+
+double triangle(const Point& a, const Point& b) {
+    auto [x1, y1] = a;
+    auto [x2, y2] = b;
+    return std::abs(x2*y1 - y2*x1) / 2.0;
 }
+
+// A length of between Point a and Point b.
+double base(const Point& a, const Point& b) {
+    auto [x1, y1] = a;
+    auto [x2, y2] = b;
+    return std::sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+}
+
+
 
 bool validate(const string& s) {
     vector<bool> v;
