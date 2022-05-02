@@ -12,6 +12,8 @@ using std::sqrt;
 using std::pair;
 using std::make_pair;
 
+    // string t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                // printf("Case #%d: %s\n", x, t.c_str());
 // #define M_PI 3.14159265358979323846 /* pi */
 // #define M_PIl 3.141592653589793238462643383279502884L /* pi */
 
@@ -41,6 +43,12 @@ istream& operator>>(istream& i, vector<T>& v) {
     return i;
 }
 
+template<class K, class T>
+ostream& operator<<(ostream& o, pair<K, T>& p) {
+    o << p.first;
+    return o;
+}
+
 template<class T>
 ostream& operator<<(ostream& o, vector<T>& v) {
     rep(j, 0, v.size()) {
@@ -50,9 +58,37 @@ ostream& operator<<(ostream& o, vector<T>& v) {
     return o;
 }
 
+template<class T>
+ostream& operator<<(ostream& o, set<T>& st) {
+    bool first = true;
+    for (auto x : st) {
+        if (first) {
+            o << x;
+            first = false;
+        } else o << " " << x;
+    }
+    return o;
+}
+
 template<class K, class T>
 ostream& operator<<(ostream& o, map<K, T>& m) {
-    for (auto& [k, v] : m) {
+    bool first = true;
+    for (const auto& [k, v] : m) {
+        for (int i = 0; i < v; ++i) {
+            if (first) {
+                cout << k;
+                first = false;
+            } else {
+                cout << " " << k;
+            }
+        }
+    }
+    return o;
+}
+
+template<class K, class T>
+ostream& operator<<(ostream& o, map<K, T>& m) {
+    for (const auto& [k, v] : m) {
         o << "{" << k << "," << v << "}";
     }
     return o;
@@ -294,22 +330,62 @@ inline reverse(int N, int A[]) {
     }
 }
 
+
+
 // greatest common divisor
-template<class T> inline T gcd(T a, T b) {
+template<class T>
+T gcd(T a, T b) {
   while (b > 0) {
     T r = a % b;
     a = b;
     b = r;
   }
-
   return a;
 }
 
+template<class T>
+T gcd(const vector<T>& a) {
+    long divisor = a[0];
+    rep(i, 1, a.size()) {
+        divisor = gcd(divisor, a[i]);
+    }
+    return divisor;
+}
+
+
+
 // least common multiple
 // gcd(a, b) * lcm(a, b) == a * b
-template<class T> inline T lcm(T a, T b) {
-    return a * b / gcd(a, b);
+template<class T>
+T lcm(T a, T b) {
+    return a * (b / gcd(a, b));
 }
+
+template<class T>
+T lcm(const vector<T>& a) {
+    T multiple = a[0];
+    rep(i, 1, a.size()) {
+        multiple = lcm(multiple, a[i]);
+    }
+    return multiple;
+}
+
+
+
+long one = 1L;
+
+template<class K, class T>
+void counter(const vector<T>& a, map<K, T>& m) {
+    rep(i, 0, a.size()) {
+        if (m.count(a[i])) {
+            m[a[i]] += one;
+        } else {
+            m[a[i]] = one;
+        }
+    }
+}
+
+
 
 template<class T> inline T pow(T base, T exponent) {
     if (exponent == 0) return 1;
@@ -336,8 +412,7 @@ int median(int* A, int n) {
 
 // 素因数分解
 template <class T>
-map<T, long> factorization(T n) {
-    map<T, long> m;
+void factorization(T n, map<T, long>& m) {
     for (T i = 2; i * i <= n; ++i) {
         long tmp = 0;
         while (n % i == 0) {
@@ -348,8 +423,6 @@ map<T, long> factorization(T n) {
     }
 
     if (n != 1) m[n] = 1;
-
-    return m;
 }
 
 // 約数列挙
@@ -560,3 +633,60 @@ bool palindrome(string s) {
 long triangle(int i, int j, int k) {
     return abs((x[i]-x[k])*(y[j]-y[k]) - (y[i]-y[k])*(x[j]-x[k]));
 }
+
+bool validate(const string& s) {
+    vector<bool> v;
+    v.assign(26, false);
+    char prev = '0';
+    rep(i, 0, s.size()) {
+        if (i == 0) {
+            prev = s[i];
+            v[s[i]-'A'] = true;
+        } else {
+            if (prev == s[i]) {
+            } else {
+                if (v[s[i]-'A']) {
+                    return false;
+                } else {
+                    prev = s[i];
+                    v[s[i]-'A'] = true;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+char last(const string& s) {
+    return s[s.size()-1];
+}
+
+char head(const string& s) {
+    return s[0];
+}
+
+bool primary(long n) {
+    bool p = true;
+    for (long i = 2; i*i <= n; ++i) {
+        if (n % i == 0) {
+            p = false;
+            break;
+        }
+    }
+    return p;
+}
+
+long zero = 0L;
+
+template<class T>
+T pascal(T i, T j, vector<vector<long>>& v) {
+    if (i < 0 or j < 0) return zero;
+
+    if (v[i][j] != 0) return v[i][j];
+
+    T a = pascal(i-1, j-1, v);
+    T b = pascal(i-1, j, v);
+    v[i][j] = a + b;
+
+    return v[i][j];
+};

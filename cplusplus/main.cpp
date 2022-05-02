@@ -39,6 +39,8 @@ using std::distance;
 using std::to_string;
 using std::greater;
 using std::multiset;
+using std::set;
+using std::function;
 
 using namespace std::chrono;
 
@@ -61,6 +63,15 @@ template<class T>
 istream& operator>>(istream& i, vector<T>& v) {
     rep(j, 0, v.size()) i >> v[j];
     return i;
+}
+
+template<class T>
+ostream& operator<<(ostream& o, vector<T>& v) {
+    rep(j, 0, v.size()) {
+        if (j == 0) o << v[j];
+        else o << " " << v[j];
+    }
+    return o;
 }
 
 class Solver {
