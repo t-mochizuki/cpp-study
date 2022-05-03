@@ -157,11 +157,22 @@ Point<double> rejection(const Point<long>& p, const Point<long>& q) {
     return Point<double>(px-x, py-y);
 }
 
+// A length of between Point a and Point b.
+double distance(const Point<long>& a, const Point<long>& b) {
+    auto [x1, y1] = a;
+    auto [x2, y2] = b;
+    return std::sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+}
+
 template <class T>
 T cross(const Point<T>& a, const Point<T>& b) {
     auto [x1, y1] = a;
     auto [x2, y2] = b;
     return x1*y2 - y1*x2;
+}
+
+double parallelogram(const Point<long>& a, const Point<long>& b) {
+    return std::abs(cross(a, b));
 }
 
 int counterClockWise(const Point &a, const Point &b) {
@@ -637,12 +648,6 @@ double triangle(const Point& a, const Point& b) {
     return std::abs(x2*y1 - y2*x1) / 2.0;
 }
 
-// A length of between Point a and Point b.
-double base(const Point& a, const Point& b) {
-    auto [x1, y1] = a;
-    auto [x2, y2] = b;
-    return std::sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-}
 
 
 
