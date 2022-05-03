@@ -151,6 +151,12 @@ Point<double> projection(const Point<long>& p, const Point<long>& q) {
     return Point<double>(ratio * x, ratio * y);
 }
 
+Point<double> rejection(const Point<long>& p, const Point<long>& q) {
+    auto [px, py] = projection(p, q);
+    auto [x, y] = q;
+    return Point<double>(px-x, py-y);
+}
+
 template <class T>
 T cross(const Point<T>& a, const Point<T>& b) {
     auto [x1, y1] = a;
@@ -284,11 +290,6 @@ void debug(Args... args) {
     printf(args...);
 #else
 #endif
-}
-
-pair<double, double> rejection(const Vector &a, const Vector &b) {
-    auto [x, y] = projection(a, b);
-    return make_pair(x - a.first, y - a.second);
 }
 
 pair<double, double> crossPoint(const Vector &a, const Vector &b, const Vector &c, const Vector &d) {
