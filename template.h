@@ -164,6 +164,17 @@ double distance(const Point<long>& a, const Point<long>& b) {
     return std::sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
 }
 
+double distance(const vector<Point<long>>& v) {
+    double val = 1e9;
+    int n = v.size();
+    rep(i, 0, n) {
+        rep(j, i+1, n) {
+            min(val, distance(v[i], v[j]));
+        }
+    }
+    return val;
+}
+
 template <class T>
 T cross(const Point<T>& a, const Point<T>& b) {
     auto [x1, y1] = a;
