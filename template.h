@@ -109,9 +109,7 @@ ostream& operator<<(ostream& o, priority_queue<T> que) {
     return o;
 }
 
-const double EPSILON = 0.000000001;
 
-using Point = pair<double, double>;
 
 template <class T>
 bool max(T &a, const T b) {
@@ -133,12 +131,31 @@ bool min(T &a, const T b) {
     }
 }
 
-double dot(const Point &a, const Point &b) {
-    return a.first * b.first + a.second * b.second;
+
+
+const double EPSILON = 0.000000001;
+
+template <class T>
+using Point = pair<T, T>;
+
+template <class T>
+T dot(const Point<T>& a, const Point<T>& b) {
+    auto [x1, y1] = a;
+    auto [x2, y2] = b;
+    return x1*x2 + y1*y2;
 }
 
-double cross(const Point &a, const Point &b) {
-    return a.first * b.second - a.second * b.first;
+Point<double> projection(const Point<long>& p, const Point<long>& q) {
+    auto [x, y] = p;
+    double ratio = 1.0 * dot(p, q) / dot(p, p);
+    return Point<double>(ratio * x, ratio * y);
+}
+
+template <class T>
+T cross(const Point<T>& a, const Point<T>& b) {
+    auto [x1, y1] = a;
+    auto [x2, y2] = b;
+    return x1*y2 - y1*x2;
 }
 
 int counterClockWise(const Point &a, const Point &b) {
@@ -267,24 +284,6 @@ void debug(Args... args) {
     printf(args...);
 #else
 #endif
-}
-
-using Vector = pair<long, long>;
-
-pair<double, double> projection(const Vector &a, const Vector &b) {
-    auto [x, y] = b;
-
-    if (x == 0 && y == 0) {
-        return make_pair(0.0, 0.0);
-    } else if (x == 0) {
-        return make_pair(0.0, 1.0 * a.second);
-    } else if (y == 0) {
-        return make_pair(1.0 * a.first, 0.0);
-    } else {
-        return make_pair(
-                1.0 * dot(a, b) / dot(b, b) * x,
-                1.0 * dot(a, b) / dot(b, b) * y);
-    }
 }
 
 pair<double, double> rejection(const Vector &a, const Vector &b) {
