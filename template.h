@@ -718,3 +718,41 @@ T pascal(T i, T j, vector<vector<long>>& v) {
 
     return v[i][j];
 };
+
+class Circle {
+private:
+
+public:
+
+    Point<long> p;
+
+    long r;
+
+    Circle() {
+        auto& [x, y] = p;
+        cin >> x >> y >> r;
+    }
+
+    long distance(const Point<long>& q) {
+        auto& [x, y] = p;
+        auto& [qx, qy] = q;
+        return (x-qx)*(x-qx)+(y-qy)*(y-qy);
+    }
+
+    int category(Circle& c) {
+        assert(r>=c.r);
+        long dd = distance(c.p);
+        long ll = (r+c.r)*(r+c.r);
+        if (dd > ll) return 5;
+        else if (dd == ll) return 4;
+        else {
+            assert(dd < ll);
+
+            long rr = (r-c.r)*(r-c.r);
+            if (dd < rr) return 1;
+            if (dd == rr) return 2;
+
+            return 3;
+        }
+    }
+};
