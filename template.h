@@ -186,29 +186,29 @@ double parallelogram(const Point<long>& a, const Point<long>& b) {
     return std::abs(cross(a, b));
 }
 
-int counterClockWise(const Point &a, const Point &b) {
-    double z = cross(a, b);
+int counterClockWise(const Point<long>& a, const Point<long>& b) {
+    long z = cross(a, b);
 
-    if (z > EPSILON) {
-        // cout << "COUNTER_CLOCKWISE" << endl;
+    if (z > 0) {
+        cout << "COUNTER_CLOCKWISE" << endl;
         return 1;
     }
 
-    if (z < -EPSILON) {
-        // cout << "CLOCKWISE" << endl;
+    if (z < 0) {
+        cout << "CLOCKWISE" << endl;
         return -1;
     }
 
     assert(z == 0);
 
-    if (dot(a, b) < -EPSILON) {
-        // cout << "ONLINE_BACK" << endl;
+    if (dot(a, b) < 0) {
+        cout << "ONLINE_BACK" << endl;
         return 2;
-    } else if (dot(a, a) + EPSILON < dot(b, b)) {
-        // cout << "ONLINE_FRONT" << endl;
+    } else if (dot(a, a) < dot(b, b)) {
+        cout << "ONLINE_FRONT" << endl;
         return -2;
     } else {
-        // cout << "ON_SEGMENT" << endl;
+        cout << "ON_SEGMENT" << endl;
         return 0;
     }
 }
