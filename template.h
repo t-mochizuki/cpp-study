@@ -17,6 +17,23 @@ using std::make_pair;
 // #define M_PI 3.14159265358979323846 /* pi */
 // #define M_PIl 3.141592653589793238462643383279502884L /* pi */
 
+inline double deg2rad(double deg) { return M_PI * (deg / 180.0); }
+
+class Point {
+    double radian;
+    double x, y;
+public:
+    double distance(const Point& o) const {
+        return std::sqrt((x-o.x)*(x-o.x)+(y-o.y)*(y-o.y));
+    }
+
+    Point(long r, double deg) {
+        radian = M_PI*(deg/180.0);
+        y = r*std::cos(radian);
+        x = r*std::sin(radian);
+    }
+};
+
 class Rectangle {
 public:
 
