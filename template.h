@@ -190,47 +190,46 @@ int counterClockWise(const Point<long>& a, const Point<long>& b) {
     long z = cross(a, b);
 
     if (z > 0) {
-        cout << "COUNTER_CLOCKWISE" << endl;
+        // cout << "COUNTER_CLOCKWISE" << endl;
         return 1;
     }
 
     if (z < 0) {
-        cout << "CLOCKWISE" << endl;
+        // cout << "CLOCKWISE" << endl;
         return -1;
     }
 
     assert(z == 0);
 
     if (dot(a, b) < 0) {
-        cout << "ONLINE_BACK" << endl;
+        // cout << "ONLINE_BACK" << endl;
         return 2;
     } else if (dot(a, a) < dot(b, b)) {
-        cout << "ONLINE_FRONT" << endl;
+        // cout << "ONLINE_FRONT" << endl;
         return -2;
     } else {
-        cout << "ON_SEGMENT" << endl;
+        // cout << "ON_SEGMENT" << endl;
         return 0;
     }
 }
 
-bool intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
+bool intersection(const Point<long>& a, const Point<long>& b, const Point<long>& c, const Point<long>& d) {
     auto [x0, y0] = a;
     auto [x1, y1] = b;
-
     auto [x2, y2] = c;
     auto [x3, y3] = d;
 
-    Point ab = make_pair(x1-x0, y1-y0);
-    Point ac = make_pair(x2-x0, y2-y0);
-    Point ad = make_pair(x3-x0, y3-y0);
+    Point<long> ab = Point<long>(x1-x0, y1-y0);
+    Point<long> ac = Point<long>(x2-x0, y2-y0);
+    Point<long> ad = Point<long>(x3-x0, y3-y0);
 
     if (counterClockWise(ab, ac) * counterClockWise(ab, ad) > 0) {
         return false;
     }
 
-    Point cd = make_pair(x3-x2, y3-y2);
-    Point ca = make_pair(x0-x2, y0-y2);
-    Point cb = make_pair(x1-x2, y1-y2);
+    Point<long> cd = Point<long>(x3-x2, y3-y2);
+    Point<long> ca = Point<long>(x0-x2, y0-y2);
+    Point<long> cb = Point<long>(x1-x2, y1-y2);
 
     if (counterClockWise(cd, ca) * counterClockWise(cd, cb) > 0) {
         return false;
