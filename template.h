@@ -841,3 +841,46 @@ public:
         return true;
     }
 };
+
+class BreadthFirstSearch {
+private:
+
+    vector<int> seen;
+
+public:
+
+    BreadthFirstSearch(int n) {
+        seen.assign(n, -1);
+    }
+
+    void search(Graph &g, int s) {
+        queue<int> que;
+
+        seen[s] = 0;
+        que.push(s);
+
+        while (!que.empty()) {
+            int u = que.front(); que.pop();
+            for (auto v : g[u]) {
+                if (seen[v] != -1) continue;
+
+                seen[v] = seen[u]+1;
+
+                que.push(v);
+            }
+        }
+    }
+
+    bool isConnected() {
+        for (auto b : seen) {
+            if (b == -1) return false;
+        }
+        return true;
+    }
+
+    void print() {
+        rep(j, 0, seen.size()) {
+            o << seen[j] << endl;
+        }
+    }
+};
