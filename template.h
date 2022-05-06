@@ -19,6 +19,10 @@ using std::make_pair;
 
 inline double deg2rad(double deg) { return M_PI * (deg / 180.0); }
 
+long sigma(long n, long d) {
+    return (n*(n+1)/2)*d;
+}
+
 class Point {
     double radian;
     double x, y;
@@ -423,6 +427,15 @@ void counter(const vector<T>& a, map<K, T>& m) {
     }
 }
 
+template<class K, class T>
+void counter(const T& x, map<K, T>& m) {
+    if (m.count(x)) {
+        m[x] += one;
+    } else {
+        m[x] = one;
+    }
+}
+
 
 
 template<class T> inline T pow(T base, T exponent) {
@@ -464,7 +477,7 @@ void factorization(T n, map<T, long>& m) {
 }
 
 // 約数列挙
-void divisor(long n, vector<long> &v) {
+void divisor(long n, vector<long>& v) {
     for (long i = 1; i * i <= n; ++i) {
         if (n % i != 0) {
             // 約数でない
@@ -476,6 +489,23 @@ void divisor(long n, vector<long> &v) {
         if (i != (n/i)) {
             // 商も約数である
             v.push_back(n/i);
+        }
+    }
+}
+
+void divisor(long n, map<long, long>& m) {
+    for (long i = 1; i * i <= n; ++i) {
+        if (n % i != 0) {
+            // 約数でない
+            continue;
+        }
+
+        counter(i, m);
+
+        long j = n/i;
+        if (i != j) {
+            // 商も約数である
+            counter(j, m)
         }
     }
 }
