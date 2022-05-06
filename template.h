@@ -802,3 +802,42 @@ public:
         }
     }
 };
+
+using Graph = vector<vector<int>>;
+
+class BreadthFirstSearch {
+private:
+
+    vector<bool> seen;
+
+public:
+
+    BreadthFirstSearch(int n) {
+        seen.assign(n, false);
+    }
+
+    void search(Graph &g, int s) {
+        queue<int> que;
+
+        seen[s] = true;
+        que.push(s);
+
+        while (!que.empty()) {
+            int u = que.front(); que.pop();
+            for (auto v : g[u]) {
+                if (seen[v]) continue;
+
+                seen[v] = true;
+
+                que.push(v);
+            }
+        }
+    }
+
+    bool isConnected() {
+        for (auto b : seen) {
+            if (not b) return false;
+        }
+        return true;
+    }
+};
