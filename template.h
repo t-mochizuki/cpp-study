@@ -955,3 +955,12 @@ void grid2graph(const Grid& grid, Graph& g, int r, int c) {
         }
     }
 }
+
+long digitSum(long k) {
+    long x = 0L;
+    while (k > 0L) {
+        x += k % 10L;
+        k /= 10L;
+    }
+    return x;
+}
