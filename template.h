@@ -880,7 +880,28 @@ public:
 
     void print() {
         rep(j, 0, seen.size()) {
-            o << seen[j] << endl;
+            cout << seen[j] << endl;
         }
     }
 };
+
+using Grid = vector<string>;
+
+int pair2index(int y, int x, int r, int c) {
+    assert(y <= r);
+    assert(x <= c);
+    return x+c*y;
+}
+
+void grid2graph(const Grid& grid, Graph& g, int r, int c) {
+    rep(j, 0, r) rep(i, 0, c) {
+        if (i+1 < c and grid[j][i] == '.' and grid[j][i+1] == '.') {
+            g[pair2index(j, i, r, c)].push_back(pair2index(j, i+1, r, c));
+            g[pair2index(j, i+1, r, c)].push_back(pair2index(j, i, r, c));
+        }
+        if (j+1 < r and grid[j][i] == '.' and grid[j+1][i] == '.') {
+            g[pair2index(j, i, r, c)].push_back(pair2index(j+1, i, r, c));
+            g[pair2index(j+1, i, r, c)].push_back(pair2index(j, i, r, c));
+        }
+    }
+}
