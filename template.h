@@ -885,6 +885,56 @@ public:
     }
 };
 
+class BreadthFirstSearch {
+private:
+
+public:
+
+    BreadthFirstSearch(int n) {
+        seen.assign(n, -1);
+    }
+
+    vector<int> seen;
+
+    bool isBipartited = true;
+
+    void search(Graph &g, int s) {
+        queue<int> que;
+
+        seen[s] = 0;
+        que.push(s);
+
+        while (!que.empty()) {
+            int u = que.front(); que.pop();
+            for (auto v : g[u]) {
+                if (seen[v] != -1) {
+                    if (seen[v] == seen[u]) {
+                        isBipartited = false;
+                    }
+                    continue;
+                }
+
+                seen[v] = seen[u] == 0 ? 1 : 0;
+
+                que.push(v);
+            }
+        }
+    }
+
+    bool isConnected() {
+        for (auto b : seen) {
+            if (b == -1) return false;
+        }
+        return true;
+    }
+
+    void print() {
+        rep(j, 0, seen.size()) {
+            cout << seen[j] << endl;
+        }
+    }
+};
+
 using Grid = vector<string>;
 
 int pair2index(int y, int x, int r, int c) {
