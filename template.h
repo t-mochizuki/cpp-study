@@ -964,3 +964,20 @@ long digitSum(long k) {
     }
     return x;
 }
+
+int fib(int n, vector<int>& v, int mod) {
+    if (v[n] != 0) return v[n];
+
+    if (n == 1) {
+        v[n] = 1;
+    } else if (n == 2) {
+        v[n] = 1;
+    } else {
+        assert(n >= 3);
+        v[n] = fib(n-1, v, mod) + fib(n-2, v, mod);
+    }
+
+    v[n] %= mod;
+
+    return v[n];
+}
