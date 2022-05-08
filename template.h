@@ -1020,3 +1020,22 @@ int pascal(int n, int r) {
     }
     return ret.val();
 };
+
+pair<int, int> knight(int a, int b) {
+    // printf("a=%d b=%d\n", a, b);
+    if (a == b*2) {
+        return {0, b};
+    } else if (b == a*2) {
+        return {a, 0};
+    } else if (a != 0 and b != 0 and a / 3 != 0 and b / 3 != 0) {
+        a -= 3;
+        b -= 3;
+        auto [x, y] = knight(a, b);
+        if (x == -1 and y == -1) {
+            return {-1, -1};
+        }
+        return {1+x, 1+y};
+    } else {
+        return {-1, -1};
+    }
+}
