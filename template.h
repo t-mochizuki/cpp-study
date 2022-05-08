@@ -438,17 +438,6 @@ void counter(const T& x, map<K, T>& m) {
 
 
 
-template<class T> inline T pow(T base, T exponent) {
-    if (exponent == 0) return 1;
-
-    if (exponent % 2 == 1) {
-        return base * pow(base, exponent - 1);
-    } else {
-        T tmp = pow(base, exponent / 2);
-        return tmp * tmp;
-    }
-}
-
 int atoi(char c) {
     return c - 48;
 }
@@ -980,4 +969,27 @@ int fib(int n, vector<int>& v, int mod) {
     v[n] %= mod;
 
     return v[n];
+}
+
+template<class T>
+T power(T base, T exponent) {
+    if (exponent == 0) return 1;
+
+    if (exponent % 2 == 1) {
+        return base * power(base, exponent - 1);
+    } else {
+        T tmp = power(base, exponent / 2);
+        return tmp * tmp;
+    }
+}
+
+long power(long base, long exponent, long mod) {
+    if (exponent == 0) return 1;
+
+    if (exponent % 2 == 1) {
+        return base * (power(base, exponent - 1, mod) % mod);
+    } else {
+        long tmp = power(base, exponent / 2, mod) % mod;
+        return (tmp * tmp) % mod;
+    }
 }
