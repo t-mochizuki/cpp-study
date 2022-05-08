@@ -739,21 +739,6 @@ bool primary(long n) {
     return p;
 }
 
-long zero = 0L;
-
-template<class T>
-T pascal(T i, T j, vector<vector<long>>& v) {
-    if (i < 0 or j < 0) return zero;
-
-    if (v[i][j] != 0) return v[i][j];
-
-    T a = pascal(i-1, j-1, v);
-    T b = pascal(i-1, j, v);
-    v[i][j] = a + b;
-
-    return v[i][j];
-};
-
 class Circle {
 private:
 
@@ -993,3 +978,45 @@ long power(long base, long exponent, long mod) {
         return (tmp * tmp) % mod;
     }
 }
+
+long zero = 0L;
+
+template<class T>
+T pascal(T i, T j, vector<vector<long>>& v) {
+    if (i < 0 or j < 0) return zero;
+
+    if (v[i][j] != 0) return v[i][j];
+
+    T a = pascal(i-1, j-1, v);
+    T b = pascal(i-1, j, v);
+    v[i][j] = a + b;
+
+    return v[i][j];
+};
+
+long pascal(long i, long j, long mod, vector<vector<long>>& v) {
+    if (v[i][j] != 0) return v[i][j];
+
+    if (j == 0) {
+        v[i][j] = 1;
+    } else if (j == i) {
+        v[i][j] = 1;
+    } else {
+        v[i][j] = pascal(i-1, j-1, mod, v) + pascal(i-1, j, mod, v);
+    }
+
+    v[i][j] %= mod;
+
+    return v[i][j];
+};
+
+int pascal(int n, int r) {
+    mint ret = 1;
+    for (int i = n; i >= (n-r+1); --i) {
+        ret *= i;
+    }
+    for (int i = 1; i <= r; ++i) {
+        ret /= i;
+    }
+    return ret.val();
+};
