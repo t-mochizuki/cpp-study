@@ -109,6 +109,23 @@ public:
         n++;
     }
 
+    void multiply1(const BigInteger& o) {
+        vector<int> u;
+        u.resize(n+1);
+
+        int c = 0;
+        rep(i, 0, n) {
+            int x = v[i]*o.v[0]+c;
+            c = x / 10;
+            u[i] = x % 10;
+        }
+        u[n] = c;
+
+        // update
+        v = u;
+        n++;
+    }
+
     void print() {
         for (int i = n-1; i >= 0; --i) {
             if (i == n-1 and v[i] == 0) continue;
@@ -132,7 +149,7 @@ public:
     void solve() {
         auto a = BigInteger(s);
         auto b = BigInteger(t);
-        a.add(b);
+        a.multiply1(b);
         a.print();
     }
 };
