@@ -75,43 +75,65 @@ ostream& operator<<(ostream& o, vector<T>& v) {
     return o;
 }
 
-class Solver {
+class BigInteger {
 private:
 
-    vector<int> a, b, d;
+    int n;
 
 public:
 
-    void input(vector<int>& v) {
-        string s;
-        cin >> s;
-        int n = s.size();
+    vector<int> v;
+
+    BigInteger(string s) {
+        n = s.size();
         v.resize(n);
         rep(i, 0, n) {
             v[n-1-i] = s[i]-'0';
         }
     }
 
+    void add(const BigInteger& o) {
+        vector<int> u;
+        u.resize(n+1);
+
+        int c = 0;
+        rep(i, 0, n) {
+            int x = v[i]+o.v[i]+c;
+            c = x / 10;
+            u[i] = x % 10;
+        }
+        u[n] = c;
+
+        // update
+        v = u;
+        n++;
+    }
+
+    void print() {
+        for (int i = n-1; i >= 0; --i) {
+            if (i == n-1 and v[i] == 0) continue;
+            cout << v[i];
+        }
+        cout << endl;
+    }
+};
+
+class Solver {
+private:
+
+    string s, t;
+
+public:
+
     Solver() {
-        input(a);
-        input(b);
+        cin >> s >> t;
     }
 
     void solve() {
-        int c = 0, n = a.size();
-        d.resize(n+1);
-        rep(i, 0, n) {
-            int x = a[i]+b[i]+c;
-            if (x >= 10) c = 1;
-            else c = 0;
-            d[i] = x % 10;
-        }
-        d[n] = c;
-        for (int i = n; i >= 0; --i) {
-            if (i == n and d[i] == 0) continue;
-            cout << d[i];
-        }
-        cout << endl;
+        auto a = BigInteger(s);
+        auto b = BigInteger(t);
+        a.add(b);
+        a.print();
     }
 };
 
