@@ -92,7 +92,12 @@ public:
         }
     }
 
-    void add(const BigInteger& o) {
+    BigInteger(vector<int> a) {
+        v = a;
+        n = a.size();
+    }
+
+    BigInteger add(const BigInteger& o) {
         vector<int> u;
         u.resize(n+1);
 
@@ -104,31 +109,31 @@ public:
         }
         u[n] = c;
 
-        // update
-        v = u;
-        n++;
+        return BigInteger(u);
     }
 
-    void multiply1(const BigInteger& o) {
+    BigInteger multiply1(const BigInteger& o) {
+        return multiply(0, o);
+    }
+
+    BigInteger multiply(int j, const BigInteger& o) {
         vector<int> u;
-        u.resize(n+1);
+        u.resize(n+1+j);
 
         int c = 0;
         rep(i, 0, n) {
-            int x = v[i]*o.v[0]+c;
+            int x = v[i]*o.v[j]+c;
             c = x / 10;
-            u[i] = x % 10;
+            u[i+j] = x % 10;
         }
-        u[n] = c;
+        u[n+j] = c;
 
-        // update
-        v = u;
-        n++;
+        return BigInteger(u);
     }
 
     void print() {
         for (int i = n-1; i >= 0; --i) {
-            if (i == n-1 and v[i] == 0) continue;
+            // if (i == n-1 and v[i] == 0) continue;
             cout << v[i];
         }
         cout << endl;
@@ -149,8 +154,7 @@ public:
     void solve() {
         auto a = BigInteger(s);
         auto b = BigInteger(t);
-        a.multiply1(b);
-        a.print();
+        rep(i, 0, 10) a.multiply(i, b).print();
     }
 };
 
