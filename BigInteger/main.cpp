@@ -103,11 +103,21 @@ public:
 
         int c = 0;
         rep(i, 0, n) {
-            int x = v[i]+o.v[i]+c;
+            int x = 0;
+            if (i < o.v.size()) {
+                x = v[i]+o.v[i]+c;
+            } else {
+                x = v[i]+c;
+            }
             c = x / 10;
             u[i] = x % 10;
         }
-        u[n] = c;
+
+        if (c != 0) {
+            u[n] = c;
+        } else {
+            u.resize(n);
+        }
 
         return BigInteger(u);
     }
@@ -122,7 +132,12 @@ public:
 
         int c = 0;
         rep(i, 0, n) {
-            int x = v[i]*o.v[j]+c;
+            int x = 0;
+            if (i < o.v.size()) {
+                x = v[i]*o.v[j]+c;
+            } else {
+                x = c;
+            }
             c = x / 10;
             u[i+j] = x % 10;
         }
@@ -154,7 +169,8 @@ public:
     void solve() {
         auto a = BigInteger(s);
         auto b = BigInteger(t);
-        rep(i, 0, 10) a.multiply(i, b).print();
+        a.add(b).print();
+        // rep(i, 0, 10) a.multiply(i, b).print();
     }
 };
 
