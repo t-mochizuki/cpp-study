@@ -68,9 +68,8 @@ istream& operator>>(istream& i, vector<T>& v) {
 
 template<class T>
 ostream& operator<<(ostream& o, vector<T>& v) {
-    rep(j, 0, v.size()) {
-        if (j == 0) o << v[j];
-        else o << " " << v[j];
+    for (int i = v.size()-1; i >= 0; --i) {
+        o << v[i];
     }
     return o;
 }
@@ -112,12 +111,7 @@ public:
             c = x / 10;
             u[i] = x % 10;
         }
-
-        if (c != 0) {
-            u[n] = c;
-        } else {
-            u.resize(n);
-        }
+        u[n] = c;
 
         return BigInteger(u);
     }
@@ -133,11 +127,7 @@ public:
         int c = 0;
         rep(i, 0, n) {
             int x = 0;
-            if (i < o.v.size()) {
-                x = v[i]*o.v[j]+c;
-            } else {
-                x = c;
-            }
+            x = v[i]*o.v[j]+c;
             c = x / 10;
             u[i+j] = x % 10;
         }
@@ -146,9 +136,18 @@ public:
         return BigInteger(u);
     }
 
+    BigInteger multiply(const BigInteger& o) {
+        auto p = BigInteger(vector<int>(0, 0));
+        rep(i, 0, o.v.size()) {
+            auto q = multiply(i, o);
+            p = q.add(p);
+        }
+        return p;
+    }
+
     void print() {
         for (int i = n-1; i >= 0; --i) {
-            // if (i == n-1 and v[i] == 0) continue;
+            if (i == n-1 and v[i] == 0) continue;
             cout << v[i];
         }
         cout << endl;
@@ -169,8 +168,9 @@ public:
     void solve() {
         auto a = BigInteger(s);
         auto b = BigInteger(t);
-        a.add(b).print();
+        // a.add(b).print();
         // rep(i, 0, 10) a.multiply(i, b).print();
+        a.multiply(b).print();
     }
 };
 
