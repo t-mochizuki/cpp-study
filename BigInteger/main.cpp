@@ -160,14 +160,16 @@ public:
         return p;
     }
 
-    string to_string() {
-        string s;
-        for (int i = n-1; i >= 0; --i) {
-            s.append(std::to_string(v[i]));
-        }
-        return s;
-    }
+    string to_string();
 };
+
+string BigInteger::to_string() {
+    string s;
+    for (int i = n-1; i >= 0; --i) {
+        s.append(std::to_string(v[i]));
+    }
+    return s;
+}
 
 class Solver {
 private:
