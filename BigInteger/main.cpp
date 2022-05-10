@@ -77,9 +77,9 @@ ostream& operator<<(ostream& o, vector<T>& v) {
 class BigInteger {
 private:
 
-    int n;
-
 public:
+
+    int n;
 
     vector<int> v;
 
@@ -97,6 +97,11 @@ public:
     }
 
     BigInteger add(const BigInteger& o) {
+        while (n < o.v.size()) {
+            v.push_back(0);
+            n++;
+        }
+
         vector<int> u;
         u.resize(n+1);
 
@@ -111,7 +116,12 @@ public:
             c = x / 10;
             u[i] = x % 10;
         }
-        u[n] = c;
+
+        if (c != 0) {
+            u[n] = c;
+        } else {
+            u.resize(n);
+        }
 
         return BigInteger(u);
     }
@@ -131,7 +141,12 @@ public:
             c = x / 10;
             u[i+j] = x % 10;
         }
-        u[n+j] = c;
+
+        if (c != 0) {
+            u[n+j] = c;
+        } else {
+            u.resize(n+j);
+        }
 
         return BigInteger(u);
     }
@@ -145,54 +160,70 @@ public:
         return p;
     }
 
-    void print() {
+    string to_string() {
+        string s;
         for (int i = n-1; i >= 0; --i) {
-            if (i == n-1 and v[i] == 0) continue;
-            cout << v[i];
+            s.append(std::to_string(v[i]));
         }
-        cout << endl;
+        return s;
     }
 };
 
 class Solver {
 private:
 
-    string s, t;
-
 public:
 
     Solver() {
-        cin >> s >> t;
+    }
+
+    bool addTest(string s, string t, string ans) {
+        auto a = BigInteger(s), b = BigInteger(t);
+        return a.add(b).to_string() == ans;
+    }
+
+    bool multiplyTest(string s, string t, string ans) {
+        auto a = BigInteger(s), b = BigInteger(t);
+        auto val = a.multiply(b).to_string();
+        // cout << val << endl;
+        return val == ans;
     }
 
     void solve() {
-        auto a = BigInteger(s);
-        auto b = BigInteger(t);
-        // a.add(b).print();
-        // rep(i, 0, 10) a.multiply(i, b).print();
-        a.multiply(b).print();
+        vector<tuple<string, string, string>> xs = {
+            {"1", "0", "1"},
+            {"0", "1", "1"},
+            {"12", "900800700600500400300200100", "900800700600500400300200112"},
+            {"900800700600500400300200100", "12", "900800700600500400300200112"},
+            {"900800700600500400300200100", "10000000000000000000000000", "910800700600500400300200100"},
+            {"900800700600500400300200100", "100000000000000000000000000", "1000800700600500400300200100"},
+            {"900800700600500400300200100", "900800700600500400300200100", "1801601401201000800600400200"}
+        };
+        for (auto [s, t, u] : xs) {
+            assert(addTest(s, t, u));
+        }
+        vector<tuple<string, string, string>> ys = {
+            {"1", "0", "0"},
+            {"0", "1", "0"},
+            {"1", "1", "1"},
+            {"12", "900800700600500400300200100", "10809608407206004803602401200"},
+            {"900800700600500400300200100", "12", "10809608407206004803602401200"},
+            {"900800700600500400300200100", "11", "9908807706605504403302201100"},
+            {"900800700600500400300200100", "20", "18016014012010008006004002000"}
+        };
+        for (auto [s, t, u] : ys) {
+            assert(multiplyTest(s, t, u));
+        }
     }
 };
 
 int main(int argc, char **argv) {
 
-#ifdef DEV
-    std::ifstream in("input");
-    cin.rdbuf(in.rdbuf());
-
-
-    int t; cin >> t;
-    for (int x = 1; x <= t; ++x) {
-        auto start = system_clock::now();
-        Solver s;
-        s.solve();
-        auto end = system_clock::now();
-        cout << "time:" << duration_cast<microseconds>(end - start).count() << endl;
-    }
-#else
+    // auto start = system_clock::now();
     Solver s;
     s.solve();
-#endif
+    // auto end = system_clock::now();
+    // cout << "time:" << duration_cast<microseconds>(end - start).count() << endl;
 
     return 0;
 }
