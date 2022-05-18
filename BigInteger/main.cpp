@@ -2,48 +2,10 @@
 #include <stdio.h>
 #include <cassert>
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
-#include <map>
-#include <deque>
-#include <queue>
-#include <tuple>
-#include <algorithm>
-#include <chrono>
-#include <cmath>
-#include <functional>
-#include <set>
 
-using std::cin;
-using std::cout;
-using std::endl;
-using std::istream;
-using std::ostream;
-using std::terminate;
-using std::vector;
-using std::string;
-using std::map;
-using std::pair;
-using std::make_pair;
-using std::deque;
-using std::queue;
-using std::priority_queue;
-using std::tuple;
-using std::make_tuple;
-using std::tie;
-using std::abs;
-using std::sort;
-using std::lower_bound;
-using std::upper_bound;
-using std::distance;
-using std::to_string;
-using std::greater;
-using std::multiset;
-using std::set;
-using std::function;
-
-using namespace std::chrono;
+using namespace std;
 
 #define rep(i, a, n) for (long i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
@@ -96,72 +58,80 @@ public:
         n = a.size();
     }
 
-    BigInteger add(const BigInteger& o) {
-        while (n < o.v.size()) {
-            v.push_back(0);
-            n++;
-        }
+    BigInteger add(const BigInteger& o);
 
-        vector<int> u;
-        u.resize(n+1);
+    BigInteger multiply1(const BigInteger& o);
 
-        int c = 0;
-        rep(i, 0, n) {
-            int x = 0;
-            if (i < o.v.size()) {
-                x = v[i]+o.v[i]+c;
-            } else {
-                x = v[i]+c;
-            }
-            c = x / 10;
-            u[i] = x % 10;
-        }
+    BigInteger multiply(int j, const BigInteger& o);
 
-        if (c != 0) {
-            u[n] = c;
-        } else {
-            u.resize(n);
-        }
-
-        return BigInteger(u);
-    }
-
-    BigInteger multiply1(const BigInteger& o) {
-        return multiply(0, o);
-    }
-
-    BigInteger multiply(int j, const BigInteger& o) {
-        vector<int> u;
-        u.resize(n+1+j);
-
-        int c = 0;
-        rep(i, 0, n) {
-            int x = 0;
-            x = v[i]*o.v[j]+c;
-            c = x / 10;
-            u[i+j] = x % 10;
-        }
-
-        if (c != 0) {
-            u[n+j] = c;
-        } else {
-            u.resize(n+j);
-        }
-
-        return BigInteger(u);
-    }
-
-    BigInteger multiply(const BigInteger& o) {
-        auto p = BigInteger(vector<int>(0, 0));
-        rep(i, 0, o.v.size()) {
-            auto q = multiply(i, o);
-            p = q.add(p);
-        }
-        return p;
-    }
+    BigInteger multiply(const BigInteger& o);
 
     string to_string();
 };
+
+BigInteger BigInteger::add(const BigInteger& o) {
+    while (n < o.v.size()) {
+        v.push_back(0);
+        n++;
+    }
+
+    vector<int> u;
+    u.resize(n+1);
+
+    int c = 0;
+    rep(i, 0, n) {
+        int x = 0;
+        if (i < o.v.size()) {
+            x = v[i]+o.v[i]+c;
+        } else {
+            x = v[i]+c;
+        }
+        c = x / 10;
+        u[i] = x % 10;
+    }
+
+    if (c != 0) {
+        u[n] = c;
+    } else {
+        u.resize(n);
+    }
+
+    return BigInteger(u);
+}
+
+BigInteger BigInteger::multiply1(const BigInteger& o) {
+    return multiply(0, o);
+}
+
+BigInteger BigInteger::multiply(int j, const BigInteger& o) {
+    vector<int> u;
+    u.resize(n+1+j);
+
+    int c = 0;
+    rep(i, 0, n) {
+        int x = 0;
+        x = v[i]*o.v[j]+c;
+        c = x / 10;
+        u[i+j] = x % 10;
+    }
+
+    if (c != 0) {
+        u[n+j] = c;
+    } else {
+        u.resize(n+j);
+    }
+
+    return BigInteger(u);
+}
+
+BigInteger BigInteger::multiply(const BigInteger& o) {
+    auto p = BigInteger(vector<int>(0, 0));
+    rep(i, 0, o.v.size()) {
+        auto q = multiply(i, o);
+        p = q.add(p);
+    }
+    return p;
+}
 
 string BigInteger::to_string() {
     string s;
