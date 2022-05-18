@@ -60,6 +60,8 @@ public:
 
     BigInteger add(const BigInteger& o);
 
+    BigInteger subtract(const BigInteger& o);
+
     BigInteger multiply1(const BigInteger& o);
 
     BigInteger multiply(int j, const BigInteger& o);
@@ -94,6 +96,41 @@ BigInteger BigInteger::add(const BigInteger& o) {
         u[n] = c;
     } else {
         u.resize(n);
+    }
+
+    return BigInteger(u);
+}
+
+BigInteger BigInteger::subtract(const BigInteger& o) {
+    while (n < o.v.size()) {
+        v.push_back(0);
+        n++;
+    }
+
+    vector<int> u;
+    u.resize(n);
+
+    int c = 0;
+    rep(i, 0, n) {
+        int x = 0;
+        if (i < o.v.size()) {
+            x = v[i]-o.v[i]+c;
+        } else {
+            x = v[i]+c;
+        }
+
+        if (x < 0) {
+            x += 10;
+            c = -1;
+        } else {
+            c = 0;
+        }
+        u[i] = x;
+    }
+
+    while (n >= 2 and u[n-1] == 0) {
+        u.pop_back();
+        n--;
     }
 
     return BigInteger(u);
@@ -154,6 +191,13 @@ public:
         return a.add(b).to_string() == ans;
     }
 
+    bool subtractTest(string s, string t, string ans) {
+        auto a = BigInteger(s), b = BigInteger(t);
+        auto val = a.subtract(b).to_string();
+        // cout << val << endl;
+        return val == ans;
+    }
+
     bool multiplyTest(string s, string t, string ans) {
         auto a = BigInteger(s), b = BigInteger(t);
         auto val = a.multiply(b).to_string();
@@ -185,6 +229,17 @@ public:
         };
         for (auto [s, t, u] : ys) {
             assert(multiplyTest(s, t, u));
+        }
+        vector<tuple<string, string, string>> zs = {
+            {"1", "0", "1"},
+            {"1", "1", "0"},
+            {"900800700600500400300200100", "12", "900800700600500400300200088"},
+            {"900800700600500400300200100", "10000000000000000000000000", "890800700600500400300200100"},
+            {"900800700600500400300200100", "100000000000000000000000000", "800800700600500400300200100"},
+            {"900800700600500400300200100", "900800700600500400300200100", "0"}
+        };
+        for (auto [s, t, u] : zs) {
+            assert(subtractTest(s, t, u));
         }
     }
 };
