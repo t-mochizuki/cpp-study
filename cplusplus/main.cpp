@@ -14,69 +14,24 @@
 #include <cmath>
 #include <functional>
 #include <set>
+#include <atcoder/modint>
 
-using std::cin;
-using std::cout;
-using std::endl;
-using std::istream;
-using std::ostream;
-using std::terminate;
-using std::vector;
-using std::string;
-using std::map;
-using std::pair;
-using std::deque;
-using std::queue;
-using std::priority_queue;
-using std::tuple;
-using std::make_tuple;
-using std::tie;
-using std::abs;
-using std::sort;
-using std::lower_bound;
-using std::upper_bound;
-using std::distance;
-using std::to_string;
-using std::greater;
-using std::multiset;
-using std::set;
-using std::function;
+using namespace std;
+using namespace atcoder;
 
-using namespace std::chrono;
+using mint = modint998244353;
 
-#define rep(i, a, n) for (int i = (a); i < (n); ++i)
+#define rep(i, a, n) for (long i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 #define yes { cout << "Yes" << endl; return ; }
 #define no { cout << "No" << endl; return ; }
 
-template <class T>
-bool max(T &a, const T b) {
-    if (a < b) {
-        a = b;
-        return true;
-    } else {
-        return false;
-    }
-}
-
-template<class T>
-istream& operator>>(istream& i, vector<T>& v) {
-    rep(j, 0, v.size()) i >> v[j];
-    return i;
-}
-
-template<class T>
-ostream& operator<<(ostream& o, vector<T>& v) {
-    rep(j, 0, v.size()) {
-        if (j == 0) o << v[j];
-        else o << " " << v[j];
-    }
-    return o;
-}
+template<class T> bool min(T &a, const T b) { if (a > b) { a = b; return true; } else { return false; } }
+template<class T> istream& operator>>(istream& i, vector<T>& v) { rep(j, 0, v.size()) i >> v[j]; return i; }
+template<class T> ostream& operator<<(ostream& o, vector<T>& v) { rep(j, 0, v.size()) { if (j == 0) o << v[j]; else o << " " << v[j]; } return o; }
 
 class Solver {
 private:
-
 
 public:
 
@@ -96,11 +51,11 @@ int main(int argc, char **argv) {
 
     int t; cin >> t;
     for (int x = 1; x <= t; ++x) {
-        auto start = system_clock::now();
+        auto start = std::chrono::system_clock::now();
         Solver s;
         s.solve();
-        auto end = system_clock::now();
-        cout << "time:" << duration_cast<microseconds>(end - start).count() << endl;
+        auto end = std::chrono::system_clock::now();
+        cout << "time:" << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() << endl;
     }
 #else
     Solver s;
