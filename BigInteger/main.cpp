@@ -80,6 +80,8 @@ public:
 
     BigInteger multiply(const BigInteger& o) const;
 
+    BigInteger divide(const BigInteger& o) const;
+
     string toString() const;
 
     void resize(BigInteger& o) {
@@ -199,6 +201,10 @@ BigInteger BigInteger::multiply(const BigInteger& o) const {
     return p;
 }
 
+BigInteger BigInteger::divide(const BigInteger& o) const {
+    return BigInteger("0");
+}
+
 string BigInteger::toString() const {
     string s;
     if (minus) {
@@ -281,6 +287,24 @@ public:
         return val == ans;
     }
 
+    bool divisionTest(string s, string t, string ans) {
+        auto a = BigInteger(s), b = BigInteger(t);
+
+        auto obj = BigInteger("0");
+        if (b.toString() == "0") {
+            throw std::exception();
+        } else if (a.toString() == "0") {
+        } else if (a == b) {
+            obj = BigInteger("1");
+        } else if (b > a) {
+        } else {
+            // obj = a.divide(b);
+        }
+        auto val = obj.toString();
+        // cout << val << endl;
+        return val == ans;
+    }
+
     void solve() {
         vector<tuple<string, string, string>> xs = {
             {"1", "0", "1"},
@@ -335,6 +359,14 @@ public:
         };
         for (auto [s, t, u] : ys) {
             assert(multiplyTest(s, t, u));
+        }
+
+        vector<tuple<string, string, string>> ws = {
+            {"1", "2", "0"},
+            {"1234", "1234", "1"},
+        };
+        for (auto [s, t, u] : ws) {
+            assert(divisionTest(s, t, u));
         }
     }
 };
