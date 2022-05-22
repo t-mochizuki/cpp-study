@@ -21,12 +21,13 @@ using namespace atcoder;
 
 using mint = modint998244353;
 
-#define rep(i, a, n) for (long i = (a); i < (n); ++i)
+#define rep(i, a, n) for (int i = (a); i < (n); ++i)
 #define bit(n, k) ((n >> k) & 1)
 #define yes { cout << "Yes" << endl; return ; }
 #define no { cout << "No" << endl; return ; }
 
 template<class T> bool min(T &a, const T b) { if (a > b) { a = b; return true; } else { return false; } }
+template<class T> bool max(T &a, const T b) { if (a < b) { a = b; return true; } else { return false; } }
 template<class T> istream& operator>>(istream& i, vector<T>& v) { rep(j, 0, v.size()) i >> v[j]; return i; }
 template<class T> ostream& operator<<(ostream& o, vector<T>& v) { rep(j, 0, v.size()) { if (j == 0) o << v[j]; else o << " " << v[j]; } return o; }
 
