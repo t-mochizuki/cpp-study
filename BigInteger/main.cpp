@@ -15,12 +15,27 @@ template<class T> ostream& operator<<(ostream& o, vector<T>& v) { rep(j, 0, v.si
 
 ostream& operator<<(ostream& o, const BigInteger& v) { o << v.toString(); return o; }
 
+unsigned int X = 542351;
+
+int randDigit() {
+    X = 443143 * X + 6412431;
+    return X % 10;
+}
+
+void randInteger(vector<int>& v) {
+    for (auto& x : v) x = randDigit();
+}
+
 class Solver {
 private:
 
 public:
 
     Solver() {
+        vector<int> v;
+        v.resize(1000000);
+        randInteger(v);
+        cout << v << endl;
     }
 
     bool addTest(string s, string t, string ans) {

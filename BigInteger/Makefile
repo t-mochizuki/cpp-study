@@ -1,4 +1,4 @@
-make: main.cpp BigInteger.o
+a.out: main.cpp BigInteger.o
 	g++ main.cpp BigInteger.o -std=c++17 -D DEV=1 -I .
 
 BigInteger.o: BigInteger.cpp
