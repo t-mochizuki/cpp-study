@@ -72,13 +72,13 @@ public:
         return ok;
     }
 
-    BigInteger subtract(const BigInteger& o);
+    BigInteger subtract(const BigInteger& o) const;
 
-    BigInteger add(const BigInteger& o);
+    BigInteger add(const BigInteger& o) const;
 
-    BigInteger multiply(int j, const BigInteger& o);
+    BigInteger multiply(int j, const BigInteger& o) const;
 
-    BigInteger multiply(const BigInteger& o);
+    BigInteger multiply(const BigInteger& o) const;
 
     string toString() const;
 
@@ -90,7 +90,7 @@ public:
     }
 };
 
-BigInteger BigInteger::subtract(const BigInteger& o) {
+BigInteger BigInteger::subtract(const BigInteger& o) const {
     vector<int> u;
     u.resize(n);
 
@@ -112,15 +112,14 @@ BigInteger BigInteger::subtract(const BigInteger& o) {
         u[i] = x;
     }
 
-    while (n >= 2 and u[n-1] == 0) {
+    while (u.size() >= 2 and u[u.size()-1] == 0) {
         u.pop_back();
-        n--;
     }
 
     return BigInteger(u);
 }
 
-BigInteger BigInteger::add(const BigInteger& o) {
+BigInteger BigInteger::add(const BigInteger& o) const {
     bool sign = false;
     if (minus and o.minus) {
         sign = true;
@@ -153,7 +152,7 @@ BigInteger BigInteger::add(const BigInteger& o) {
     return BigInteger(u, sign);
 }
 
-BigInteger BigInteger::multiply(int j, const BigInteger& o) {
+BigInteger BigInteger::multiply(int j, const BigInteger& o) const {
     vector<int> u;
     u.resize(n+1+j);
 
@@ -174,7 +173,7 @@ BigInteger BigInteger::multiply(int j, const BigInteger& o) {
     return BigInteger(u);
 }
 
-BigInteger BigInteger::multiply(const BigInteger& o) {
+BigInteger BigInteger::multiply(const BigInteger& o) const {
     bool sign = false;
     if (minus and o.minus) {
         sign = false;
