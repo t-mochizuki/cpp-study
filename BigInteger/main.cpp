@@ -82,15 +82,26 @@ public:
 
     BigInteger divide(const BigInteger& o) const;
 
-    string toString() const;
+    string toString() const {
+        string s;
+        if (minus) {
+            s.append("-");
+        }
+        for (int i = n-1; i >= 0; --i) {
+            s.append(std::to_string(v[i]));
+        }
+        return s;
+    };
 
-    void resize(BigInteger& o) {
+    void resize(const BigInteger& o) {
         while (n < o.v.size()) {
             v.push_back(0);
             n++;
         }
     }
 };
+
+ostream& operator<<(ostream& o, const BigInteger& v) { o << v.toString(); return o; }
 
 BigInteger BigInteger::subtract(const BigInteger& o) const {
     vector<int> u;
@@ -177,9 +188,7 @@ BigInteger BigInteger::multiply(int j, const BigInteger& o) const {
 
 BigInteger BigInteger::multiply(const BigInteger& o) const {
     bool sign = false;
-    if (minus and o.minus) {
-        sign = false;
-    } else if (not minus and not o.minus) {
+    if ((minus and o.minus) or (not minus and not o.minus)) {
         sign = false;
     } else {
         sign = true;
@@ -201,19 +210,63 @@ BigInteger BigInteger::multiply(const BigInteger& o) const {
     return p;
 }
 
-BigInteger BigInteger::divide(const BigInteger& o) const {
-    return BigInteger("0");
-}
+BigInteger BigInteger::divide(const BigInteger& divisor) const {
+    bool sign = false;
+    if ((minus and divisor.minus) or (not minus and not divisor.minus)) {
+        sign = false;
+    } else {
+        sign = true;
+    }
 
-string BigInteger::toString() const {
+    if (divisor > *this) {
+        auto obj = BigInteger("0");
+        return obj;
+    }
+
+    if (*this == divisor) {
+        auto obj = BigInteger("1");
+        obj.minus = sign;
+        return obj;
+    }
+
+    auto p = BigInteger("0");
+    int i = n-1;
+    while (i > 0) {
+        auto obj = p.multiply(BigInteger("10"));
+        obj = obj.add(BigInteger(to_string(v[i])));
+        obj.resize(divisor);
+        if (obj > divisor) {
+            break;
+        }
+        p = obj;
+        i--;
+    }
+
     string s;
-    if (minus) {
-        s.append("-");
+    for (; i >= 0; --i) {
+        p = p.multiply(BigInteger("10"));
+        p = p.add(BigInteger(to_string(v[i])));
+        int c = 9;
+        auto obj = BigInteger("0");
+        while (c > 0) {
+            obj = BigInteger(to_string(c)).multiply(divisor);
+            p.resize(obj);
+            obj.resize(p);
+            if ((p > obj) or (p == obj)) {
+                break;
+            }
+            c--;
+        }
+        p = p.subtract(BigInteger(to_string(c)).multiply(divisor));
+        s.append(to_string(c));
     }
-    for (int i = n-1; i >= 0; --i) {
-        s.append(std::to_string(v[i]));
+
+    auto q = BigInteger(s);
+    if (not (q == BigInteger("0"))) {
+        q.minus = sign;
     }
-    return s;
+
+    return q;
 }
 
 class Solver {
@@ -290,18 +343,20 @@ public:
     bool divisionTest(string s, string t, string ans) {
         auto a = BigInteger(s), b = BigInteger(t);
 
-        auto obj = BigInteger("0");
         if (b.toString() == "0") {
             throw std::exception();
-        } else if (a.toString() == "0") {
-        } else if (a == b) {
-            obj = BigInteger("1");
-        } else if (b > a) {
+        }
+
+        a.resize(b);
+        b.resize(a);
+
+        auto obj = BigInteger("0");
+        if (a.toString() == "0") {
         } else {
-            // obj = a.divide(b);
+            obj = a.divide(b);
         }
         auto val = obj.toString();
-        // cout << val << endl;
+        // cout << "val:" << val << endl;
         return val == ans;
     }
 
@@ -364,6 +419,20 @@ public:
         vector<tuple<string, string, string>> ws = {
             {"1", "2", "0"},
             {"1234", "1234", "1"},
+            {"1234", "-1234", "-1"},
+            {"-1234", "1234", "-1"},
+            {"-1234", "-1234", "1"},
+            {"2", "1", "2"},
+            {"2", "-1", "-2"},
+            {"-2", "-1", "2"},
+            {"-2", "1", "-2"},
+            {"1234", "2467", "0"},
+            {"1234", "-2467", "0"},
+            {"2467", "1234", "1"},
+            {"2468", "1234", "2"},
+            {"2469", "1234", "2"},
+            {"24690", "1234", "20"},
+            {"24690000", "1234", "20008"},
         };
         for (auto [s, t, u] : ws) {
             assert(divisionTest(s, t, u));
