@@ -7,15 +7,37 @@
 using std::cin;
 using std::cout;
 using std::endl;
+using std::istream;
+using std::ostream;
 using std::terminate;
-using std::sqrt;
+using std::vector;
+using std::string;
+using std::map;
 using std::pair;
 using std::make_pair;
+using std::deque;
+using std::queue;
+using std::priority_queue;
+using std::tuple;
+using std::make_tuple;
+using std::tie;
+using std::abs;
+using std::sort;
+using std::lower_bound;
+using std::upper_bound;
+using std::distance;
+using std::to_string;
+using std::greater;
+using std::multiset;
+using std::set;
+using std::function;
 
     // string t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 // printf("Case #%d: %s\n", x, t.c_str());
 // #define M_PI 3.14159265358979323846 /* pi */
 // #define M_PIl 3.141592653589793238462643383279502884L /* pi */
+
+vector<pair<int, int>> ds = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
 
 inline double deg2rad(double deg) { return M_PI * (deg / 180.0); }
 
@@ -614,6 +636,20 @@ public:
 const long MOD = 1000000007L;
 
 using Mod1000000007 = Modulo<MOD>;
+
+long base_to_long(long x, const long k) {
+    vector<long> v;
+    while (x > 0) {
+        v.push_back(x % 10);
+        x /= 10;
+    }
+
+    long ret = 0;
+    for (long d/*igit*/ = 0; d < v.size(); ++d) {
+        ret += v[d] * std::pow(k, d);
+    }
+    return ret;
+}
 
 // 8進数から10進数
 long base8_to_long(const vector<long>& v) {
