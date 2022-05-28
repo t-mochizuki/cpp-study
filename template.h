@@ -1075,3 +1075,48 @@ pair<int, int> knight(int a, int b) {
         return {-1, -1};
     }
 }
+
+// rock-paper-scissors
+class Player {
+public:
+
+    int num = 0;
+    int id = 0;
+    string a;
+
+    Player(int id, string a): id(id), a(a) {
+    }
+
+    void playAgainst(Player& you, int j) {
+        if (a[j] == 'P' and you.a[j] == 'G') {
+            num++;
+            return ;
+        }
+        if (a[j] == 'G' and you.a[j] == 'C') {
+            num++;
+            return ;
+        }
+        if (a[j] == 'C' and you.a[j] == 'P') {
+            num++;
+            return ;
+        }
+
+        // draw
+        if (a[j] == you.a[j]) {
+            return ;
+        }
+
+        you.num++;
+        return ;
+    }
+
+
+    bool operator>(const Player& other) const {
+        if (num == other.num) {
+            return id < other.id;
+        }
+        return num > other.num;
+    }
+};
+
+ostream& operator<<(ostream& o, Player& v) { o << v.id; return o; }
