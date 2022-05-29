@@ -1120,3 +1120,31 @@ public:
 };
 
 ostream& operator<<(ostream& o, Player& v) { o << v.id; return o; }
+
+struct Item {
+    int w, v;
+};
+
+class Knapsack {
+
+    vector<Item> items;
+
+public:
+
+    Knapsack(int n) {
+        items.resize(n);
+        rep(i, 0, n) cin >> items[i].w >> items[i].v;
+    }
+
+    int rec(int i, int j) {
+        int res = 0;
+        if (i == items.size()) {
+            res = 0;
+        } else if (j < items[i].w) {
+            res = rec(i+1, j);
+        } else {
+            res = std::max(rec(i+1, j), rec(i+1, j-items[i].w) + items[i].v);
+        }
+        return res;
+    }
+};
