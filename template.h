@@ -1172,3 +1172,42 @@ public:
         return dp[0][w];
     }
 };
+
+class Contest {
+
+    int n, w = 0;
+    vector<int> p;
+    vector<vector<int>> dp;
+
+public:
+
+    Contest(int n): n(n) {
+        p.resize(n);
+        cin >> p;
+
+        for (auto x : p) {
+            w += x;
+        }
+
+        dp.assign(n+1, vector<int>(w+1, 0));
+        dp[0][0] = 1;
+    }
+
+    // O(nw)
+    void solve() {
+        rep(i, 0, n) {
+            rep(j, 0, w) {
+                max(dp[i+1][j], dp[i][j]);
+                max(dp[i+1][j+p[i]], dp[i][j]);
+            }
+        }
+    }
+
+    int val() {
+        int res = 0;
+        rep(j, 0, w+1) {
+            if (dp[n][j] != 0) res++;
+        }
+        return res;
+    }
+};
