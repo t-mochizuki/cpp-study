@@ -1211,3 +1211,29 @@ public:
         return res;
     }
 };
+
+class LongestCommonSubsequence {
+private:
+
+    string s, t;
+    vector<vector<int>> dp;
+
+public:
+
+    LongestCommonSubsequence() {
+        cin >> s >> t;
+        dp.assign(s.size()+1, vector<int>(t.size()+1, 0));
+    }
+
+    void solve() {
+        rep(i, 0, s.size()) {
+            rep(j, 0, t.size()) {
+                if (s[i] == t[j]) {
+                    dp[i+1][j+1] = dp[i][j] + 1;
+                } else {
+                    dp[i+1][j+1] = std::max(dp[i][j+1], dp[i+1][j]);
+                }
+            }
+        }
+    }
+};
