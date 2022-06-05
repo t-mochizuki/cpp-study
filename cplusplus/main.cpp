@@ -28,6 +28,7 @@ using mint = modint998244353;
 
 template<class T> bool min(T &a, const T b) { if (a > b) { a = b; return true; } else { return false; } }
 template<class T> bool max(T &a, const T b) { if (a < b) { a = b; return true; } else { return false; } }
+template<class K, class V> istream& operator>>(istream& i, pair<K, V>& p) { i >> p.first >> p.second; return i; }
 template<class T> istream& operator>>(istream& i, vector<T>& v) { rep(j, 0, v.size()) i >> v[j]; return i; }
 template<class T> ostream& operator<<(ostream& o, vector<T>& v) { rep(j, 0, v.size()) { if (j == 0) o << v[j]; else o << " " << v[j]; } return o; }
 

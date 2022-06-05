@@ -80,6 +80,12 @@ void output(int x, int ans) {
     printf("Case #%d: %d\n", x, ans);
 }
 
+template<class K, class V>
+istream& operator>>(istream& i, pair<K, V>& p) {
+    i >> p.first >> p.second;
+    return i;
+}
+
 template<class T>
 istream& operator>>(istream& i, vector<T>& v) {
     rep(j, 0, v.size()) i >> v[j];
@@ -1251,3 +1257,49 @@ size_t longest_increasing_subsequence(const vector<T> &a, bool strict) {
   }
   return v.size();
 }
+
+using Item = pair<int, int>;
+
+// knapsack problem
+class Knapsack {
+
+    int n, W;
+    vector<Item> items;
+    vector<vector<int>> dp;
+
+public:
+
+    Knapsack(int n, int W): n(n), W(W) {
+        items.resize(n);
+        cin >> items;
+        dp.assign(n+1, vector<int>(W+1, 0));
+    }
+
+    void naive() {
+        rep(i, 0, n) {
+            auto [v, w] = items[i];
+            rep(j, 0, W+1) {
+                for (int k = 0; k*w <= j; ++k) {
+                    dp[i+1][j] = std::max(dp[i+1][j], dp[i][j-k*w] + k*v);
+                }
+            }
+        }
+    }
+
+    void solve() {
+        rep(i, 0, n) {
+            auto [v, w] = items[i];
+            rep(j, 0, W+1) {
+                if (j-w >= 0) {
+                    dp[i+1][j] = std::max(dp[i][j], dp[i+1][j-w] + v);
+                } else {
+                    dp[i+1][j] = dp[i][j];
+                }
+            }
+        }
+    }
+
+    int val() {
+        return dp[n][W];
+    }
+};
