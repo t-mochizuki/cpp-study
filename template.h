@@ -451,10 +451,10 @@ void counter(const vector<T>& a, map<K, T>& m) {
 
 template<class K, class T>
 void counter(const T& x, map<K, T>& m) {
-    if (m.count(x)) {
-        m[x] += one;
-    } else {
+    if (m.count(x) == 0) {
         m[x] = one;
+    } else {
+        m[x] += one;
     }
 }
 
@@ -516,7 +516,7 @@ void divisor(long n, map<long, long>& m) {
         long j = n/i;
         if (i != j) {
             // 商も約数である
-            counter(j, m)
+            counter(j, m);
         }
     }
 }
@@ -1237,3 +1237,17 @@ public:
         }
     }
 };
+
+// O(|a|*log(|a|))
+template<class T>
+size_t longest_increasing_subsequence(const vector<T> &a, bool strict) {
+  vector<T> v;
+  for(auto &x : a) {
+    auto it = v.begin();
+    if(strict) it = lower_bound(v.begin(), v.end(), x);
+    else it = upper_bound(v.begin(), v.end(), x);
+    if(v.end() == it) v.emplace_back(x);
+    else *it = x;
+  }
+  return v.size();
+}
