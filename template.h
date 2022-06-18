@@ -1026,12 +1026,10 @@ void pascal(int n, vector<long>& a) {
 
     cout << a << endl;
 
-    bool first = true;
     vector<long> b;
     rep(i, 0, a.size()) {
-        if (first) {
+        if (i == 0) {
             b.push_back(a[i]);
-            first = false;
         } else {
             b.push_back(a[i-1]+a[i]);
         }
@@ -1323,3 +1321,15 @@ public:
         return dp[n][W];
     }
 };
+
+bool is_ascending_order(const vector<int>& a) {
+    rep(i, 0, a.size()) {
+        if (i == 0) continue;
+        else {
+            if (a[i-1] > a[i]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
