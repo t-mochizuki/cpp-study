@@ -1021,6 +1021,26 @@ long power(long base, long exponent, long mod) {
     }
 }
 
+void pascal(int n, vector<long>& a) {
+    if (n == 0) return ;
+
+    cout << a << endl;
+
+    bool first = true;
+    vector<long> b;
+    rep(i, 0, a.size()) {
+        if (first) {
+            b.push_back(a[i]);
+            first = false;
+        } else {
+            b.push_back(a[i-1]+a[i]);
+        }
+    }
+    b.push_back(a.back());
+
+    pascal(n-1, b);
+}
+
 long zero = 0L;
 
 template<class T>
