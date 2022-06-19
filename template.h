@@ -32,8 +32,20 @@ using std::multiset;
 using std::set;
 using std::function;
 
-// hint: 平方数 (四角数) とは、整数の自乗で表される非負整数のことである
-// hint: 平方数Aと平方数Bの積は平方数Xになる
+// 平方数 (四角数) とは、整数の自乗で表される非負整数のことである
+// 平方数Aと平方数Bの積は平方数Xになる
+
+// 数列Aが以下の2条件をともに満たすような整数の組 (i,j,k) の個数を求める
+// - i < j < k
+// - A[i] != A[j]], A[j] != A[k], A[k] != A[i]
+//
+// 以下の2条件をともに満たすように i,j,k を並び替える方法は1つ
+// - i' != j', j' != k', k' != i'
+// - A[i'] < A[j'] < A[k']
+//
+// 以下の2条件をともに満たすように i',j',k' を並び替える方法は1つ
+// - i < j < k
+// - A[i] != A[j]], A[j] != A[k], A[k] != A[i]
 
     // string t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 // printf("Case #%d: %s\n", x, t.c_str());
