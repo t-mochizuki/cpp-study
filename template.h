@@ -1343,3 +1343,17 @@ template<class T> void cumulative_sum(const vector<T>& v, vector<T>& c) {
         else c.push_back(v[i]+c[i-1]);
     }
 }
+
+// 数列vにv[i]以下の要素が何個あるか
+template<class T> void counter(const vector<T>& v, vector<T>& c) {
+    assert(c.size() == 2*100000+1);
+
+    for (int i = 0; i < v.size(); ++i) {
+        c[v[i]]++;
+    }
+
+    for (int i = 0; i < c.size(); ++i) {
+        if (i == 0) c[i] = c[i];
+        else c[i] += c[i-1];
+    }
+}
