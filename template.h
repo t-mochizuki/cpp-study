@@ -1369,3 +1369,27 @@ template<class T> void counter(const vector<T>& v, vector<T>& c) {
         else c[i] += c[i-1];
     }
 }
+
+void prime_numbers(long n, vector<long>& v) {
+    vector<bool> table;
+    table.assign(n+1, true);
+
+    if (n >= 0L) table[0] = false;
+    if (n >= 1L) table[1] = false;
+    for (long i = 2L; i <= n; i++) {
+        if (not table[i]) continue;
+        v.push_back(i);
+        for (long j = i; j <= n; j += i) {
+            table[j] = false;
+        }
+    }
+}
+
+bool is_prime(long n) {
+    if (n < 2L) return false;
+    for (long i = 2L; i * i <= n; ++i) {
+        if (n % i == 0L) return false;
+    }
+    return true;
+}
+
