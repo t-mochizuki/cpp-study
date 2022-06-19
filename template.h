@@ -1336,3 +1336,10 @@ bool is_ascending_order(const vector<int>& a) {
     }
     return true;
 }
+
+template<class T> void cumulative_sum(const vector<T>& v, vector<T>& c) {
+    for (int i = 0; i < v.size(); ++i) {
+        if (i == 0) c.push_back(v[i]);
+        else c.push_back(v[i]+c[i-1]);
+    }
+}
