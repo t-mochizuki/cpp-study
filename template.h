@@ -32,6 +32,9 @@ using std::multiset;
 using std::set;
 using std::function;
 
+// hint: 平方数 (四角数) とは、整数の自乗で表される非負整数のことである
+// hint: 平方数Aと平方数Bの積は平方数Xになる
+
     // string t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 // printf("Case #%d: %s\n", x, t.c_str());
 // #define M_PI 3.14159265358979323846 /* pi */
