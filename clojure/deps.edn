@@ -2,4 +2,11 @@
 
  :aliases
  {:dev {:extra-paths ["dev"]
-        :extra-deps {org.clojure/tools.namespace {:mvn/version "1.4.4"}}}}}
+        :extra-deps {org.clojure/tools.namespace {:mvn/version "1.4.4"}}}
+
+  :nrepl {:extra-deps {cider/cider-nrepl {:mvn/version "0.28.6"}}
+          :main-opts ["-m" "nrepl.cmdline"
+                      "--middleware" "[cider.nrepl/cider-middleware]"
+                      "--interactive"
+                      "--color"
+                      "--port" "7888"]}}}
