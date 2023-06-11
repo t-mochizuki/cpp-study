@@ -1,3 +1,4 @@
+;; refer to https://cognitect.com/blog/2013/06/04/clojure-workflow-reloaded
 (ns user
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
