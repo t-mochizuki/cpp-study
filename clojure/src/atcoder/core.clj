@@ -1,17 +1,8 @@
 (ns atcoder.core
-  (:require [clojure.string :refer [join split]]
-            [clojure.tools.cli :refer [parse-opts]]
-            [clojure.edn :as edn])
-  (:gen-class))
+  (:require [clojure.string :refer [split]]
+            [clojure.edn :as edn]))
 
-(defn exit
-  [status msg]
-  (println msg)
-  (System/exit status))
-
-(defn solve [r]
-  (let [line (.readLine r)]
-    (println line)))
+(defn- solve [r] nil)
 
 (defn main
   ([]
@@ -25,14 +16,4 @@
              (solve r)
              (recur (inc i)))))))))
 
-(def cli-options
-  [["-h" "--help"]])
-
-(defn -main
-  [& args]
-  (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
-    (cond
-      (:help options) (exit 0 summary)
-      errors (exit 1 (join "\n" errors))
-      (empty? arguments) (main)
-      :else (main (clojure.java.io/reader (first arguments))))))
+;; (main)
