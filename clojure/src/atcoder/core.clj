@@ -9,12 +9,21 @@
   (println msg)
   (System/exit status))
 
+(defn solve [r]
+  (let [line (.readLine r)]
+    (println line)))
+
 (defn main
   ([]
-   (main (java.io.BufferedReader. *in*)))
+   (solve (java.io.BufferedReader. *in*)))
   ([in-file]
    (with-open [r in-file]
-     (println (line-seq r)))))
+     (let [n (edn/read-string (.readLine r))]
+       (loop [i 0]
+         (when (pos? (compare n i))
+           (do
+             (solve r)
+             (recur (inc i)))))))))
 
 (def cli-options
   [["-h" "--help"]])
