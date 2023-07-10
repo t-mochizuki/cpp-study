@@ -1,5 +1,7 @@
 {:paths ["src"]
 
+ :deps {org.clojure/tools.cli {:mvn/version "1.0.219"}}
+
  :aliases
  {:dev {:extra-paths ["dev"]
         :extra-deps {org.clojure/tools.namespace {:mvn/version "1.4.4"}}}
