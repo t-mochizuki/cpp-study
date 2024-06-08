@@ -3,23 +3,19 @@ class Modulo
 
   def initialize(x, mod)
     @mod = mod
-    if x < 0
-      x += mod
-      x %= mod
-    end
-    @value = x
+    @value = x % mod
   end
 
   def +(other)
-    Modulo.new(value + other.value % @mod, @mod)
+    Modulo.new((value + other.value) % @mod, @mod)
   end
 
   def -(other)
-    Modulo.new(value - other.value % @mod, @mod)
+    Modulo.new((value - other.value) % @mod, @mod)
   end
 
   def *(other)
-    Modulo.new(value * other.value % @mod, @mod)
+    Modulo.new((value * other.value) % @mod, @mod)
   end
 
   def inverse
@@ -28,7 +24,7 @@ class Modulo
   end
 
   def /(other)
-    Modulo.new(value * other.inverse % @mod, @mod)
+    Modulo.new((value * other.inverse) % @mod, @mod)
   end
 
   private
